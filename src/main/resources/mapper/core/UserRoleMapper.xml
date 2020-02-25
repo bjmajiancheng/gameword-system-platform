@@ -3,14 +3,14 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.coolplay.company.core.dao.UserRoleMapper">
+<mapper namespace="com.gameword.system.core.dao.UserRoleMapper">
 
-    <resultMap id="CompanyUserRole" type="com.coolplay.company.core.model.UserRoleModel">
+    <resultMap id="CompanyUserRole" type="com.gameword.system.core.model.UserRoleModel">
         <result property="userId" column="user_id"/>
         <result property="roleId" column="role_id"/>
     </resultMap>
 
-	<resultMap id="CompanyUserRoleAllInfo" type="com.coolplay.company.core.model.UserRoleModel">
+	<resultMap id="CompanyUserRoleAllInfo" type="com.gameword.system.core.model.UserRoleModel">
 		<result property="userId" column="user_id"/>
 		<result property="roleId" column="role_id"/>
 		<result property="roleName" column="role_name"/>

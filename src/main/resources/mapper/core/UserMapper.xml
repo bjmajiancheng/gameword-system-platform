@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.coolplay.company.core.dao.UserMapper">
+<mapper namespace="com.gameword.system.core.dao.UserMapper">
 
-    <resultMap id="BaseResultMap" type="com.coolplay.company.core.model.UserModel">
+    <resultMap id="BaseResultMap" type="com.gameword.system.core.model.UserModel">
         <result property="id" column="id"/>
         <result property="companyId" column="company_id"/>
         <result property="userName" column="user_name"/>
@@ -60,7 +60,7 @@
         WHERE user_id = #{userId,jdbcType=INTEGER} AND r.status = 1
     </select>
 
-    <select id="findUserFunctionByLoginName" resultType="com.coolplay.company.security.dto.FunctionDto">
+    <select id="findUserFunctionByLoginName" resultType="com.gameword.system.security.dto.FunctionDto">
         SELECT
           DISTINCT f.id AS id, f.parent_id AS parentId, f.function_name AS functionName, f.`action`, f.`sort`, f.`icon`
         FROM d_company_user u

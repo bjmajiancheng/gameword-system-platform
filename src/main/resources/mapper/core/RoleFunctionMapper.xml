@@ -3,9 +3,9 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.coolplay.company.core.dao.RoleFunctionMapper">
+<mapper namespace="com.gameword.system.core.dao.RoleFunctionMapper">
 
-    <resultMap id="CompanyRoleFunction" type="com.coolplay.company.core.model.RoleFunctionModel">
+    <resultMap id="CompanyRoleFunction" type="com.gameword.system.core.model.RoleFunctionModel">
         <result property="roleId" column="role_id"/>
         <result property="functionId" column="function_id"/>
     </resultMap>
