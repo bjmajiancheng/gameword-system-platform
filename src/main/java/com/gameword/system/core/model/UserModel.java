@@ -21,7 +21,7 @@ import java.util.List;
  * @version 1.0
  * @since 1.0
  */
-@Table(name = "d_company_user")
+@Table(name = "d_system_user")
 public class UserModel extends Sortable {
 	private static final long serialVersionUID = 1L;
 

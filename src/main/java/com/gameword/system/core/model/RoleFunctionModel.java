@@ -16,7 +16,7 @@ import javax.persistence.*;
  * @version 1.0
  * @since 1.0
  */
-@Table(name = "d_company_role_function")
+@Table(name = "d_system_role_function")
 public class RoleFunctionModel extends Sortable {
 	private static final long serialVersionUID = 1L;
 

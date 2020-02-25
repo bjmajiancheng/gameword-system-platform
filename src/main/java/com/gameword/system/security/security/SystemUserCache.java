@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by majiancheng on 2019/9/16.
  */
-public class CoolplayUserCache implements org.springframework.security.core.userdetails.UserCache, InitializingBean {
+public class SystemUserCache implements org.springframework.security.core.userdetails.UserCache, InitializingBean {
 
     private IBasicCache<String, Object> cache = null;
 
@@ -29,7 +29,7 @@ public class CoolplayUserCache implements org.springframework.security.core.user
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        if (this.cache == null) this.cache = new CoolplayNullCache<String, Object>();
+        if (this.cache == null) this.cache = new SystemNullCache<String, Object>();
         Assert.notNull(this.cache);
     }
 

@@ -6,7 +6,7 @@ import com.gameword.system.common.utils.Result;
 import com.gameword.system.company.service.ICompanyRoleFunctionService;
 import com.gameword.system.core.model.RoleFunctionModel;
 import com.gameword.system.core.model.RoleModel;
-import com.gameword.system.security.security.CoolplayUserCache;
+import com.gameword.system.security.security.SystemUserCache;
 import com.gameword.system.security.service.IRoleService;
 import com.gameword.system.security.utils.SecurityUtil;
 import com.github.pagehelper.PageInfo;
@@ -34,7 +34,7 @@ public class CompanyRoleController {
     private IRoleService roleService;
 
     @Autowired
-    private CoolplayUserCache coolplayUserCache;
+    private SystemUserCache coolplayUserCache;
 
     @Autowired
     private ICompanyRoleFunctionService companyRoleFunctionService;

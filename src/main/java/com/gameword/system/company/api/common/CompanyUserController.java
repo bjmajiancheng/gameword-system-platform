@@ -11,7 +11,7 @@ import com.gameword.system.company.service.IUserPassMappingService;
 import com.gameword.system.core.model.RoleModel;
 import com.gameword.system.core.model.UserModel;
 import com.gameword.system.core.model.UserRoleModel;
-import com.gameword.system.security.security.CoolplayUserCache;
+import com.gameword.system.security.security.SystemUserCache;
 import com.gameword.system.security.service.IRoleService;
 import com.gameword.system.security.service.IUserService;
 import com.gameword.system.security.utils.SecurityUtil;
@@ -45,7 +45,7 @@ public class CompanyUserController {
     private IRoleService roleService;
 
     @Autowired
-    private CoolplayUserCache coolplayUserCache;
+    private SystemUserCache coolplayUserCache;
 
     @Autowired
     private ICompanyUserRoleService companyUserRoleService;

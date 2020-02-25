@@ -20,7 +20,7 @@ import javax.persistence.Transient;
  * @version 1.0
  * @since 1.0
  */
-@Table(name = "d_company_role")
+@Table(name = "d_system_role")
 public class RoleModel extends Sortable {
 	private static final long serialVersionUID = 1L;
 

@@ -7,7 +7,7 @@ import com.gameword.system.security.constants.SecurityConstant;
 import com.gameword.system.security.dto.FunctionDto;
 import com.gameword.system.security.exception.AuBzConstant;
 import com.gameword.system.security.exception.AuthBusinessException;
-import com.gameword.system.security.security.CoolplayUserCache;
+import com.gameword.system.security.security.SystemUserCache;
 import com.gameword.system.security.security.SecurityUser;
 import com.gameword.system.security.service.IFunctionService;
 import com.gameword.system.security.service.IUserService;
@@ -46,7 +46,7 @@ public class IndexController {
     private RedisCache redisCache;
 
     @Autowired
-    private CoolplayUserCache coolplayUserCache;
+    private SystemUserCache coolplayUserCache;
 
     @ResponseBody
     @RequestMapping(value = "/index/current", method = RequestMethod.GET)

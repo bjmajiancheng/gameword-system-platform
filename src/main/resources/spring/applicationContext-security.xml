@@ -31,7 +31,7 @@
     <beans:bean id="tokenUtils" class="com.gameword.system.security.utils.TokenUtils"/>
 
     <beans:bean id="userCache"
-                class="com.gameword.system.security.security.CoolplayUserCache">
+                class="com.gameword.system.security.security.SystemUserCache">
         <beans:property name="cache" ref="redisCache"/>
         <beans:property name="userService" ref="userService"/>
     </beans:bean>
