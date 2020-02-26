@@ -45,7 +45,6 @@ public class SystemRoleController {
             @RequestParam(value = "page", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "rows", required = false, defaultValue = "15") int pageSize) {
         roleModel.setStatus(1);
-        roleModel.setCompanyId(SecurityUtil.getCurrentCompanyId());
         PageInfo<RoleModel> pageInfo = roleService.selectByFilterAndPage(roleModel, pageNum, pageSize);
 
         return PageConvertUtil.grid(pageInfo);
@@ -84,7 +83,6 @@ public class SystemRoleController {
     @ResponseBody
     @RequestMapping(value = "/saveCompanyRole", method = RequestMethod.POST)
     public Result saveCompanyRole(RoleModel roleModel) {
-        roleModel.setCompanyId(SecurityUtil.getCurrentCompanyId());
         roleModel.setStatus(1);
         int addCnt = roleService.save(roleModel);
 

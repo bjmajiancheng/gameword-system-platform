@@ -84,17 +84,8 @@ public class UserServiceImpl extends BaseService<UserModel> implements IUserServ
     public List<UserModel> selectByFilter(UserModel userModel) {
         Example example = new Example(UserModel.class);
         Example.Criteria criteria = example.createCriteria();
-        if (StringUtils.isNotEmpty(userModel.getContactPhone())) {
-            criteria.andLike("contactPhone", "%" + userModel.getContactPhone() + "%");
-        }
-        if (StringUtils.isNotEmpty(userModel.getDisplayName())) {
-            criteria.andLike("displayName", "%" + userModel.getDisplayName() + "%");
-        }
         if (StringUtils.isNotEmpty(userModel.getUserName())) {
             criteria.andLike("userName", "%" + userModel.getUserName() + "%");
-        }
-        if(userModel.getCompanyId() != null) {
-            criteria.andEqualTo("companyId", userModel.getCompanyId());
         }
         if (StringUtils.isNotEmpty(userModel.getSortWithOutOrderBy())) {
             example.setOrderByClause(userModel.getSortWithOutOrderBy());

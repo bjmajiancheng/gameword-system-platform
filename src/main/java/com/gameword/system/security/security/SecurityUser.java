@@ -26,8 +26,6 @@ public class SecurityUser extends User {
 
     private Date lastPasswordReset;
 
-    private Integer companyId;
-
     public SecurityUser(UserModel user,
             Collection<GrantedAuthority> userGrantedAuthorities) {
         super(user.getUserName(), user.getPassword(), user.getEnabled() == 1, user.getAccountNonExpired(),
@@ -35,10 +33,9 @@ public class SecurityUser extends User {
         if (user != null) {
             setId(user.getId());
             setUserName(user.getUserName());
-            setDisplayName(user.getDisplayName());
-            setContactPhone(user.getContactPhone());
+            setDisplayName(user.getNickname());
+            setContactPhone(user.getMobilePhone());
             setLastPasswordReset(user.getLastPasswordReset());
-            setCompanyId(user.getCompanyId());
         }
     }
 
@@ -90,11 +87,4 @@ public class SecurityUser extends User {
         this.lastPasswordReset = lastPasswordReset;
     }
 
-    public Integer getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Integer companyId) {
-        this.companyId = companyId;
-    }
 }

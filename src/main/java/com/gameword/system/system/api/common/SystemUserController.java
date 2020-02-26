@@ -57,7 +57,6 @@ public class SystemUserController {
             @RequestParam(value = "page", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "rows", required = false, defaultValue = "15") int pageSize) {
 
-        userModel.setCompanyId(SecurityUtil.getCurrentCompanyId());
         PageInfo<UserModel> pageInfo = userService.selectByFilterAndPage(userModel, pageNum, pageSize);
         if(CollectionUtils.isNotEmpty(pageInfo.getList())) {
             List<Integer> userIds = new ArrayList<Integer>(pageInfo.getList().size());
@@ -184,7 +183,6 @@ public class SystemUserController {
     @RequestMapping(value="/saveUser", method = RequestMethod.POST)
     public Result saveUser(UserModel userModel) {
         try{
-            userModel.setCompanyId(SecurityUtil.getCurrentCompanyId());
             if(StringUtils.isNotEmpty(userModel.getPassword())) {
                 String passwordEncode = SecurityUtil.encodeString(userModel.getPassword());
 
