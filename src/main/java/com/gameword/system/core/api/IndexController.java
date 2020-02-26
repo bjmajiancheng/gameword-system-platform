@@ -46,7 +46,7 @@ public class IndexController {
     private RedisCache redisCache;
 
     @Autowired
-    private SystemUserCache coolplayUserCache;
+    private SystemUserCache systemUserCache;
 
     @ResponseBody
     @RequestMapping(value = "/index/current", method = RequestMethod.GET)
@@ -78,7 +78,7 @@ public class IndexController {
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public Result authenticationRequest() {
         Integer userId = SecurityUtil.getCurrentUserId();
-        coolplayUserCache.removeUserFromCacheByUserId(userId);
+        systemUserCache.removeUserFromCacheByUserId(userId);
         return ResponseUtil.success();
     }
 
