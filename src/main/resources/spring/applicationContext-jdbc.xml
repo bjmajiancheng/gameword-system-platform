@@ -82,7 +82,7 @@
 	</bean>
 
 	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.gameword.system.core.daocom.gameword.system.system.dao"/>
+		<property name="basePackage" value="com.gameword.system.core.dao,com.gameword.system.system.dao"/>
 		<property name="properties">
 			<value>
 				mappers=tk.mybatis.mapper.common.Mapper

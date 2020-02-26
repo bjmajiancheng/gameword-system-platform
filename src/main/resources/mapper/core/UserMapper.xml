@@ -5,27 +5,33 @@
 
     <resultMap id="BaseResultMap" type="com.gameword.system.core.model.UserModel">
         <result property="id" column="id"/>
-        <result property="companyId" column="company_id"/>
         <result property="userName" column="user_name"/>
+        <result property="nickname" column="nickname"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="countryId" column="country_id"/>
+        <result property="cityId" column="city_id"/>
+        <result property="agencyName" column="agency_name"/>
+        <result property="language" column="language"/>
+        <result property="registerTime" column="register_time"/>
+        <result property="userType" column="user_type"/>
         <result property="password" column="password"/>
-        <result property="displayName" column="display_name"/>
-        <result property="contactPhone" column="contact_phone"/>
-        <result property="deptId" column="dept_id"/>
+        <result property="isOnline" column="is_online"/>
+        <result property="enabled" column="enabled"/>
+        <result property="lastLoginIp" column="last_login_ip"/>
+        <result property="lastLoginTime" column="last_login_time"/>
         <result property="accountNonLocked" column="account_non_locked"/>
         <result property="accountNonExpired" column="account_non_expired"/>
         <result property="credentialsNonExpired" column="credentials_non_expired"/>
-        <result property="lastLoginIp" column="last_login_ip"/>
-        <result property="lastLoginTime" column="last_login_time"/>
-        <result property="isAdmin" column="is_admin"/>
-        <result property="enabled" column="enabled"/>
         <result property="lastPasswordReset" column="last_password_reset"/>
         <result property="ctime" column="c_time"/>
+        <result property="utime" column="u_time"/>
     </resultMap>
 
     <!-- 用于select查询公用抽取的列 -->
     <sql id="columns">
         <![CDATA[
-        id ,company_id ,user_name ,password ,display_name ,contact_phone ,dept_id ,account_non_locked ,account_non_expired ,credentials_non_expired ,last_login_ip ,last_login_time ,is_admin ,enabled ,last_password_reset ,c_time
+        id ,user_name ,nickname ,sex ,age ,country_id ,city_id ,agency_name ,language ,register_time ,user_type ,password ,is_online ,enabled ,last_login_ip ,last_login_time ,account_non_locked ,account_non_expired ,credentials_non_expired ,last_password_reset ,c_time ,u_time e
 	    ]]>
     </sql>
 

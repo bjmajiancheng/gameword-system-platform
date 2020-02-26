@@ -6,9 +6,7 @@ import com.gameword.system.common.utils.MessageUtil;
 import com.gameword.system.common.utils.Option;
 import com.gameword.system.common.utils.ResponseUtil;
 import com.gameword.system.common.utils.Result;
-import com.gameword.system.system.model.IndustryModel;
 import com.gameword.system.system.model.VerifyCodeModel;
-import com.gameword.system.system.service.IIndustryService;
 import com.gameword.system.system.service.IVerifyCodeService;
 import com.gameword.system.core.model.UserModel;
 import com.gameword.system.security.constants.SecurityConstant;
@@ -57,9 +55,6 @@ public class NoneAuthController {
 
     @Autowired
     private IUserService userService;
-
-    @Autowired
-    private IIndustryService industryService;
 
     @RequestMapping("/captcha")
     public void captcha(@RequestParam("vkey") String vkey, HttpServletRequest httpServletRequest,
@@ -159,28 +154,5 @@ public class NoneAuthController {
         redisCache.del(SecurityConstant.USER_CACHE_PREFIX + userModel.getUserName());
 
         return ResponseUtil.success();
-    }
-
-    /**
-     * 行业选项信息
-     *
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping(value = "/industryOptions", method = RequestMethod.GET)
-    public Result industryOptions() {
-
-        List<IndustryModel> industryModels = industryService.find(Collections.singletonMap("isDel", 0));
-
-        if(CollectionUtils.isEmpty(industryModels)) {
-            return ResponseUtil.error("系统异常, 请稍后重试");
-        }
-
-        List<Option> options = new ArrayList<Option>();
-        for(IndustryModel industryModel : industryModels) {
-            options.add(new Option(industryModel.getIndustryName(), industryModel.getId()));
-        }
-
-        return ResponseUtil.success(options);
     }
 }

@@ -5,12 +5,6 @@ import com.gameword.system.common.utils.HttpResponseUtil;
 import com.gameword.system.common.utils.RequestUtil;
 import com.gameword.system.common.utils.ResponseUtil;
 import com.gameword.system.common.utils.Result;
-import com.gameword.system.system.model.CompanyIndustryModel;
-import com.gameword.system.system.model.CompanyLogModel;
-import com.gameword.system.system.model.CompanyModel;
-import com.gameword.system.system.service.ICompanyIndustryService;
-import com.gameword.system.system.service.ICompanyLogService;
-import com.gameword.system.system.service.ICompanyService;
 import com.gameword.system.core.model.UserModel;
 import com.gameword.system.security.constants.SecurityConstant;
 import com.gameword.system.security.security.AuthenticationRequest;
@@ -65,15 +59,6 @@ public class TokenController {
     @Autowired
     private IUserService userService;
 
-    @Autowired
-    private ICompanyService companyService;
-
-    @Autowired
-    private ICompanyLogService companyLogService;
-
-    @Autowired
-    private ICompanyIndustryService companyIndustryService;
-
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> authenticationRequest(HttpServletRequest request,
             @RequestBody AuthenticationRequest authenticationRequest) throws AuthenticationException {
@@ -117,50 +102,6 @@ public class TokenController {
         userService.updateLastLoginInfoByUserName(authenticationRequest.getUsername(), new Date(),
                 RequestUtil.getIpAddress(request));
 
-        CompanyLogModel companyLogModel = new CompanyLogModel();
-        companyLogModel.setCompanyId(SecurityUtil.getCurrentCompanyId());
-        companyLogModel.setIp(RequestUtil.getIpAddress(request));
-        companyLogModel.setUserId(SecurityUtil.getCurrentUserId());
-        companyLogModel.setUserName(authenticationRequest.getUsername());
-        companyLogModel.setCtime(new Date());
-        companyLogService.saveNotNull(companyLogModel);
-
         return ResponseEntity.ok(HttpResponseUtil.success(token));
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public Result updateCompany(CompanyModel companyModel) {
-        companyModel.setCompanyType(1);
-
-        Map<String, Object> param = new HashMap<String, Object>();
-        param.put("companyFullName", companyModel.getCompanyFullName());
-        param.put("isDel", 0);
-        List<CompanyModel> companyModels = companyService.find(param);
-        if(CollectionUtils.isNotEmpty(companyModels)) {
-            return ResponseUtil.error("企业全称已存在, 请修改企业全称");
-        }
-
-        UserModel userModel = userService.findUserByLoginName(companyModel.getAdminUserName());
-
-        param = new HashMap<String, Object>();
-        param.put("adminUserName", companyModel.getAdminUserName());
-        List<CompanyModel> validateCompanys = companyService.find(param);
-        if(userModel != null || CollectionUtils.isNotEmpty(validateCompanys)) {
-            return ResponseUtil.error("企业登录账号已占用, 请修改企业登录账号");
-        }
-
-        int cnt = companyService.saveNotNull(companyModel);
-        if(CollectionUtils.isNotEmpty(companyModel.getIndustryIds())) {
-            for(Integer industryId : companyModel.getIndustryIds()) {
-                CompanyIndustryModel companyIndustry = new CompanyIndustryModel();
-                companyIndustry.setIndustryId(industryId);
-                companyIndustry.setCompanyId(companyModel.getId());
-
-                int saveCnt = companyIndustryService.saveNotNull(companyIndustry);
-            }
-        }
-
-        return ResponseUtil.success();
     }
 }

@@ -74,12 +74,12 @@
                 class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
     <!-- 加载用户相关 -->
-    <beans:bean id="coolplayUserService"
+    <beans:bean id="securityUserService"
                 class="com.gameword.system.security.security.UserServiceImpl"/>
 
     <beans:bean id="authenticationProvider"
                 class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
-        <beans:property name="userDetailsService" ref="coolplayUserService"/>
+        <beans:property name="userDetailsService" ref="securityUserService"/>
         <beans:property name="hideUserNotFoundExceptions" value="false"/>
         <beans:property name="passwordEncoder" ref="encoder"/>
         <beans:property name="userCache" ref="userCache"/>

@@ -30,64 +30,73 @@ public class UserModel extends Sortable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;//"主键"
 
-	@Column(name = "company_id")
-	private Integer companyId;//"企业ID"
-
 	@Column(name = "user_name")
-	@NotEmpty
-	@Size(min = 4, max = 20)
-	private String userName;//"用户名"
+	private String userName;//"姓名"
 
-	@NotEmpty
-	@Size(min = 8, max = 64)
-	@JsonIgnore
+	@Column(name = "nickname")
+	private String nickname;//"昵称"
+
+	@Column(name = "sex")
+	private Integer sex;//"性别"
+
+	@Column(name = "age")
+	private Integer age;//"年龄"
+
+	@Column(name = "country_id")
+	private Integer countryId;//"国籍"
+
+	@Column(name = "city_id")
+	private Integer cityId;//"城市"
+
+	@Column(name = "agency_name")
+	private String agencyName;//"机构名称"
+
+	@Column(name = "language")
+	private Integer language;//"语种（中文/英文/中英双语）"
+
+	@Column(name = "register_time")
+	private java.util.Date registerTime;//"注册时间"
+
+	@Column(name = "user_type")
+	private Integer userType;//"角色（全部/管理员/供应商/教师）"
+
+	@Column(name = "password")
 	private String password;//"密码"
 
-	@Column(name = "display_name")
-	@NotEmpty
-	@Size(min = 4, max = 20)
-	private String displayName;//"显示名称"
+	@Column(name = "is_online")
+	private Integer isOnline;//"是否在线"
 
-	@Column(name = "contact_phone")
-	private String contactPhone;//"联系电话"
-
-	@Column(name = "dept_id")
-	private Integer deptId;//"部门ID"
+	@Column(name = "enabled")
+	private Integer enabled;//"状态，0=冻结，1=正常"
 
 	@Column(name = "last_login_ip")
 	private String lastLoginIp;//"最后登录IP"
 
 	@Column(name = "last_login_time")
-	private Date lastLoginTime;//"最后登录时间"
+	private java.util.Date lastLoginTime;//"最后登录时间"
 
 	@Column(name = "account_non_locked")
-	private Boolean accountNonLocked;
+	private Integer accountNonLocked;//"未锁定状态，0=正常，1=锁定"
 
 	@Column(name = "account_non_expired")
-	private Boolean accountNonExpired;
+	private Integer accountNonExpired;//"账号过期状态，1=正常，0=过期"
 
 	@Column(name = "credentials_non_expired")
-	private Boolean credentialsNonExpired;
-
-	@Column(name = "is_admin")
-	private Integer isAdmin;//"是否是超级用户（0：否， 1：是）"
-
-	@Column(name = "enabled")
-	private Integer enabled;//"用户状态（0：正常，1：启用，2：禁用）"
+	private Integer credentialsNonExpired;//"密码失效状态：1：未失效 0：已失效"
 
 	@Column(name = "last_password_reset")
-	private Date lastPasswordReset;
+	private Date lastPasswordReset;//"上次密码重置时间"
 
 	@Column(name = "c_time")
 	private Date ctime;//"创建时间"
+
+	@Column(name = "u_time")
+	private Date utime;//"更新时间"
 
 	//columns END
 
 	@Transient
 	private String roleName;
-
-	@Transient
-	private String deptName;
 
 	@Transient
 	private List<Integer> roleIds;//"角色Ids"
@@ -97,109 +106,109 @@ public class UserModel extends Sortable {
 
 	@Transient
 	private String confirmPassword;//确认密码
-		
+
+	public Integer getId() {
+		return id;
+	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public Integer getId() {
-		return this.id;
-	}
-		
-	public void setCompanyId(Integer companyId) {
-		this.companyId = companyId;
+	public String getUserName() {
+		return userName;
 	}
 
-	public Integer getCompanyId() {
-		return this.companyId;
-	}
-		
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
-	public String getUserName() {
-		return this.userName;
+	public String getNickname() {
+		return nickname;
 	}
-		
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public Integer getSex() {
+		return sex;
+	}
+
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public Integer getCountryId() {
+		return countryId;
+	}
+
+	public void setCountryId(Integer countryId) {
+		this.countryId = countryId;
+	}
+
+	public Integer getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(Integer cityId) {
+		this.cityId = cityId;
+	}
+
+	public String getAgencyName() {
+		return agencyName;
+	}
+
+	public void setAgencyName(String agencyName) {
+		this.agencyName = agencyName;
+	}
+
+	public Integer getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(Integer language) {
+		this.language = language;
+	}
+
+	public Date getRegisterTime() {
+		return registerTime;
+	}
+
+	public void setRegisterTime(Date registerTime) {
+		this.registerTime = registerTime;
+	}
+
+	public Integer getUserType() {
+		return userType;
+	}
+
+	public void setUserType(Integer userType) {
+		this.userType = userType;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	public String getPassword() {
-		return this.password;
-	}
-		
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
+	public Integer getIsOnline() {
+		return isOnline;
 	}
 
-	public String getDisplayName() {
-		return this.displayName;
-	}
-		
-	public void setContactPhone(String contactPhone) {
-		this.contactPhone = contactPhone;
-	}
-
-	public String getContactPhone() {
-		return this.contactPhone;
-	}
-		
-	public void setDeptId(Integer deptId) {
-		this.deptId = deptId;
-	}
-
-	public Integer getDeptId() {
-		return this.deptId;
-	}
-		
-	public void setLastLoginIp(String lastLoginIp) {
-		this.lastLoginIp = lastLoginIp;
-	}
-
-	public String getLastLoginIp() {
-		return this.lastLoginIp;
-	}
-		
-	public void setLastLoginTime(Date lastLoginTime) {
-		this.lastLoginTime = lastLoginTime;
-	}
-
-	public Date getLastLoginTime() {
-		return this.lastLoginTime;
-	}
-
-	public Boolean getAccountNonLocked() {
-		return accountNonLocked;
-	}
-
-	public void setAccountNonLocked(Boolean accountNonLocked) {
-		this.accountNonLocked = accountNonLocked;
-	}
-
-	public Boolean getAccountNonExpired() {
-		return accountNonExpired;
-	}
-
-	public void setAccountNonExpired(Boolean accountNonExpired) {
-		this.accountNonExpired = accountNonExpired;
-	}
-
-	public Boolean getCredentialsNonExpired() {
-		return credentialsNonExpired;
-	}
-
-	public void setCredentialsNonExpired(Boolean credentialsNonExpired) {
-		this.credentialsNonExpired = credentialsNonExpired;
-	}
-
-	public void setIsAdmin(Integer isAdmin) {
-		this.isAdmin = isAdmin;
-	}
-
-	public Integer getIsAdmin() {
-		return this.isAdmin;
+	public void setIsOnline(Integer isOnline) {
+		this.isOnline = isOnline;
 	}
 
 	public Integer getEnabled() {
@@ -210,12 +219,44 @@ public class UserModel extends Sortable {
 		this.enabled = enabled;
 	}
 
-	public void setCtime(Date ctime) {
-		this.ctime = ctime;
+	public String getLastLoginIp() {
+		return lastLoginIp;
 	}
 
-	public Date getCtime() {
-		return this.ctime;
+	public void setLastLoginIp(String lastLoginIp) {
+		this.lastLoginIp = lastLoginIp;
+	}
+
+	public Date getLastLoginTime() {
+		return lastLoginTime;
+	}
+
+	public void setLastLoginTime(Date lastLoginTime) {
+		this.lastLoginTime = lastLoginTime;
+	}
+
+	public Integer getAccountNonLocked() {
+		return accountNonLocked;
+	}
+
+	public void setAccountNonLocked(Integer accountNonLocked) {
+		this.accountNonLocked = accountNonLocked;
+	}
+
+	public Integer getAccountNonExpired() {
+		return accountNonExpired;
+	}
+
+	public void setAccountNonExpired(Integer accountNonExpired) {
+		this.accountNonExpired = accountNonExpired;
+	}
+
+	public Integer getCredentialsNonExpired() {
+		return credentialsNonExpired;
+	}
+
+	public void setCredentialsNonExpired(Integer credentialsNonExpired) {
+		this.credentialsNonExpired = credentialsNonExpired;
 	}
 
 	public Date getLastPasswordReset() {
@@ -224,6 +265,22 @@ public class UserModel extends Sortable {
 
 	public void setLastPasswordReset(Date lastPasswordReset) {
 		this.lastPasswordReset = lastPasswordReset;
+	}
+
+	public Date getCtime() {
+		return ctime;
+	}
+
+	public void setCtime(Date ctime) {
+		this.ctime = ctime;
+	}
+
+	public Date getUtime() {
+		return utime;
+	}
+
+	public void setUtime(Date utime) {
+		this.utime = utime;
 	}
 
 	public String getRoleName() {
@@ -240,14 +297,6 @@ public class UserModel extends Sortable {
 
 	public void setRoleIds(List<Integer> roleIds) {
 		this.roleIds = roleIds;
-	}
-
-	public String getDeptName() {
-		return deptName;
-	}
-
-	public void setDeptName(String deptName) {
-		this.deptName = deptName;
 	}
 
 	public String getNewPassword() {
