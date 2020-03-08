@@ -51,8 +51,11 @@ public class UserModel extends Sortable {
 	@Column(name = "city_id")
 	private Integer cityId;//"城市"
 
-	@Column(name = "agency_name")
-	private String agencyName;//"机构名称"
+	@Column(name = "angency_cn_name")
+	private String angencyCnName;//"中文机构名称"
+
+	@Column(name = "angency_en_name")
+	private String angencyEnName;//"英文机构名称"
 
 	@Column(name = "language")
 	private Integer language;//"语种（中文/英文/中英双语）"
@@ -174,12 +177,20 @@ public class UserModel extends Sortable {
 		this.cityId = cityId;
 	}
 
-	public String getAgencyName() {
-		return agencyName;
+	public String getAngencyCnName() {
+		return angencyCnName;
 	}
 
-	public void setAgencyName(String agencyName) {
-		this.agencyName = agencyName;
+	public void setAngencyCnName(String angencyCnName) {
+		this.angencyCnName = angencyCnName;
+	}
+
+	public String getAngencyEnName() {
+		return angencyEnName;
+	}
+
+	public void setAngencyEnName(String angencyEnName) {
+		this.angencyEnName = angencyEnName;
 	}
 
 	public Integer getLanguage() {

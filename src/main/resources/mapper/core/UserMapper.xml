@@ -11,7 +11,8 @@
         <result property="age" column="age"/>
         <result property="countryId" column="country_id"/>
         <result property="cityId" column="city_id"/>
-        <result property="agencyName" column="agency_name"/>
+        <result property="angencyCnName" column="angency_cn_name"/>
+        <result property="angencyEnName" column="angency_en_name"/>
         <result property="language" column="language"/>
         <result property="registerTime" column="register_time"/>
         <result property="userType" column="user_type"/>
@@ -31,7 +32,7 @@
     <!-- 用于select查询公用抽取的列 -->
     <sql id="columns">
         <![CDATA[
-        id ,user_name ,nickname ,sex ,age ,country_id ,city_id ,agency_name ,language ,register_time ,user_type ,password ,is_online ,enabled ,last_login_ip ,last_login_time ,account_non_locked ,account_non_expired ,credentials_non_expired ,last_password_reset ,c_time ,u_time e
+        id ,user_name ,nickname ,sex ,age ,country_id ,city_id ,angency_cn_name, angency_en_name ,language ,register_time ,user_type ,password ,is_online ,enabled ,last_login_ip ,last_login_time ,account_non_locked ,account_non_expired ,credentials_non_expired ,last_password_reset ,c_time ,u_time e
 	    ]]>
     </sql>
 
