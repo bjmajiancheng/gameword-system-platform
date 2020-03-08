@@ -6,7 +6,9 @@
     <resultMap id="BaseResultMap" type="com.gameword.system.core.model.UserModel">
         <result property="id" column="id"/>
         <result property="userName" column="user_name"/>
-        <result property="nickname" column="nickname"/>
+        <result property="displayName" column="display_name"/>
+        <result property="headImage" column="head_image"/>
+        <result property="contactPhone" column="contact_phone"/>
         <result property="sex" column="sex"/>
         <result property="age" column="age"/>
         <result property="countryId" column="country_id"/>
@@ -32,7 +34,7 @@
     <!-- 用于select查询公用抽取的列 -->
     <sql id="columns">
         <![CDATA[
-        id ,user_name ,nickname ,sex ,age ,country_id ,city_id ,angency_cn_name, angency_en_name ,language ,register_time ,user_type ,password ,is_online ,enabled ,last_login_ip ,last_login_time ,account_non_locked ,account_non_expired ,credentials_non_expired ,last_password_reset ,c_time ,u_time e
+        id ,user_name ,display_name, head_image, contact_phone, sex ,age ,country_id ,city_id ,angency_cn_name, angency_en_name ,language ,register_time ,user_type ,password ,is_online ,enabled ,last_login_ip ,last_login_time ,account_non_locked ,account_non_expired ,credentials_non_expired ,last_password_reset ,c_time ,u_time e
 	    ]]>
     </sql>
 

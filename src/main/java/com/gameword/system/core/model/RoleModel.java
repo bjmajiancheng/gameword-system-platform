@@ -32,9 +32,6 @@ public class RoleModel extends Sortable {
 	@Column(name = "role_name")
 	private String roleName;//"角色名称"
 
-	@Column(name = "company_id")
-	private Integer companyId;//"公司ID"
-
 	@Column(name = "status")
 	private Integer status;//"是否启用（0：不启用，1：启用）"
 
@@ -59,14 +56,6 @@ public class RoleModel extends Sortable {
 
 	public String getRoleName() {
 		return this.roleName;
-	}
-
-	public Integer getCompanyId() {
-		return companyId;
-	}
-
-	public void setCompanyId(Integer companyId) {
-		this.companyId = companyId;
 	}
 
 	public void setStatus(Integer status) {

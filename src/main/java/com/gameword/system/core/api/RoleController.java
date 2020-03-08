@@ -1,14 +1,15 @@
-package com.gameword.system.system.api.common;
+package com.gameword.system.core.api;
 
 import com.gameword.system.common.utils.PageConvertUtil;
 import com.gameword.system.common.utils.ResponseUtil;
 import com.gameword.system.common.utils.Result;
-import com.gameword.system.system.service.ISystemRoleFunctionService;
 import com.gameword.system.core.model.RoleFunctionModel;
 import com.gameword.system.core.model.RoleModel;
+import com.gameword.system.core.model.UserRoleModel;
 import com.gameword.system.security.security.SystemUserCache;
 import com.gameword.system.security.service.IRoleService;
-import com.gameword.system.security.utils.SecurityUtil;
+import com.gameword.system.system.service.ISystemRoleFunctionService;
+import com.gameword.system.system.service.ISystemUserRoleService;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by majiancheng on 2019/9/19.
+ * Created by majiancheng on 2019/9/30.
  */
 @Controller
-@RequestMapping("/api/common/systemRole")
-public class SystemRoleController {
+@RequestMapping("/api/core/role")
+public class RoleController {
 
     @Autowired
     private IRoleService roleService;
@@ -37,7 +38,10 @@ public class SystemRoleController {
     private SystemUserCache systemUserCache;
 
     @Autowired
-    private ISystemRoleFunctionService companyRoleFunctionService;
+    private ISystemRoleFunctionService systemRoleFunctionService;
+
+    @Autowired
+    private ISystemUserRoleService systemUserRoleService;
 
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -57,11 +61,11 @@ public class SystemRoleController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/getCompanyRole", method = RequestMethod.GET)
-    public Result getCompanyRole(@RequestParam("id") int id) {
+    @RequestMapping(value = "/getRole", method = RequestMethod.GET)
+    public Result getRole(@RequestParam("id") int id) {
         RoleModel roleModel = roleService.selectById(id);
 
-        List<RoleFunctionModel> roleFunctions = companyRoleFunctionService.find(Collections.singletonMap("roleId", id));
+        List<RoleFunctionModel> roleFunctions = systemRoleFunctionService.find(Collections.singletonMap("roleId", id));
         if (CollectionUtils.isNotEmpty(roleFunctions)) {
             List<Integer> functionIds = new ArrayList<Integer>(roleFunctions.size());
             for (RoleFunctionModel roleFunction : roleFunctions) {
@@ -81,8 +85,8 @@ public class SystemRoleController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/saveCompanyRole", method = RequestMethod.POST)
-    public Result saveCompanyRole(RoleModel roleModel) {
+    @RequestMapping(value = "/saveRole", method = RequestMethod.POST)
+    public Result saveRole(RoleModel roleModel) {
         roleModel.setStatus(1);
         int addCnt = roleService.save(roleModel);
 
@@ -91,7 +95,7 @@ public class SystemRoleController {
                 RoleFunctionModel roleFunctionModel = new RoleFunctionModel();
                 roleFunctionModel.setRoleId(roleModel.getId());
                 roleFunctionModel.setFunctionId(functionId);
-                companyRoleFunctionService.saveNotNull(roleFunctionModel);
+                systemRoleFunctionService.saveNotNull(roleFunctionModel);
             }
         }
 
@@ -105,18 +109,27 @@ public class SystemRoleController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/updateCompanyRole", method = RequestMethod.POST)
-    public Result updateCompanyRole(RoleModel roleModel) {
+    @RequestMapping(value = "/updateRole", method = RequestMethod.POST)
+    public Result updateRole(RoleModel roleModel) {
         int addCnt = roleService.updateNotNull(roleModel);
 
-        int delCnt = companyRoleFunctionService.delByRoleId(roleModel.getId());
+        int delCnt = systemRoleFunctionService.delByRoleId(roleModel.getId());
 
         if (CollectionUtils.isNotEmpty(roleModel.getFunctionIds())) {
             for (Integer functionId : roleModel.getFunctionIds()) {
                 RoleFunctionModel roleFunctionModel = new RoleFunctionModel();
                 roleFunctionModel.setRoleId(roleModel.getId());
                 roleFunctionModel.setFunctionId(functionId);
-                companyRoleFunctionService.saveNotNull(roleFunctionModel);
+                systemRoleFunctionService.saveNotNull(roleFunctionModel);
+            }
+        }
+
+        UserRoleModel userRoleModel = new UserRoleModel();
+        userRoleModel.setRoleId(roleModel.getId());
+        List<UserRoleModel> userRoleModels = systemUserRoleService.selectByFilter(userRoleModel);
+        if(CollectionUtils.isNotEmpty(userRoleModels)) {
+            for(UserRoleModel tmpUserRoleModel : userRoleModels) {
+                systemUserCache.removeUserFromCacheByUserId(tmpUserRoleModel.getUserId());
             }
         }
 
@@ -131,8 +144,8 @@ public class SystemRoleController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/delCompanyRole", method = RequestMethod.GET)
-    public Result disableCompanyRole(@RequestParam("id") int id, @RequestParam("status") int status) {
+    @RequestMapping(value = "/delRole", method = RequestMethod.GET)
+    public Result disableRole(@RequestParam("id") int id, @RequestParam("status") int status) {
         RoleModel roleModel = new RoleModel();
         roleModel.setId(id);
         roleModel.setStatus(status);
@@ -156,7 +169,7 @@ public class SystemRoleController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/getCompanyRoleFunctions", method = RequestMethod.GET)
+    @RequestMapping(value = "/getRoleFunctions", method = RequestMethod.GET)
     public Result getRoleFunctions(@RequestParam("roleId") int roleId) {
         List<RoleFunctionModel> roleFunctionModels = roleService.getRoleFunctionByRoleId(roleId);
 

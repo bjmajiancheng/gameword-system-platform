@@ -1,14 +1,13 @@
-package com.gameword.system.system.api.common;
+package com.gameword.system.core.api;
 
 import com.alibaba.druid.util.StringUtils;
+
 import com.gameword.system.common.utils.PageConvertUtil;
 import com.gameword.system.common.utils.ResponseUtil;
 import com.gameword.system.common.utils.Result;
-import com.gameword.system.common.utils.TreeNode;
 import com.gameword.system.core.model.FunctionModel;
 import com.gameword.system.security.service.IFunctionService;
 import com.github.pagehelper.PageInfo;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,16 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
- * Created by majiancheng on 2019/9/19.
+ * Created by majiancheng on 2019/9/30.
  */
 @Controller
-@RequestMapping("/api/common/systemFunction")
-public class SystemFunctionController {
+@RequestMapping("/api/core/function")
+public class FunctionController {
 
     @Autowired
     private IFunctionService functionService;
@@ -35,12 +32,10 @@ public class SystemFunctionController {
     public Map list(FunctionModel functionModel,
             @RequestParam(value = "page", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "rows", required = false, defaultValue = "15") int pageSize) {
-        PageInfo<FunctionModel> pageInfo = functionService
-                .selectByFilterAndPage(functionModel, pageNum, pageSize);
+        PageInfo<FunctionModel> pageInfo = functionService.selectByFilterAndPage(functionModel, pageNum, pageSize);
 
         return PageConvertUtil.grid(pageInfo);
     }
-
 
     /**
      * 获取公司部门信息
@@ -49,21 +44,20 @@ public class SystemFunctionController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/getCompanyFunction", method = RequestMethod.GET)
-    public Result getCompanyFunction(@RequestParam("id") int id) {
+    @RequestMapping(value = "/getFunction", method = RequestMethod.GET)
+    public Result getFunction(@RequestParam("id") int id) {
         FunctionModel functionModel = functionService.selectById(id);
         functionModel.setParentFunctionName("");
 
-        if(functionModel != null && functionModel.getParentId() != null) {
+        if (functionModel != null && functionModel.getParentId() != null) {
             FunctionModel parentFunctionModel = functionService.selectById(functionModel.getParentId());
-            if(parentFunctionModel != null) {
+            if (parentFunctionModel != null) {
                 functionModel.setParentFunctionName(parentFunctionModel.getFunctionName());
             }
         }
 
         return ResponseUtil.success(functionModel);
     }
-
 
     /**
      * 添加公司部门信息
@@ -72,12 +66,15 @@ public class SystemFunctionController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/saveCompanyFunction", method = RequestMethod.POST)
-    public Result saveCompanyFunction(FunctionModel functionModel) {
+    @RequestMapping(value = "/saveFunction", method = RequestMethod.POST)
+    public Result saveFunction(FunctionModel functionModel) {
         functionModel.setStatus(1);
         functionModel.setDisplay(1);
-        if(StringUtils.isEmpty(functionModel.getIcon())) {
+        if (StringUtils.isEmpty(functionModel.getIcon())) {
             functionModel.setIcon("");
+        }
+        if(functionModel.getParentId() == null) {
+            functionModel.setParentId(0);
         }
         int addCnt = functionService.save(functionModel);
 
@@ -91,8 +88,8 @@ public class SystemFunctionController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/updateCompanyFunction", method = RequestMethod.POST)
-    public Result updateCompanyFunction(FunctionModel functionModel) {
+    @RequestMapping(value = "/updateFunction", method = RequestMethod.POST)
+    public Result updateFunction(FunctionModel functionModel) {
         int updateCnt = functionService.updateNotNull(functionModel);
 
         return ResponseUtil.success();
@@ -106,8 +103,8 @@ public class SystemFunctionController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/disableCompanyFunction", method = RequestMethod.GET)
-    public Result disableCompanyFunction(@RequestParam("id") int id, @RequestParam("status") int status) {
+    @RequestMapping(value = "/disableFunction", method = RequestMethod.GET)
+    public Result disableFunction(@RequestParam("id") int id, @RequestParam("status") int status) {
         FunctionModel functionModel = new FunctionModel();
         functionModel.setId(id);
         functionModel.setStatus(status);
@@ -119,17 +116,7 @@ public class SystemFunctionController {
     @ResponseBody
     @RequestMapping(value = "/treeNodes", method = RequestMethod.POST)
     public Object treeNodes(FunctionModel functionModel) {
-        List<TreeNode> treeNodes = functionService.getFunctionTreeNodes(functionModel);
-
-        List<TreeNode> newTreeNodes = new ArrayList<TreeNode>();
-        if(CollectionUtils.isNotEmpty(treeNodes)) {
-            for(TreeNode treeNode : treeNodes) {
-                if(treeNode.getId() != 4) {
-                    newTreeNodes.add(treeNode);
-                }
-            }
-        }
-        return newTreeNodes;
+        return functionService.getFunctionTreeNodes(functionModel);
     }
-
 }
+

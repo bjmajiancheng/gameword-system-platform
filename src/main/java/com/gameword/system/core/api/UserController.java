@@ -1,11 +1,8 @@
-package com.gameword.system.system.api.common;
+package com.gameword.system.core.api;
 
 import com.gameword.system.common.utils.PageConvertUtil;
 import com.gameword.system.common.utils.ResponseUtil;
 import com.gameword.system.common.utils.Result;
-import com.gameword.system.system.model.UserPassMappingModel;
-import com.gameword.system.system.service.ISystemUserRoleService;
-import com.gameword.system.system.service.IUserPassMappingService;
 import com.gameword.system.core.model.RoleModel;
 import com.gameword.system.core.model.UserModel;
 import com.gameword.system.core.model.UserRoleModel;
@@ -13,16 +10,16 @@ import com.gameword.system.security.security.SystemUserCache;
 import com.gameword.system.security.service.IRoleService;
 import com.gameword.system.security.service.IUserService;
 import com.gameword.system.security.utils.SecurityUtil;
+import com.gameword.system.system.model.UserPassMappingModel;
+import com.gameword.system.system.service.ISystemUserRoleService;
+import com.gameword.system.system.service.IUserPassMappingService;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,11 +27,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by majiancheng on 2019/9/19.
+ * Created by majiancheng on 2019/9/30.
  */
 @Controller
-@RequestMapping("/api/common/systemUser")
-public class SystemUserController {
+@RequestMapping("/api/core/user")
+public class UserController {
 
     @Autowired
     private IUserService userService;
@@ -46,7 +43,7 @@ public class SystemUserController {
     private SystemUserCache systemUserCache;
 
     @Autowired
-    private ISystemUserRoleService companyUserRoleService;
+    private ISystemUserRoleService systemUserRoleService;
 
     @Autowired
     private IUserPassMappingService userPassMappingService;
@@ -101,18 +98,18 @@ public class SystemUserController {
         }
 
         if(CollectionUtils.isNotEmpty(userRoleModels)) {
-            StringBuffer sb = new StringBuffer();
             List<Integer> roleIds = new ArrayList<Integer>();
+            StringBuffer sb = new StringBuffer();
             for(UserRoleModel userRoleModel : userRoleModels) {
                 roleIds.add(userRoleModel.getRoleId());
+
                 if(sb.length() > 0) {
                     sb.append("、");
                 }
                 RoleModel roleModel = roleService.selectById(userRoleModel.getRoleId());
-                if(roleModel == null) {
-                    continue;
+                if(roleModel != null) {
+                    sb.append(roleModel.getRoleName());
                 }
-                sb.append(roleModel.getRoleName());
             }
             userModel.setRoleIds(roleIds);
             userModel.setRoleName(sb.toString());
@@ -137,6 +134,7 @@ public class SystemUserController {
     @ResponseBody
     @RequestMapping(value="/updateUser", method = RequestMethod.POST)
     public Result updateUser(UserModel userModel) {
+
         if(StringUtils.isNotEmpty(userModel.getPassword())) {
             String passwordEncode = SecurityUtil.encodeString(userModel.getPassword());
 
@@ -149,32 +147,17 @@ public class SystemUserController {
 
         int updateCnt = userService.updateNotNull(userModel);
 
-        int delCnt = companyUserRoleService.deleteByUserId(userModel.getId());
-
+        int delCnt = systemUserRoleService.deleteByUserId(userModel.getId());
         if(CollectionUtils.isNotEmpty(userModel.getRoleIds())) {
             for(Integer roleId : userModel.getRoleIds()) {
-                if(roleId == 0) continue;
                 UserRoleModel userRoleModel = new UserRoleModel();
                 userRoleModel.setUserId(userModel.getId());
                 userRoleModel.setRoleId(roleId);
-                companyUserRoleService.saveNotNull(userRoleModel);
+                systemUserRoleService.saveNotNull(userRoleModel);
             }
         }
 
-        return ResponseUtil.success();
-    }
-
-    @ResponseBody
-    @RequestMapping(value="/updateUserPassword", method = RequestMethod.POST)
-    public Result updateUserPassword(UserModel userModel) {
-        UserModel originUserModel = userService.findUserByUserId(userModel.getId());
-
-        boolean matchFlag = SecurityUtil.matchString(userModel.getPassword(), originUserModel.getPassword());
-        if(!matchFlag) {
-            return ResponseUtil.error("原密码错误, 请确认原始密码.");
-        }
-        userModel.setPassword(SecurityUtil.encodeString(userModel.getNewPassword()));
-        int updateCnt = userService.updateNotNull(userModel);
+        systemUserCache.removeUserFromCacheByUserId(userModel.getId());
 
         return ResponseUtil.success();
     }
@@ -197,11 +180,10 @@ public class SystemUserController {
 
             if(CollectionUtils.isNotEmpty(userModel.getRoleIds())) {
                 for(Integer roleId : userModel.getRoleIds()) {
-                    if(roleId == 0) continue;
                     UserRoleModel userRoleModel = new UserRoleModel();
                     userRoleModel.setUserId(userModel.getId());
                     userRoleModel.setRoleId(roleId);
-                    companyUserRoleService.saveNotNull(userRoleModel);
+                    systemUserRoleService.saveNotNull(userRoleModel);
                 }
             }
         } catch(DuplicateKeyException e) {
@@ -226,6 +208,16 @@ public class SystemUserController {
         Map<Integer, List<UserRoleModel>> userRoleMap = roleService.findUserRoles(Collections.singletonList(userId));
 
         return ResponseUtil.success(userRoleMap.get(userId));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/getCurrUserRoles", method = RequestMethod.GET)
+    public Result getCurrUserRoles() {
+        RoleModel roleModel = new RoleModel();
+        roleModel.setStatus(1);
+        List<RoleModel> roleModels = roleService.selectByFilter(roleModel);
+
+        return ResponseUtil.success(PageConvertUtil.grid(roleModels));
     }
 
     /**
@@ -267,6 +259,5 @@ public class SystemUserController {
             return ResponseUtil.error("系统异常, 请售后重试。");
         }
     }
-
 
 }

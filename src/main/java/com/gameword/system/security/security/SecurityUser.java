@@ -33,8 +33,8 @@ public class SecurityUser extends User {
         if (user != null) {
             setId(user.getId());
             setUserName(user.getUserName());
-            setDisplayName(user.getNickname());
-            setContactPhone(user.getMobilePhone());
+            setDisplayName(user.getDisplayName());
+            setContactPhone(user.getContactPhone());
             setLastPasswordReset(user.getLastPasswordReset());
         }
     }

@@ -33,11 +33,14 @@ public class UserModel extends Sortable {
 	@Column(name = "user_name")
 	private String userName;//"姓名"
 
-	@Column(name = "nickname")
-	private String nickname;//"昵称"
+	@Column(name = "display_name")
+	private String displayName;//"昵称"
 
-	@Column(name = "mobile_phone")
-	private String mobilePhone;//"手机号"
+	@Column(name = "head_image")
+	private String headImage;//"用户头像"
+
+	@Column(name = "contact_phone")
+	private String contactPhone;//"手机号"
 
 	@Column(name = "sex")
 	private Integer sex;//"性别"
@@ -129,20 +132,28 @@ public class UserModel extends Sortable {
 		this.userName = userName;
 	}
 
-	public String getNickname() {
-		return nickname;
+	public String getDisplayName() {
+		return displayName;
 	}
 
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 
-	public String getMobilePhone() {
-		return mobilePhone;
+	public String getHeadImage() {
+		return headImage;
 	}
 
-	public void setMobilePhone(String mobilePhone) {
-		this.mobilePhone = mobilePhone;
+	public void setHeadImage(String headImage) {
+		this.headImage = headImage;
+	}
+
+	public String getContactPhone() {
+		return contactPhone;
+	}
+
+	public void setContactPhone(String contactPhone) {
+		this.contactPhone = contactPhone;
 	}
 
 	public Integer getSex() {
