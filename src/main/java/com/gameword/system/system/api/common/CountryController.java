@@ -44,8 +44,8 @@ public class CountryController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/getCountry", method = RequestMethod.GET)
-    public Result getCountry(@RequestParam("id") int id) {
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    public Result get(@RequestParam("id") int id) {
         CountryModel functionModel = countryService.findById(id);
 
         return ResponseUtil.success(functionModel);
@@ -58,8 +58,8 @@ public class CountryController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/saveCountry", method = RequestMethod.POST)
-    public Result saveCountry(CountryModel countryModel) {
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public Result save(CountryModel countryModel) {
 
         int addCnt = countryService.save(countryModel);
 
@@ -73,8 +73,8 @@ public class CountryController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/updateCountry", method = RequestMethod.POST)
-    public Result updateFunction(CountryModel countryModel) {
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public Result update(CountryModel countryModel) {
         int updateCnt = countryService.updateNotNull(countryModel);
 
         return ResponseUtil.success();

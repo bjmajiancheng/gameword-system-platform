@@ -29,11 +29,11 @@ public class CountryModel extends Sortable {
 	@Column(name = "id")
 	private Integer id;//"主键"
 
-	@Column(name = "language")
-	private Integer language;//"语种"
+	@Column(name = "country_cn_name")
+	private String countryCnName;//"国家中文名称"
 
-	@Column(name = "country_name")
-	private String countryName;//"国家名称"
+	@Column(name = "country_en_name")
+	private String countryEnName;//"国家英文名称"
 
 	@Column(name = "code")
 	private String code;//"国家代码值"
@@ -60,22 +60,22 @@ public class CountryModel extends Sortable {
 		return this.id;
 	}
 		
-	public void setLanguage(Integer language) {
-		this.language = language;
+	public String getCountryCnName() {
+		return countryCnName;
 	}
 
-	public Integer getLanguage() {
-		return this.language;
-	}
-		
-	public void setCountryName(String countryName) {
-		this.countryName = countryName;
+	public void setCountryCnName(String countryCnName) {
+		this.countryCnName = countryCnName;
 	}
 
-	public String getCountryName() {
-		return this.countryName;
+	public String getCountryEnName() {
+		return countryEnName;
 	}
-		
+
+	public void setCountryEnName(String countryEnName) {
+		this.countryEnName = countryEnName;
+	}
+
 	public void setCode(String code) {
 		this.code = code;
 	}
