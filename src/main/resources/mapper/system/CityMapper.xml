@@ -43,6 +43,12 @@
 			<if test="email != null">
 				AND email = #{email}
 			</if>
+			<if test="ids != null">
+				AND id IN
+				<foreach collection="ids" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
 	    </where>
 	</sql>
 

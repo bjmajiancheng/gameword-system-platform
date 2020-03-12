@@ -69,4 +69,18 @@ public class CityServiceImpl extends BaseService<CityModel> implements ICityServ
 		}
 		return getMapper().selectByExample(example);
 	}
+
+	public Map<Integer,CityModel> findMapByIds(List<Integer> ids) {
+		if(CollectionUtils.isEmpty(ids)) {
+			return Collections.emptyMap();
+		}
+
+		List<CityModel> cityModels = this.find(Collections.singletonMap("ids", ids));
+		Map<Integer, CityModel> cityMap = new HashMap<Integer, CityModel>();
+		for(CityModel cityModel : cityModels) {
+			cityMap.put(cityModel.getId(), cityModel);
+		}
+
+		return cityMap;
+	}
 }

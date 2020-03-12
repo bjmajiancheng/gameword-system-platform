@@ -51,6 +51,24 @@ public class StationModel extends Sortable {
 	private Date utime;//"更新时间"
 
 	//columns END
+
+	@Transient
+	private String createUserName;
+
+	@Transient
+	private String updateUserName;
+
+	@Transient
+	private String countryCnName;
+
+	@Transient
+	private String countryEnName;
+
+	@Transient
+	private String cityCnName;
+
+	@Transient
+	private String cityEnName;
 		
 	public void setId(Integer id) {
 		this.id = id;
@@ -116,5 +134,52 @@ public class StationModel extends Sortable {
 		return this.utime;
 	}
 
+	public String getCreateUserName() {
+		return createUserName;
+	}
+
+	public void setCreateUserName(String createUserName) {
+		this.createUserName = createUserName;
+	}
+
+	public String getUpdateUserName() {
+		return updateUserName;
+	}
+
+	public void setUpdateUserName(String updateUserName) {
+		this.updateUserName = updateUserName;
+	}
+
+	public String getCountryCnName() {
+		return countryCnName;
+	}
+
+	public void setCountryCnName(String countryCnName) {
+		this.countryCnName = countryCnName;
+	}
+
+	public String getCountryEnName() {
+		return countryEnName;
+	}
+
+	public void setCountryEnName(String countryEnName) {
+		this.countryEnName = countryEnName;
+	}
+
+	public String getCityCnName() {
+		return cityCnName;
+	}
+
+	public void setCityCnName(String cityCnName) {
+		this.cityCnName = cityCnName;
+	}
+
+	public String getCityEnName() {
+		return cityEnName;
+	}
+
+	public void setCityEnName(String cityEnName) {
+		this.cityEnName = cityEnName;
+	}
 }
 
