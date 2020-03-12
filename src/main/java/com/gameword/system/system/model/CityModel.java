@@ -60,6 +60,21 @@ public class CityModel extends Sortable {
 	private Date utime;//"更新时间"
 
 	//columns END
+
+	@Transient
+	private String countryCnName;//国家中文名称
+
+	@Transient
+	private String countryEnName;//国家英文名称
+
+	@Transient
+	private String countryCode;//国家代码值
+
+	@Transient
+	private String createUserName;//创建用户名
+
+	@Transient
+	private String updateUserName;//修改用户名
 		
 	public void setId(Integer id) {
 		this.id = id;
@@ -149,5 +164,44 @@ public class CityModel extends Sortable {
 		return this.utime;
 	}
 
+	public String getCountryCnName() {
+		return countryCnName;
+	}
+
+	public void setCountryCnName(String countryCnName) {
+		this.countryCnName = countryCnName;
+	}
+
+	public String getCountryEnName() {
+		return countryEnName;
+	}
+
+	public void setCountryEnName(String countryEnName) {
+		this.countryEnName = countryEnName;
+	}
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
+	}
+
+	public String getCreateUserName() {
+		return createUserName;
+	}
+
+	public void setCreateUserName(String createUserName) {
+		this.createUserName = createUserName;
+	}
+
+	public String getUpdateUserName() {
+		return updateUserName;
+	}
+
+	public void setUpdateUserName(String updateUserName) {
+		this.updateUserName = updateUserName;
+	}
 }
 

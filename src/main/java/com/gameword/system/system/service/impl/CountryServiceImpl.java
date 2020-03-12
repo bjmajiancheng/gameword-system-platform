@@ -69,4 +69,19 @@ public class CountryServiceImpl extends BaseService<CountryModel> implements ICo
 		}
 		return getMapper().selectByExample(example);
 	}
+
+
+	public Map<Integer,CountryModel> findMapByIds(List<Integer> ids) {
+		if(CollectionUtils.isEmpty(ids)) {
+			return Collections.emptyMap();
+		}
+		List<CountryModel> countryModels = countryMapper.find(Collections.singletonMap("ids", ids));
+
+		Map<Integer,CountryModel> countryMap = new HashMap<Integer, CountryModel>();
+		for(CountryModel countryModel : countryModels) {
+			countryMap.put(countryModel.getId(), countryModel);
+		}
+
+		return countryMap;
+	}
 }

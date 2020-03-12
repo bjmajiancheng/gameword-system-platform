@@ -51,7 +51,12 @@ public class CountryModel extends Sortable {
 	private Date utime;//"更新时间"
 
 	//columns END
-		
+	@Transient
+	private String createUserName;
+
+	@Transient
+	private String updateUserName;
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -116,5 +121,20 @@ public class CountryModel extends Sortable {
 		return this.utime;
 	}
 
+	public void setCreateUserName(String createUserName) {
+		this.createUserName = createUserName;
+	}
+
+	public String getCreateUserName() {
+		return createUserName;
+	}
+
+	public void setUpdateUserName(String updateUserName) {
+		this.updateUserName = updateUserName;
+	}
+
+	public String getUpdateUserName() {
+		return updateUserName;
+	}
 }
 
