@@ -1,6 +1,7 @@
 package com.gameword.system.system.api.common;
 
 import com.alibaba.druid.util.StringUtils;
+import com.gameword.system.common.utils.Option;
 import com.gameword.system.common.utils.PageConvertUtil;
 import com.gameword.system.common.utils.ResponseUtil;
 import com.gameword.system.common.utils.Result;
@@ -123,4 +124,19 @@ public class CityController {
         return ResponseUtil.success();
     }
 
+
+    @ResponseBody
+    @RequestMapping(value = "/options", method = RequestMethod.GET)
+    public Result options(CityModel cityModel) {
+        List<CityModel> cityModels = cityService.selectAll();
+
+        List<Option> options = new ArrayList<Option>();
+        if(CollectionUtils.isNotEmpty(cityModels)) {
+            for(CityModel tmpCity : cityModels) {
+                options.add(new Option(String.format("%s/%s", tmpCity.getCityCn(), tmpCity.getCityEn()), tmpCity.getId()));
+            }
+        }
+
+        return ResponseUtil.success(options);
+    }
 }

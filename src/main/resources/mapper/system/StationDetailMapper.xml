@@ -8,6 +8,7 @@
     <resultMap id="StationDetail" type="com.gameword.system.system.model.StationDetailModel">
         <result property="id" column="id"/>
         <result property="stationId" column="station_id"/>
+		<result property="language" column="language"/>
         <result property="type" column="type"/>
         <result property="cityTitle" column="city_title"/>
         <result property="topicImg" column="topic_img"/>
@@ -24,7 +25,9 @@
         <result property="sportDesc" column="sport_desc"/>
         <result property="climateDesc" column="climate_desc"/>
         <result property="celebrityDesc" column="celebrity_desc"/>
-        <result property="tipsDesc" column="tips_desc"/>
+		<result property="tipsDesc" column="tips_desc"/>
+		<result property="cityInfo" column="city_info"/>
+		<result property="businessCooperation" column="business_cooperation"/>
         <result property="ctime" column="c_time"/>
         <result property="utime" column="u_time"/>
     </resultMap>

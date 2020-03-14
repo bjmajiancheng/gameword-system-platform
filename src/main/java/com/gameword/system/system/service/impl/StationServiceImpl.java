@@ -69,4 +69,18 @@ public class StationServiceImpl extends BaseService<StationModel> implements ISt
 		}
 		return getMapper().selectByExample(example);
 	}
+
+
+	public StationModel findByCountryAndCityId(Integer countryId, Integer cityId) {
+		StationModel stationModel = new StationModel();
+		stationModel.setCountryId(countryId);
+		stationModel.setCityId(cityId);
+
+		List<StationModel> stationModels = this.selectByFilter(stationModel);
+		if(CollectionUtils.isEmpty(stationModels)) {
+			return null;
+		}
+
+		return stationModels.get(0);
+	}
 }

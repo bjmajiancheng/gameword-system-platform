@@ -7,8 +7,10 @@ import com.gameword.system.common.utils.Result;
 import com.gameword.system.core.model.FunctionModel;
 import com.gameword.system.core.model.UserModel;
 import com.gameword.system.security.service.IUserService;
+import com.gameword.system.security.utils.SecurityUtil;
 import com.gameword.system.system.model.CityModel;
 import com.gameword.system.system.model.CountryModel;
+import com.gameword.system.system.model.StationDetailModel;
 import com.gameword.system.system.model.StationModel;
 import com.gameword.system.system.service.ICityService;
 import com.gameword.system.system.service.ICountryService;
@@ -118,7 +120,7 @@ public class StationController {
     }
 
     /**
-     * 添加公司部门信息
+     * 添加
      *
      * @param stationModel
      * @return
@@ -131,8 +133,42 @@ public class StationController {
         return ResponseUtil.success();
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/saveStationDetail", method = RequestMethod.POST)
+    public Result saveStationDetail(StationDetailModel stationDetailModel) {
+        if(stationDetailModel == null) {
+            return ResponseUtil.error("系统异常, 请稍后重试");
+        }
+
+        try {
+            StationModel stationModel =  stationService.findByCountryAndCityId(stationDetailModel.getCountryId(), stationDetailModel.getCityId());
+
+            if(stationModel == null) {
+                stationModel = new StationModel();
+            }
+            stationModel.setCountryId(stationDetailModel.getCountryId());
+            stationModel.setCityId(stationDetailModel.getCityId());
+
+            stationModel.setStatus(1);
+            stationModel.setCreateUserId(SecurityUtil.getCurrentUserId());
+            stationModel.setUpdateUserId(SecurityUtil.getCurrentUserId());
+
+            int stationId = stationService.saveNotNull(stationModel);
+
+            stationDetailModel.setStationId(stationId);
+            stationDetailService.saveNotNull(stationDetailModel);
+
+            return ResponseUtil.success();
+
+        } catch(Exception e) {
+            e.printStackTrace();
+
+            return ResponseUtil.error("系统异常, 请稍后重试");
+        }
+    }
+
     /**
-     * 添加公司部门信息
+     * 更新
      *
      * @param stationModel
      * @return
@@ -143,6 +179,26 @@ public class StationController {
         int updateCnt = stationService.updateNotNull(stationModel);
 
         return ResponseUtil.success();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/updateStationDetail", method = RequestMethod.POST)
+    public Result updateStationDetail(StationDetailModel stationDetailModel) {
+        if(stationDetailModel == null) {
+            return ResponseUtil.error("系统异常, 请稍后重试");
+        }
+
+        try {
+
+            int cnt = stationDetailService.save(stationDetailModel);
+
+            return ResponseUtil.success();
+
+        } catch(Exception e) {
+            e.printStackTrace();
+
+            return ResponseUtil.error("系统异常, 请稍后重试");
+        }
     }
 
 

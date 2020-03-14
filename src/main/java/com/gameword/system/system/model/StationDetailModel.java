@@ -26,11 +26,15 @@ public class StationDetailModel extends Sortable {
 	private static final long serialVersionUID = 1L;
 
 	//columns START
-	@Column(name = "id")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;//"主键"
 
 	@Column(name = "station_id")
 	private Integer stationId;//"驿站ID"
+
+	@Column(name = "language")
+	private Integer language;//"语种 1：中文 2：英文"
 
 	@Column(name = "type")
 	private Integer type;//"类型 1：中文 2：英文"
@@ -44,9 +48,9 @@ public class StationDetailModel extends Sortable {
 	@Column(name = "thumb_img")
 	private String thumbImg;//"缩略图"
 
-	@Column(name = "desc")
+	/*@Column(name = "desc")
 	private String desc;//"简介"
-
+*/
 	@Column(name = "business_desc")
 	private String businessDesc;//"工商业"
 
@@ -83,6 +87,12 @@ public class StationDetailModel extends Sortable {
 	@Column(name = "tips_desc")
 	private String tipsDesc;//"锦囊"
 
+	@Column(name = "city_info")
+	private String cityInfo;//"城市信息"
+
+	@Column(name = "business_cooperation")
+	private String businessCooperation;//"商务合作"
+
 	@Column(name = "c_time")
 	private Date ctime;//"创建时间"
 
@@ -90,6 +100,12 @@ public class StationDetailModel extends Sortable {
 	private Date utime;//"更新时间"
 
 	//columns END
+
+	@Transient
+	private Integer countryId;
+
+	@Transient
+	private Integer cityId;
 		
 	public void setId(Integer id) {
 		this.id = id;
@@ -106,7 +122,15 @@ public class StationDetailModel extends Sortable {
 	public Integer getStationId() {
 		return this.stationId;
 	}
-		
+
+	public Integer getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(Integer language) {
+		this.language = language;
+	}
+
 	public void setType(Integer type) {
 		this.type = type;
 	}
@@ -139,13 +163,13 @@ public class StationDetailModel extends Sortable {
 		return this.thumbImg;
 	}
 		
-	public void setDesc(String desc) {
+	/*public void setDesc(String desc) {
 		this.desc = desc;
 	}
 
 	public String getDesc() {
 		return this.desc;
-	}
+	}*/
 		
 	public void setBusinessDesc(String businessDesc) {
 		this.businessDesc = businessDesc;
@@ -242,7 +266,23 @@ public class StationDetailModel extends Sortable {
 	public String getTipsDesc() {
 		return this.tipsDesc;
 	}
-		
+
+	public String getCityInfo() {
+		return cityInfo;
+	}
+
+	public void setCityInfo(String cityInfo) {
+		this.cityInfo = cityInfo;
+	}
+
+	public String getBusinessCooperation() {
+		return businessCooperation;
+	}
+
+	public void setBusinessCooperation(String businessCooperation) {
+		this.businessCooperation = businessCooperation;
+	}
+
 	public void setCtime(Date ctime) {
 		this.ctime = ctime;
 	}
@@ -259,5 +299,20 @@ public class StationDetailModel extends Sortable {
 		return this.utime;
 	}
 
+	public Integer getCountryId() {
+		return countryId;
+	}
+
+	public void setCountryId(Integer countryId) {
+		this.countryId = countryId;
+	}
+
+	public Integer getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(Integer cityId) {
+		this.cityId = cityId;
+	}
 }
 

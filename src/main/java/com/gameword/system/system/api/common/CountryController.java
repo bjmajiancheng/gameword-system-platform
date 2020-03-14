@@ -1,6 +1,7 @@
 package com.gameword.system.system.api.common;
 
 import com.alibaba.druid.util.StringUtils;
+import com.gameword.system.common.utils.Option;
 import com.gameword.system.common.utils.PageConvertUtil;
 import com.gameword.system.common.utils.ResponseUtil;
 import com.gameword.system.common.utils.Result;
@@ -18,10 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by majiancheng on 2020/3/8.
@@ -107,6 +105,21 @@ public class CountryController {
         int updateCnt = countryService.updateNotNull(countryModel);
 
         return ResponseUtil.success();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/options", method = RequestMethod.GET)
+    public Result options(CountryModel countryModel) {
+        List<CountryModel> countryModels = countryService.selectAll();
+
+        List<Option> options = new ArrayList<Option>();
+        if(CollectionUtils.isNotEmpty(countryModels)) {
+            for(CountryModel tmpCountry : countryModels) {
+                options.add(new Option(String.format("%s/%s", tmpCountry.getCountryCnName(), tmpCountry.getCountryEnName()), tmpCountry.getId()));
+            }
+        }
+
+        return ResponseUtil.success(options);
     }
 
 }

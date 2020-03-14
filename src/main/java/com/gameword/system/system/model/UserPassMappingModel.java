@@ -9,8 +9,7 @@ package com.gameword.system.system.model;
 
 import com.gameword.system.common.handler.Sortable;
 
-import javax.persistence.Column;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -23,7 +22,8 @@ public class UserPassMappingModel extends Sortable {
 	private static final long serialVersionUID = 1L;
 
 	//columns START
-	@Column(name = "id")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;//"id"
 
 	@Column(name = "password")
