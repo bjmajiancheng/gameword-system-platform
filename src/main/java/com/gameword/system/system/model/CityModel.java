@@ -48,6 +48,9 @@ public class CityModel extends Sortable {
 	@Column(name = "email")
 	private String email;//"email"
 
+	@Column(name = "is_del")
+	private Integer isDel;//"是否删除"
+
 	@Column(name = "create_user_id")
 	private Integer createUserId;//"创建人"
 
@@ -132,7 +135,15 @@ public class CityModel extends Sortable {
 	public String getEmail() {
 		return this.email;
 	}
-		
+
+	public Integer getIsDel() {
+		return isDel;
+	}
+
+	public void setIsDel(Integer isDel) {
+		this.isDel = isDel;
+	}
+
 	public void setCreateUserId(Integer createUserId) {
 		this.createUserId = createUserId;
 	}

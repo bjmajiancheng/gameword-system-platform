@@ -64,6 +64,18 @@ public class StationServiceImpl extends BaseService<StationModel> implements ISt
 		Example example = new Example(StationModel.class);
 		Example.Criteria criteria = example.createCriteria();
 
+		if(stationModel.getCountryId() != null) {
+			criteria.andEqualTo("countryId", stationModel.getCountryId());
+		}
+
+		if(stationModel.getCityId() != null) {
+			criteria.andEqualTo("cityId", stationModel.getCityId());
+		}
+
+		if(stationModel.getIsDel() != null) {
+			criteria.andEqualTo("isDel", stationModel.getIsDel());
+		}
+
 		if(StringUtils.isNotEmpty(stationModel.getSortWithOutOrderBy())) {
 			example.setOrderByClause(stationModel.getSortWithOutOrderBy());
 		}
@@ -75,6 +87,7 @@ public class StationServiceImpl extends BaseService<StationModel> implements ISt
 		StationModel stationModel = new StationModel();
 		stationModel.setCountryId(countryId);
 		stationModel.setCityId(cityId);
+		stationModel.setIsDel(0);
 
 		List<StationModel> stationModels = this.selectByFilter(stationModel);
 		if(CollectionUtils.isEmpty(stationModels)) {

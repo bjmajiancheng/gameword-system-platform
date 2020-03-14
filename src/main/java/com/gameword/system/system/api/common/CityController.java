@@ -8,6 +8,7 @@ import com.gameword.system.common.utils.Result;
 import com.gameword.system.core.model.FunctionModel;
 import com.gameword.system.core.model.UserModel;
 import com.gameword.system.security.service.IUserService;
+import com.gameword.system.security.utils.SecurityUtil;
 import com.gameword.system.system.model.CityModel;
 import com.gameword.system.system.model.CountryModel;
 import com.gameword.system.system.service.ICityService;
@@ -44,6 +45,7 @@ public class CityController {
     public Map list(CityModel cityModel,
             @RequestParam(value = "page", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "rows", required = false, defaultValue = "15") int pageSize) {
+        cityModel.setIsDel(0);
         PageInfo<CityModel> pageInfo = cityService.selectByFilterAndPage(cityModel, pageNum, pageSize);
 
         if(CollectionUtils.isNotEmpty(pageInfo.getList())) {
@@ -89,8 +91,8 @@ public class CityController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/getCity", method = RequestMethod.GET)
-    public Result getCity(@RequestParam("id") int id) {
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    public Result get(@RequestParam("id") int id) {
         CityModel cityModel = cityService.findById(id);
 
         return ResponseUtil.success(cityModel);
@@ -103,9 +105,12 @@ public class CityController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/saveCity", method = RequestMethod.POST)
-    public Result saveCity(CityModel cityModel) {
-        int addCnt = cityService.save(cityModel);
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public Result save(CityModel cityModel) {
+
+        cityModel.setCreateUserId(SecurityUtil.getCurrentUserId());
+        cityModel.setUpdateUserId(SecurityUtil.getCurrentUserId());
+        int addCnt = cityService.saveNotNull(cityModel);
 
         return ResponseUtil.success();
     }
@@ -117,8 +122,10 @@ public class CityController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/updateCity", method = RequestMethod.POST)
-    public Result updateCity(CityModel cityModel) {
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public Result update(CityModel cityModel) {
+
+        cityModel.setUpdateUserId(SecurityUtil.getCurrentUserId());
         int updateCnt = cityService.updateNotNull(cityModel);
 
         return ResponseUtil.success();
@@ -128,7 +135,8 @@ public class CityController {
     @ResponseBody
     @RequestMapping(value = "/options", method = RequestMethod.GET)
     public Result options(CityModel cityModel) {
-        List<CityModel> cityModels = cityService.selectAll();
+        cityModel.setIsDel(0);
+        List<CityModel> cityModels = cityService.selectByFilter(cityModel);
 
         List<Option> options = new ArrayList<Option>();
         if(CollectionUtils.isNotEmpty(cityModels)) {
@@ -138,5 +146,16 @@ public class CityController {
         }
 
         return ResponseUtil.success(options);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public Result delete(@RequestParam(value = "id") Integer id) {
+        CityModel cityModel = new CityModel();
+        cityModel.setId(id);
+        cityModel.setIsDel(1);
+        int updateCnt = cityService.updateNotNull(cityModel);
+
+        return ResponseUtil.success();
     }
 }

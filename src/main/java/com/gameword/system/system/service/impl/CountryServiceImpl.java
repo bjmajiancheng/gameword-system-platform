@@ -64,6 +64,22 @@ public class CountryServiceImpl extends BaseService<CountryModel> implements ICo
 		Example example = new Example(CountryModel.class);
 		Example.Criteria criteria = example.createCriteria();
 
+		if(StringUtils.isNotEmpty(countryModel.getCountryCnName())) {
+			criteria.andLike("countryCnName", "%" + countryModel.getCountryCnName() + "%");
+		}
+
+		if(StringUtils.isNotEmpty(countryModel.getCountryEnName())) {
+			criteria.andLike("countryEnName", "%" + countryModel.getCountryEnName() + "%");
+		}
+
+		if(StringUtils.isNotEmpty(countryModel.getCode())) {
+			criteria.andLike("code", "%" + countryModel.getCode() + "%");
+		}
+
+		if(countryModel.getIsDel() != null) {
+			criteria.andEqualTo("isDel", countryModel.getIsDel());
+		}
+
 		if(StringUtils.isNotEmpty(countryModel.getSortWithOutOrderBy())) {
 			example.setOrderByClause(countryModel.getSortWithOutOrderBy());
 		}

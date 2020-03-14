@@ -8,6 +8,8 @@ import com.gameword.system.common.utils.Result;
 import com.gameword.system.core.model.FunctionModel;
 import com.gameword.system.core.model.UserModel;
 import com.gameword.system.security.service.IUserService;
+import com.gameword.system.security.utils.SecurityUtil;
+import com.gameword.system.system.model.CityModel;
 import com.gameword.system.system.model.CountryModel;
 import com.gameword.system.system.service.ICountryService;
 import com.github.pagehelper.PageInfo;
@@ -39,6 +41,7 @@ public class CountryController {
     public Map list(CountryModel countryModel,
             @RequestParam(value = "page", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "rows", required = false, defaultValue = "15") int pageSize) {
+        countryModel.setIsDel(0);
         PageInfo<CountryModel> pageInfo = countryService.selectByFilterAndPage(countryModel, pageNum, pageSize);
 
         if(CollectionUtils.isNotEmpty(pageInfo.getList())) {
@@ -88,7 +91,9 @@ public class CountryController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Result save(CountryModel countryModel) {
 
-        int addCnt = countryService.save(countryModel);
+        countryModel.setCreateUserId(SecurityUtil.getCurrentUserId());
+        countryModel.setUpdateUserId(SecurityUtil.getCurrentUserId());
+        int addCnt = countryService.saveNotNull(countryModel);
 
         return ResponseUtil.success();
     }
@@ -102,6 +107,8 @@ public class CountryController {
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public Result update(CountryModel countryModel) {
+
+        countryModel.setUpdateUserId(SecurityUtil.getCurrentUserId());
         int updateCnt = countryService.updateNotNull(countryModel);
 
         return ResponseUtil.success();
@@ -110,7 +117,8 @@ public class CountryController {
     @ResponseBody
     @RequestMapping(value = "/options", method = RequestMethod.GET)
     public Result options(CountryModel countryModel) {
-        List<CountryModel> countryModels = countryService.selectAll();
+        countryModel.setIsDel(0);
+        List<CountryModel> countryModels = countryService.selectByFilter(countryModel);
 
         List<Option> options = new ArrayList<Option>();
         if(CollectionUtils.isNotEmpty(countryModels)) {
@@ -122,4 +130,16 @@ public class CountryController {
         return ResponseUtil.success(options);
     }
 
+
+    @ResponseBody
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public Result delete(@RequestParam(value = "id") Integer id) {
+        CountryModel countryModel = new CountryModel();
+        countryModel.setId(id);
+        countryModel.setIsDel(1);
+        int updateCnt = countryService.updateNotNull(countryModel);
+
+        return ResponseUtil.success();
+
+    }
 }

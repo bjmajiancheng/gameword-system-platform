@@ -58,6 +58,8 @@ public class StationController {
     public Map list(StationModel stationModel,
             @RequestParam(value = "page", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "rows", required = false, defaultValue = "15") int pageSize) {
+
+        stationModel.setIsDel(0);
         PageInfo<StationModel> pageInfo = stationService.selectByFilterAndPage(stationModel, pageNum, pageSize);
 
         if(CollectionUtils.isNotEmpty(pageInfo.getList())) {
@@ -128,35 +130,22 @@ public class StationController {
     @ResponseBody
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Result save(StationModel stationModel) {
-        int addCnt = stationService.save(stationModel);
-
-        return ResponseUtil.success();
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/saveStationDetail", method = RequestMethod.POST)
-    public Result saveStationDetail(StationDetailModel stationDetailModel) {
-        if(stationDetailModel == null) {
+        if(stationModel == null) {
             return ResponseUtil.error("系统异常, 请稍后重试");
         }
 
         try {
-            StationModel stationModel =  stationService.findByCountryAndCityId(stationDetailModel.getCountryId(), stationDetailModel.getCityId());
+            StationModel tmpStationModel =  stationService.findByCountryAndCityId(stationModel.getCountryId(), stationModel.getCityId());
 
-            if(stationModel == null) {
-                stationModel = new StationModel();
+            if(tmpStationModel != null) {
+                return ResponseUtil.error("城市驿站已存在, 请修改国家和城市信息。");
             }
-            stationModel.setCountryId(stationDetailModel.getCountryId());
-            stationModel.setCityId(stationDetailModel.getCityId());
 
             stationModel.setStatus(1);
             stationModel.setCreateUserId(SecurityUtil.getCurrentUserId());
             stationModel.setUpdateUserId(SecurityUtil.getCurrentUserId());
 
             int stationId = stationService.saveNotNull(stationModel);
-
-            stationDetailModel.setStationId(stationId);
-            stationDetailService.saveNotNull(stationDetailModel);
 
             return ResponseUtil.success();
 
@@ -176,30 +165,52 @@ public class StationController {
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public Result update(StationModel stationModel) {
+
+        stationModel.setUpdateUserId(SecurityUtil.getCurrentUserId());
         int updateCnt = stationService.updateNotNull(stationModel);
 
         return ResponseUtil.success();
     }
 
+    /**
+     * 更新
+     *
+     * @param id
+     * @param status
+     * @return
+     */
     @ResponseBody
-    @RequestMapping(value = "/updateStationDetail", method = RequestMethod.POST)
-    public Result updateStationDetail(StationDetailModel stationDetailModel) {
-        if(stationDetailModel == null) {
-            return ResponseUtil.error("系统异常, 请稍后重试");
-        }
+    @RequestMapping(value = "/updateStatus", method = RequestMethod.GET)
+    public Result updateStatus(@RequestParam("id")Integer id, @RequestParam("status")Integer status) {
 
-        try {
+        StationModel stationModel = new StationModel();
+        stationModel.setId(id);
+        stationModel.setStatus(status);
+        stationModel.setUpdateUserId(SecurityUtil.getCurrentUserId());
+        int updateCnt = stationService.updateNotNull(stationModel);
 
-            int cnt = stationDetailService.save(stationDetailModel);
-
-            return ResponseUtil.success();
-
-        } catch(Exception e) {
-            e.printStackTrace();
-
-            return ResponseUtil.error("系统异常, 请稍后重试");
-        }
+        return ResponseUtil.success();
     }
+
+    /**
+     * 更新
+     *
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public Result delete(@RequestParam(value="id") Integer id) {
+        StationModel stationModel = new StationModel();
+
+        stationModel.setId(id);
+        stationModel.setIsDel(1);
+        stationModel.setUpdateUserId(SecurityUtil.getCurrentUserId());
+        int updateCnt = stationService.updateNotNull(stationModel);
+
+        return ResponseUtil.success();
+    }
+
 
 
 }

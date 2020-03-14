@@ -13,7 +13,6 @@
         <result property="cityTitle" column="city_title"/>
         <result property="topicImg" column="topic_img"/>
         <result property="thumbImg" column="thumb_img"/>
-        <result property="desc" column="desc"/>
         <result property="businessDesc" column="business_desc"/>
         <result property="travelDesc" column="travel_desc"/>
         <result property="educationDesc" column="education_desc"/>
@@ -35,7 +34,7 @@
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="columns">
 	    <![CDATA[
-        id ,station_id ,type ,city_title ,topic_img ,thumb_img ,desc ,business_desc ,travel_desc ,education_desc ,medical_desc ,specialty_desc ,holiday_desc ,culture_desc ,food_desc ,sport_desc ,climate_desc ,celebrity_desc ,tips_desc ,c_time ,u_time 
+        id ,station_id , language, type ,city_title ,topic_img ,thumb_img ,business_desc ,travel_desc ,education_desc ,medical_desc ,specialty_desc ,holiday_desc ,culture_desc ,food_desc ,sport_desc ,climate_desc ,celebrity_desc ,tips_desc ,c_time ,u_time
 	    ]]>
 	</sql>
 

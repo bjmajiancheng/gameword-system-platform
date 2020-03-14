@@ -64,6 +64,10 @@ public class CityServiceImpl extends BaseService<CityModel> implements ICityServ
 		Example example = new Example(CityModel.class);
 		Example.Criteria criteria = example.createCriteria();
 
+		if(cityModel.getIsDel() != null) {
+			criteria.andEqualTo("isDel", cityModel.getIsDel());
+		}
+
 		if(StringUtils.isNotEmpty(cityModel.getSortWithOutOrderBy())) {
 			example.setOrderByClause(cityModel.getSortWithOutOrderBy());
 		}
