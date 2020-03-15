@@ -25,6 +25,7 @@ CREATE TABLE d_country(
    `country_cn_name` varchar(100) NOT NULL DEFAULT '' COMMENT '国家中文名称',
    `country_en_name` varchar(100) NOT NULL DEFAULT '' COMMENT '国家英文名称',
    `code` varchar(100) NOT NULL DEFAULT '' COMMENT '国家代码值',
+   `is_del` int(11) NOT NULL DEFAULT '0' COMMENT '是否删除',
    `create_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '创建人',
    `update_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '最后修改人',
    `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -43,6 +44,7 @@ CREATE TABLE d_city(
    `code` varchar(100) NOT NULL DEFAULT '' COMMENT '城市代码值',
    `contact` varchar(100) NOT NULL DEFAULT '' COMMENT '联系人名称',
    `email` varchar(100) NOT NULL DEFAULT '' COMMENT 'email',
+   `is_del` int(11) NOT NULL DEFAULT '0' COMMENT '是否删除',
    `create_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '创建人',
    `update_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '最后修改人',
    `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -112,12 +114,12 @@ CREATE TABLE d_system_user(
 -- 系统密码映射
 DROP TABLE IF EXISTS d_user_pass_mapping;
 create table `d_user_pass_mapping` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `password` varchar(100) NOT NULL DEFAULT '' COMMENT '密码明文',
-  `password_encode` varchar(512) NOT NULL DEFAULT '' COMMENT '加密密码',
-  `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `u_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`)
+   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+   `password` varchar(100) NOT NULL DEFAULT '' COMMENT '密码明文',
+   `password_encode` varchar(512) NOT NULL DEFAULT '' COMMENT '加密密码',
+   `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `u_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统密码映射表';
 
 -- 系统菜单
@@ -155,8 +157,8 @@ create table d_system_role_function (
 -- 系统用户角色关联表
 DROP TABLE IF EXISTS d_system_user_role;
 create table d_system_user_role (
-  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '系统用户ID',
-  `role_id` int(11) NOT NULL DEFAULT '0' COMMENT '系统角色ID'
+   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '系统用户ID',
+   `role_id` int(11) NOT NULL DEFAULT '0' COMMENT '系统角色ID'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户角色关联表';
 
 -- 充值信息
@@ -336,8 +338,13 @@ CREATE TABLE d_station(
    `country_id` int(11) NOT NULL DEFAULT '0' COMMENT '国家ID',
    `city_id` int(11) NOT NULL DEFAULT '0' COMMENT '城市ID',
    `status` int(11) NOT NULL DEFAULT '0' COMMENT '状态',
+   `cn_city_info` text COMMENT '中文城市信息',
+   `en_city_info` text COMMENT '英文城市信息',
+   `cn_business_cooperation` text COMMENT '中文商务合作',
+   `en_business_cooperation` text COMMENT '英文商务合作',
    `create_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '创建人',
    `update_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '最后修改人',
+   `is_del` int(11) NOT NULL DEFAULT '0' COMMENT '是否删除',
    `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
    `u_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
    PRIMARY KEY (`id`)
@@ -353,19 +360,21 @@ CREATE TABLE d_station_detail(
    `city_title` varchar(100) NOT NULL DEFAULT '' COMMENT '城市标题',
    `topic_img` varchar(100) NOT NULL DEFAULT '' COMMENT '主题图',
    `thumb_img` varchar(100) NOT NULL DEFAULT '' COMMENT '缩略图',
-   `description` text NOT NULL COMMENT '简介',
-   `business_desc` text NOT NULL COMMENT '工商业',
-   `travel_desc` text NOT NULL COMMENT '旅游',
-   `education_desc` text NOT NULL COMMENT '教育',
-   `medical_desc` text NOT NULL COMMENT '医疗',
-   `specialty_desc` text NOT NULL COMMENT '特产',
-   `holiday_desc` text NOT NULL COMMENT '节庆',
-   `culture_desc` text NOT NULL COMMENT '文化',
-   `food_desc` text NOT NULL COMMENT '美食',
-   `sport_desc` text NOT NULL COMMENT '体育',
-   `climate_desc` text NOT NULL COMMENT '气候',
-   `celebrity_desc` text NOT NULL COMMENT '名人',
-   `tips_desc` text NOT NULL COMMENT '锦囊',
+   `description` text COMMENT '简介',
+   `business_desc` text COMMENT '工商业',
+   `travel_desc` text COMMENT '旅游',
+   `education_desc` text COMMENT '教育',
+   `medical_desc` text COMMENT '医疗',
+   `specialty_desc` text COMMENT '特产',
+   `holiday_desc` text COMMENT '节庆',
+   `culture_desc` text COMMENT '文化',
+   `food_desc` text COMMENT '美食',
+   `sport_desc` text COMMENT '体育',
+   `climate_desc` text COMMENT '气候',
+   `celebrity_desc` text COMMENT '名人',
+   `tips_desc` text COMMENT '锦囊',
+   `city_info` text COMMENT '城市信息',
+   `business_cooperation` text COMMENT '商务合作',
    `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
    `u_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
    PRIMARY KEY (`id`)
@@ -414,16 +423,16 @@ CREATE TABLE d_sensitive_word(
 -- 附件表
 DROP TABLE IF EXISTS d_attachment;
 create TABLE `d_attachment` (
-  `attachment_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `attachment_name` varchar(128) DEFAULT '' COMMENT '附件名称',
-  `attachment_type` tinyint(1) DEFAULT '0' COMMENT '附件类型:0:图片 1:文档 2:其他',
-  `attachment_suffix` varchar(32) DEFAULT '' COMMENT '附件后缀',
-  `attachment_path` varchar(255) DEFAULT '' COMMENT '附件文件路径',
-  `attachment_url` varchar(255) DEFAULT '' COMMENT '附件文件路径',
-  `attachment_size` bigint(22) DEFAULT '0' COMMENT '附件文件大小',
-  `upload_login_name` varchar(64) DEFAULT '' COMMENT '上传附件用户',
-  PRIMARY KEY (`attachment_id`),
-  KEY `k_user` (`upload_login_name`)
+   `attachment_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+   `attachment_name` varchar(128) DEFAULT '' COMMENT '附件名称',
+   `attachment_type` tinyint(1) DEFAULT '0' COMMENT '附件类型:0:图片 1:文档 2:其他',
+   `attachment_suffix` varchar(32) DEFAULT '' COMMENT '附件后缀',
+   `attachment_path` varchar(255) DEFAULT '' COMMENT '附件文件路径',
+   `attachment_url` varchar(255) DEFAULT '' COMMENT '附件文件路径',
+   `attachment_size` bigint(22) DEFAULT '0' COMMENT '附件文件大小',
+   `upload_login_name` varchar(64) DEFAULT '' COMMENT '上传附件用户',
+   PRIMARY KEY (`attachment_id`),
+   KEY `k_user` (`upload_login_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='附件表';
 
 
@@ -442,6 +451,7 @@ insert into d_system_function(id, parent_id, function_name, display, status, act
 insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(8, 5, '城市驿站管理', 1, 1, 'dvd/common/station.html', 8);
 
 
+
 insert into d_system_role(id, role_name, status) values(1, '系统管理', 1);
 insert into d_system_user_role(user_id, role_id) values(1, 1);
 insert into d_system_role_function(role_id, function_id) values(1, 1), (1, 2), (1, 3), (1, 4);
@@ -453,5 +463,8 @@ insert into d_system_role_function(role_id, function_id) values(2, 5), (2, 6), (
 insert into d_country(id, country_cn_name, country_en_name, code, create_user_id, update_user_id) values(1, '中国', 'CHINA', 'CN', 1, 1);
 insert into d_city(country_id, city_cn, city_en, code, contact, email, create_user_id, update_user_id) values(1, '北京', 'BEIJING', 'BEIJING', '马建成', 'bjmajiancheng@davdian.com', 1, 1);
 
-insert into d_station (country_id, city_id, status) values(1, 1, 1);
-insert into d_station_detail(station_id, language, city_title, topic_img, thumb_img, description, business_desc, travel_desc, education_desc, medical_desc, specialty_desc, holiday_desc, culture_desc, food_desc, sport_desc, climate_desc, celebrity_desc, tips_desc) values(1, 1, '北京', 'https://9i.dvmama.com/shop_logo/2020/03/07/src__dc1cfa016ecf97d6f1e17acedccb2914.jpg', 'https://9i.dvmama.com/shop_logo/2020/03/07/src__dc1cfa016ecf97d6f1e17acedccb2914.jpg', '简介', '工商业描述', '旅游描述', '教育描述', '医疗描述', '特产描述', '节庆描述', '文化描述', '美食描述', '体育描述', '气候描述', '名人描述', '锦囊描述');
+insert into d_station (id, country_id, city_id, create_user_id, update_user_id, status) values(1, 1, 1, 1, 1, 1);
+insert into d_station_detail(id, station_id, language, city_title, topic_img, thumb_img, description, business_desc, travel_desc, education_desc, medical_desc, specialty_desc, holiday_desc, culture_desc, food_desc, sport_desc, climate_desc, celebrity_desc, tips_desc, city_info, business_cooperation)
+values(1, 1, 1, '北京', 'https://9i.dvmama.com/shop_logo/2020/03/07/src__dc1cfa016ecf97d6f1e17acedccb2914.jpg', 'https://9i.dvmama.com/shop_logo/2020/03/07/src__dc1cfa016ecf97d6f1e17acedccb2914.jpg', '简介', '工商业描述', '旅游描述', '教育描述', '医疗描述', '特产描述', '节庆描述', '文化描述', '美食描述', '体育描述', '气候描述', '名人描述', '锦囊描述',
+                                                                                                                                                                                                                                             '<p>城市信息</p><table class="table table-bordered"><tbody><tr><td><br></td><td><br></td><td><br></td><td><br></td></tr><tr><td><br></td><td><br></td><td><br></td><td><br></td></tr></tbody></table><p><br></p>',
+                                                                                                                                                                                                                                             '<p>商务交流</p><table class="table table-bordered"><tbody><tr><td><br></td><td><br></td><td><br></td><td><br></td></tr><tr><td><br></td><td><br></td><td><br></td><td><br></td></tr></tbody></table><p><br></p>');
