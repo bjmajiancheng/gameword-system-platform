@@ -102,7 +102,7 @@ CREATE TABLE d_system_user(
    `enabled` smallint(1) NOT NULL DEFAULT '1' COMMENT '状态，0=冻结，1=正常',
    `last_login_ip` varchar(20) NOT NULL DEFAULT '' COMMENT '最后登录IP',
    `last_login_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '最后登录时间',
-   `account_non_locked` smallint(1) NOT NULL DEFAULT '1' COMMENT '未锁定状态，0=正常，1=锁定',
+   `account_non_locked` smallint(1) NOT NULL DEFAULT '1' COMMENT '未锁定状态，1=正常，0=锁定',
    `account_non_expired` smallint(1) NOT NULL DEFAULT '1' COMMENT '账号过期状态，1=正常，0=过期',
    `credentials_non_expired` smallint(1) NOT NULL DEFAULT '1' COMMENT '密码失效状态：1：未失效 0：已失效',
    `last_password_reset` timestamp NULL DEFAULT NULL COMMENT '上次密码重置时间',
