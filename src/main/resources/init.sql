@@ -449,6 +449,7 @@ insert into d_system_function(id, parent_id, function_name, display, status, act
 insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(6, 5, '国家管理', 1, 1, 'dvd/common/country.html', 6);
 insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(7, 5, '城市管理', 1, 1, 'dvd/common/city.html', 7);
 insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(8, 5, '城市驿站管理', 1, 1, 'dvd/common/station.html', 8);
+insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(9, 5, '开屏页管理', 1, 1, 'dvd/common/advertise.html', 9);
 
 
 
@@ -458,7 +459,7 @@ insert into d_system_role_function(role_id, function_id) values(1, 1), (1, 2), (
 
 insert into d_system_role(id, role_name, status) values(2, '通用管理', 1);
 insert into d_system_user_role(user_id, role_id) values(1, 2);
-insert into d_system_role_function(role_id, function_id) values(2, 5), (2, 6), (2, 7), (2, 8);
+insert into d_system_role_function(role_id, function_id) values(2, 5), (2, 6), (2, 7), (2, 8), (2, 9);
 
 insert into d_country(id, country_cn_name, country_en_name, code, create_user_id, update_user_id) values(1, '中国', 'CHINA', 'CN', 1, 1);
 insert into d_city(country_id, city_cn, city_en, code, contact, email, create_user_id, update_user_id) values(1, '北京', 'BEIJING', 'BEIJING', '马建成', 'bjmajiancheng@davdian.com', 1, 1);
