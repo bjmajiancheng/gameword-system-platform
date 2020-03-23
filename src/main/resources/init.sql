@@ -57,23 +57,32 @@ CREATE TABLE d_city(
 DROP TABLE IF EXISTS d_user;
 CREATE TABLE d_user(
    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+   `user_type` int(11) NOT NULL DEFAULT '0' COMMENT '用户类型；0：学生，1：商务会员',
+   `user_name` varchar(100) NOT NULL DEFAULT '' COMMENT '用户名',
+   `mobile_phone` varchar(100) NOT NULL DEFAULT '' COMMENT '手机号',
+   `email` varchar(100) NOT NULL DEFAULT '' COMMENT 'email',
+   `password` varchar(200) NOT NULL DEFAULT '' COMMENT '密码',
    `country_id` int(11) NOT NULL DEFAULT '0' COMMENT '国籍',
    `city_id` int(11) NOT NULL DEFAULT '0' COMMENT '所在城市',
    `last_name` varchar(100) NOT NULL DEFAULT '' COMMENT '姓',
    `first_name` varchar(100) NOT NULL DEFAULT '' COMMENT '名',
    `birthday` varchar(100) NOT NULL DEFAULT '' COMMENT '出生日期',
    `sex` int(11) NOT NULL DEFAULT '0' COMMENT '性别',
-   `nickname` varchar(100) NOT NULL DEFAULT '' COMMENT '昵称',
+   `nick_name` varchar(100) NOT NULL DEFAULT '' COMMENT '昵称',
    `agency_name` varchar(100) NOT NULL DEFAULT '' COMMENT '机构/学校名称',
    `desc` varchar(100) NOT NULL DEFAULT '' COMMENT '个人简介（一段文字）',
-   `email` varchar(100) NOT NULL DEFAULT '' COMMENT 'email',
-   `mobile_phone` varchar(100) NOT NULL DEFAULT '' COMMENT '手机号',
    `head_image` varchar(100) NOT NULL DEFAULT '' COMMENT '头像（照片）',
    `invite_code` varchar(100) NOT NULL DEFAULT '' COMMENT '邀请码',
    `balance` decimal(12, 2) NOT NULL DEFAULT '0.0' COMMENT '余额',
    `register_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT'注册时间',
    `status` int(11) NOT NULL DEFAULT '0' COMMENT '状态 0：正常，1：禁用',
-   `user_type` int(11) NOT NULL DEFAULT '0' COMMENT '用户类型；0：学生，1：商务会员',
+   `enabled` smallint(1) NOT NULL DEFAULT '1' COMMENT '状态，0=冻结，1=正常',
+   `last_login_ip` varchar(20) NOT NULL DEFAULT '' COMMENT '最后登录IP',
+   `last_login_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '最后登录时间',
+   `account_non_locked` smallint(1) NOT NULL DEFAULT '1' COMMENT '未锁定状态，1=正常，0=锁定',
+   `account_non_expired` smallint(1) NOT NULL DEFAULT '1' COMMENT '账号过期状态，1=正常，0=过期',
+   `credentials_non_expired` smallint(1) NOT NULL DEFAULT '1' COMMENT '密码失效状态：1：未失效 0：已失效',
+   `last_password_reset` timestamp NULL DEFAULT NULL COMMENT '上次密码重置时间',
    `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
    `u_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
    PRIMARY KEY (`id`)
@@ -102,7 +111,7 @@ CREATE TABLE d_system_user(
    `enabled` smallint(1) NOT NULL DEFAULT '1' COMMENT '状态，0=冻结，1=正常',
    `last_login_ip` varchar(20) NOT NULL DEFAULT '' COMMENT '最后登录IP',
    `last_login_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '最后登录时间',
-   `account_non_locked` smallint(1) NOT NULL DEFAULT '1' COMMENT '未锁定状态，0=正常，1=锁定',
+   `account_non_locked` smallint(1) NOT NULL DEFAULT '1' COMMENT '未锁定状态，1=正常，0=锁定',
    `account_non_expired` smallint(1) NOT NULL DEFAULT '1' COMMENT '账号过期状态，1=正常，0=过期',
    `credentials_non_expired` smallint(1) NOT NULL DEFAULT '1' COMMENT '密码失效状态：1：未失效 0：已失效',
    `last_password_reset` timestamp NULL DEFAULT NULL COMMENT '上次密码重置时间',
@@ -338,10 +347,10 @@ CREATE TABLE d_station(
    `country_id` int(11) NOT NULL DEFAULT '0' COMMENT '国家ID',
    `city_id` int(11) NOT NULL DEFAULT '0' COMMENT '城市ID',
    `status` int(11) NOT NULL DEFAULT '0' COMMENT '状态',
-   `cn_city_info` text COMMENT '中文城市信息',
-   `en_city_info` text COMMENT '英文城市信息',
-   `cn_business_cooperation` text COMMENT '中文商务合作',
-   `en_business_cooperation` text COMMENT '英文商务合作',
+   `cn_city_info` longtext COMMENT '中文城市信息',
+   `en_city_info` longtext COMMENT '英文城市信息',
+   `cn_business_cooperation` longtext COMMENT '中文商务合作',
+   `en_business_cooperation` longtext COMMENT '英文商务合作',
    `create_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '创建人',
    `update_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '最后修改人',
    `is_del` int(11) NOT NULL DEFAULT '0' COMMENT '是否删除',
@@ -434,6 +443,19 @@ create TABLE `d_attachment` (
    PRIMARY KEY (`attachment_id`),
    KEY `k_user` (`upload_login_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='附件表';
+
+
+-- 验证码表
+DROP TABLE IF EXISTS d_verify_code;
+create TABLE `d_verify_code` (
+   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+   `mobile_phone` varchar(20) DEFAULT '' COMMENT '手机号',
+   `email` varchar(100) DEFAULT '' COMMENT '邮箱',
+   `content` varchar(200) NOT NULL DEFAULT '' COMMENT '短信内容',
+   `verify_code` varchar(10) NOT NULL DEFAULT '' COMMENT '验证码',
+   `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='C端验证码表';
 
 
 insert into d_system_user(id, user_name, password, display_name, contact_phone, user_type, enabled, account_non_locked, account_non_expired, credentials_non_expired) values(1, 'admin', '$2a$10$xEOzVwRIs0UN8/fibgMZ4OwIy90b8S1/iYEppMV7LQJoNCb/Y1xLW', '肖恩', '13717689765', 1, 1, 1, 1, 1);
