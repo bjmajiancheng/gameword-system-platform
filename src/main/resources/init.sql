@@ -45,6 +45,7 @@ CREATE TABLE d_city(
    `contact` varchar(100) NOT NULL DEFAULT '' COMMENT '联系人名称',
    `email` varchar(100) NOT NULL DEFAULT '' COMMENT 'email',
    `is_del` int(11) NOT NULL DEFAULT '0' COMMENT '是否删除',
+   `is_online` int(11) NOT NULL DEFAULT '0' COMMENT '是否上线 1:是 0:否',
    `create_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '创建人',
    `update_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '最后修改人',
    `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -200,7 +201,6 @@ CREATE TABLE d_contact(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='交流联系';
 
 -- 聊天室
-
 DROP TABLE IF EXISTS d_chat;
 CREATE TABLE d_chat(
    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -212,8 +212,6 @@ CREATE TABLE d_chat(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='聊天室';
 
 -- 聊天室成员
-
-
 DROP TABLE IF EXISTS d_chat_member;
 CREATE TABLE d_chat_member(
    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -227,7 +225,6 @@ CREATE TABLE d_chat_member(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='聊天室成员';
 
 -- 聊天室内容
-
 DROP TABLE IF EXISTS d_chat_content;
 CREATE TABLE d_chat_content(
    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -242,7 +239,6 @@ CREATE TABLE d_chat_content(
 
 
 -- 用户聊天记录
-
 DROP TABLE IF EXISTS d_user_chat;
 CREATE TABLE d_user_chat(
    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -257,7 +253,6 @@ CREATE TABLE d_user_chat(
 
 
 -- 好友表
-
 DROP TABLE IF EXISTS d_friend;
 CREATE TABLE d_friend(
    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -270,7 +265,6 @@ CREATE TABLE d_friend(
 
 
 -- 后台提示语管理
-
 DROP TABLE IF EXISTS d_hint;
 CREATE TABLE d_hint(
    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -286,7 +280,6 @@ CREATE TABLE d_hint(
 
 
 -- 菜单链接管理
-
 DROP TABLE IF EXISTS d_menu;
 CREATE TABLE d_menu(
    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -319,7 +312,6 @@ CREATE TABLE d_user_notice(
 
 
 -- 前台用户统计表
-
 DROP TABLE IF EXISTS d_user_static;
 CREATE TABLE d_user_static(
    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -404,7 +396,6 @@ CREATE TABLE d_price_conf(
 
 
 -- 价格维护记录
-
 DROP TABLE IF EXISTS d_price_conf_record;
 CREATE TABLE d_price_conf_record(
    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -484,7 +475,7 @@ insert into d_system_user_role(user_id, role_id) values(1, 2);
 insert into d_system_role_function(role_id, function_id) values(2, 5), (2, 6), (2, 7), (2, 8), (2, 9);
 
 insert into d_country(id, country_cn_name, country_en_name, code, create_user_id, update_user_id) values(1, '中国', 'CHINA', 'CN', 1, 1);
-insert into d_city(country_id, city_cn, city_en, code, contact, email, create_user_id, update_user_id) values(1, '北京', 'BEIJING', 'BEIJING', '马建成', 'bjmajiancheng@davdian.com', 1, 1);
+insert into d_city(country_id, city_cn, city_en, code, contact, email, create_user_id, update_user_id, is_online) values(1, '北京', 'BEIJING', 'BEIJING', '马建成', 'bjmajiancheng@davdian.com', 1, 1, 1);
 
 insert into d_station (id, country_id, city_id, create_user_id, update_user_id, status) values(1, 1, 1, 1, 1, 1);
 insert into d_station_detail(id, station_id, language, city_title, topic_img, thumb_img, description, business_desc, travel_desc, education_desc, medical_desc, specialty_desc, holiday_desc, culture_desc, food_desc, sport_desc, climate_desc, celebrity_desc, tips_desc, city_info, business_cooperation)

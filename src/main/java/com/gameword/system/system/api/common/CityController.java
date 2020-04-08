@@ -158,4 +158,16 @@ public class CityController {
 
         return ResponseUtil.success();
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/onlineCity", method = RequestMethod.GET)
+    public Result onlineCity(@RequestParam(value = "id") Integer id, @RequestParam(value = "isOnline") Integer isOnline) {
+        CityModel cityModel = new CityModel();
+        cityModel.setId(id);
+        cityModel.setIsOnline(isOnline);
+
+        cityService.updateNotNull(cityModel);
+
+        return ResponseUtil.success();
+    }
 }
