@@ -424,13 +424,13 @@ CREATE TABLE d_sensitive_word(
 DROP TABLE IF EXISTS d_attachment;
 create TABLE `d_attachment` (
    `attachment_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
-   `attachment_name` varchar(128) DEFAULT '' COMMENT '附件名称',
-   `attachment_type` tinyint(1) DEFAULT '0' COMMENT '附件类型:0:图片 1:文档 2:其他',
-   `attachment_suffix` varchar(32) DEFAULT '' COMMENT '附件后缀',
-   `attachment_path` varchar(255) DEFAULT '' COMMENT '附件文件路径',
-   `attachment_url` varchar(255) DEFAULT '' COMMENT '附件文件路径',
-   `attachment_size` bigint(22) DEFAULT '0' COMMENT '附件文件大小',
-   `upload_login_name` varchar(64) DEFAULT '' COMMENT '上传附件用户',
+   `attachment_name` varchar(128) NOT NULL DEFAULT '' COMMENT '附件名称',
+   `attachment_type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '附件类型:0:图片 1:文档 2:其他',
+   `attachment_suffix` varchar(32) NOT NULL DEFAULT '' COMMENT '附件后缀',
+   `attachment_path` varchar(255) NOT NULL DEFAULT '' COMMENT '附件文件路径',
+   `attachment_url` varchar(255) NOT NULL DEFAULT '' COMMENT '附件文件路径',
+   `attachment_size` bigint(22) NOT NULL DEFAULT '0' COMMENT '附件文件大小',
+   `upload_login_name` varchar(64) NOT NULL DEFAULT '' COMMENT '上传附件用户',
    PRIMARY KEY (`attachment_id`),
    KEY `k_user` (`upload_login_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='附件表';
@@ -440,14 +440,50 @@ create TABLE `d_attachment` (
 DROP TABLE IF EXISTS d_verify_code;
 create TABLE `d_verify_code` (
    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
-   `mobile_phone` varchar(20) DEFAULT '' COMMENT '手机号',
-   `email` varchar(100) DEFAULT '' COMMENT '邮箱',
+   `mobile_phone` varchar(20) NOT NULL DEFAULT '' COMMENT '手机号',
+   `email` varchar(100) NOT NULL DEFAULT '' COMMENT '邮箱',
    `content` varchar(200) NOT NULL DEFAULT '' COMMENT '短信内容',
    `verify_code` varchar(10) NOT NULL DEFAULT '' COMMENT '验证码',
    `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='C端验证码表';
 
+-- 帮助表
+DROP TABLE IF EXISTS d_help;
+create TABLE `d_help` (
+   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+   `help_title` varchar(128) DEFAULT '' COMMENT '帮助标题',
+   `help_content` longtext COMMENT '帮助内容',
+   `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
+   `is_del` int(11) NOT NULL DEFAULT '0' COMMENT '是否删除',
+   `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='帮助表';
+
+-- 反馈表
+DROP TABLE IF EXISTS d_feedback;
+create TABLE `d_feedback` (
+   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',
+   `content` text COMMENT '反馈内容',
+   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 0:待处理, 1:已处理',
+   `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='反馈表';
+
+-- 系统版本表
+DROP TABLE IF EXISTS d_system_version;
+create TABLE `d_system_version` (
+   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+   `app_type` varchar(128) NOT NULL DEFAULT '' COMMENT 'APP类型, android、ios',
+   `version` varchar(20) NOT NULL DEFAULT '' COMMENT 'APP版本',
+   `is_forced_update` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否强制更新',
+   `app_url` varchar(512) NOT NULL DEFAULT '' COMMENT 'APP下载URL',
+   `app_path` varchar(512) NOT NULL DEFAULT '' COMMENT 'APP文件地址',
+   `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `u_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统版本表';
 
 insert into d_system_user(id, user_name, password, display_name, contact_phone, user_type, enabled, account_non_locked, account_non_expired, credentials_non_expired) values(1, 'admin', '$2a$10$xEOzVwRIs0UN8/fibgMZ4OwIy90b8S1/iYEppMV7LQJoNCb/Y1xLW', '肖恩', '13717689765', 1, 1, 1, 1, 1);
 insert into d_user_pass_mapping(password, password_encode) values('admin', '$2a$10$xEOzVwRIs0UN8/fibgMZ4OwIy90b8S1/iYEppMV7LQJoNCb/Y1xLW');
