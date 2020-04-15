@@ -485,6 +485,32 @@ create TABLE `d_system_version` (
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统版本表';
 
+DROP TABLE IF EXISTS d_label;
+create TABLE `d_label` (
+   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+   `label_name` varchar(128) NOT NULL DEFAULT '' COMMENT '标签名称',
+   `language` int(11) NOT NULL DEFAULT '0' COMMENT '类型 中文/英文',
+   `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `u_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统标签表';
+
+DROP TABLE IF EXISTS d_company;
+create TABLE `d_company` (
+   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+   `city_id` int(11) NOT NULL DEFAULT '0' COMMENT '城市ID',
+   `company_logo` varchar(256) NOT NULL DEFAULT '' COMMENT '企业logo图片',
+   `cn_name` varchar(128) NOT NULL DEFAULT '' COMMENT '中文名称',
+   `en_name` varchar(128) NOT NULL DEFAULT '' COMMENT '英文名称',
+   `cn_desc` longtext COMMENT '中文简介',
+   `en_desc` longtext COMMENT '英文简介',
+   `cn_label_id` int(11) NOT NULL DEFAULT '0' COMMENT '中文标签',
+   `en_label_id` int(11) NOT NULL DEFAULT '0' COMMENT '英文标签',
+   `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `u_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='企业表';
+
 insert into d_system_user(id, user_name, password, display_name, contact_phone, user_type, enabled, account_non_locked, account_non_expired, credentials_non_expired) values(1, 'admin', '$2a$10$xEOzVwRIs0UN8/fibgMZ4OwIy90b8S1/iYEppMV7LQJoNCb/Y1xLW', '肖恩', '13717689765', 1, 1, 1, 1, 1);
 insert into d_user_pass_mapping(password, password_encode) values('admin', '$2a$10$xEOzVwRIs0UN8/fibgMZ4OwIy90b8S1/iYEppMV7LQJoNCb/Y1xLW');
 
