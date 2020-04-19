@@ -64,6 +64,14 @@ public class FeedbackServiceImpl extends BaseService<FeedbackModel> implements I
 		Example example = new Example(FeedbackModel.class);
 		Example.Criteria criteria = example.createCriteria();
 
+		if(feedbackModel.getUserId() != null) {
+			criteria.andEqualTo("userId", feedbackModel.getUserId());
+		}
+
+		if(feedbackModel.getStatus() != null) {
+			criteria.andEqualTo("status", feedbackModel.getStatus());
+		}
+
 		if(StringUtils.isNotEmpty(feedbackModel.getSortWithOutOrderBy())) {
 			example.setOrderByClause(feedbackModel.getSortWithOutOrderBy());
 		}

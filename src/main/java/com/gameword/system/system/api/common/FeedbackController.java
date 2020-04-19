@@ -85,7 +85,7 @@ public class FeedbackController {
     public Result delete(@RequestParam(value = "id") Integer id) {
         FeedbackModel feedbackModel = new FeedbackModel();
         feedbackModel.setId(id);
-        int updateCnt = feedbackService.updateNotNull(feedbackModel);
+        int updateCnt = feedbackService.delete(feedbackModel);
 
         return ResponseUtil.success();
 
