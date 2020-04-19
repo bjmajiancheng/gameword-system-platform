@@ -26,8 +26,6 @@ import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
-import com.gameword.user.user.dao.*;
-import com.gameword.user.user.service.*;
 
 /**
  * @author  davdian

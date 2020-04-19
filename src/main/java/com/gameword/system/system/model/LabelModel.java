@@ -36,6 +36,9 @@ public class LabelModel extends Sortable {
 	@Column(name = "language")
 	private Integer language;//"类型 中文/英文"
 
+	@Column(name = "is_del")
+	private Integer isDel;//"是否删除"
+
 	@Column(name = "c_time")
 	private Date ctime;//"创建时间"
 
@@ -67,7 +70,15 @@ public class LabelModel extends Sortable {
 	public Integer getLanguage() {
 		return this.language;
 	}
-		
+
+	public Integer getIsDel() {
+		return isDel;
+	}
+
+	public void setIsDel(Integer isDel) {
+		this.isDel = isDel;
+	}
+
 	public void setCtime(Date ctime) {
 		this.ctime = ctime;
 	}

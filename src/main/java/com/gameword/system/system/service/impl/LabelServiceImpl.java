@@ -64,6 +64,14 @@ public class LabelServiceImpl extends BaseService<LabelModel> implements ILabelS
 		Example example = new Example(LabelModel.class);
 		Example.Criteria criteria = example.createCriteria();
 
+		if(labelModel.getLabelName() != null) {
+			criteria.andLike("labelName", "%" + labelModel.getLabelName() + "%");
+		}
+
+		if(labelModel.getIsDel() != null) {
+			criteria.andEqualTo("isDel", labelModel.getIsDel());
+		}
+
 		if(StringUtils.isNotEmpty(labelModel.getSortWithOutOrderBy())) {
 			example.setOrderByClause(labelModel.getSortWithOutOrderBy());
 		}

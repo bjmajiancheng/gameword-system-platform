@@ -12,8 +12,6 @@ import com.gameword.system.system.model.ContactModel;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import java.util.*;
-import com.gameword.user.user.dao.*;
-import com.gameword.user.user.service.*;
 
 /**
  * @author  davdian

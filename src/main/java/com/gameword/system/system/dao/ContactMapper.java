@@ -11,8 +11,6 @@ import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.*;
-import com.gameword.user.user.dao.*;
-import com.gameword.user.user.service.*;
 
 /**
  * @author  davdian

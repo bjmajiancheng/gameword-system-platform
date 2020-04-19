@@ -8,7 +8,8 @@
     <resultMap id="Label" type="com.gameword.system.system.model.LabelModel">
         <result property="id" column="id"/>
         <result property="labelName" column="label_name"/>
-        <result property="language" column="language"/>
+		<result property="language" column="language"/>
+		<result property="isDel" column="is_del"/>
         <result property="ctime" column="c_time"/>
         <result property="utime" column="u_time"/>
     </resultMap>
@@ -16,7 +17,7 @@
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="columns">
 	    <![CDATA[
-        id ,label_name ,language ,c_time ,u_time 
+        id ,label_name ,language , is_del, c_time ,u_time
 	    ]]>
 	</sql>
 
