@@ -72,6 +72,10 @@ public class LabelServiceImpl extends BaseService<LabelModel> implements ILabelS
 			criteria.andEqualTo("isDel", labelModel.getIsDel());
 		}
 
+		if(labelModel.getLanguage() != null) {
+			criteria.andEqualTo("language", labelModel.getLanguage());
+		}
+
 		if(StringUtils.isNotEmpty(labelModel.getSortWithOutOrderBy())) {
 			example.setOrderByClause(labelModel.getSortWithOutOrderBy());
 		}

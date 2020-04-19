@@ -19,6 +19,7 @@ import com.gameword.system.common.utils.ResponseUtil;
 import com.gameword.system.common.utils.Result;
 import com.gameword.system.core.model.UserModel;
 import com.gameword.system.security.utils.SecurityUtil;
+import com.gameword.system.system.model.CityModel;
 import com.gameword.system.system.model.CountryModel;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections.CollectionUtils;
@@ -113,7 +114,22 @@ public class LabelController {
 		int updateCnt = labelService.updateNotNull(labelModel);
 
 		return ResponseUtil.success();
+	}
 
+	@ResponseBody
+	@RequestMapping(value = "/options", method = RequestMethod.GET)
+	public Result options(LabelModel labelModel) {
+		labelModel.setIsDel(0);
+		List<LabelModel> labelModels = labelService.selectByFilter(labelModel);
+
+		List<Option> options = new ArrayList<Option>();
+		if(CollectionUtils.isNotEmpty(labelModels)) {
+			for(LabelModel tmpLabel : labelModels) {
+				options.add(new Option(tmpLabel.getLabelName(), tmpLabel.getId()));
+			}
+		}
+
+		return ResponseUtil.success(options);
 	}
 
 }

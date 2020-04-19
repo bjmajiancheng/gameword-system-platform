@@ -69,4 +69,20 @@ public class CompanyLabelServiceImpl extends BaseService<CompanyLabelModel> impl
 		}
 		return getMapper().selectByExample(example);
 	}
+
+	public int delByCompanyId(Integer companyId) {
+		if(companyId == null || companyId == 0) {
+			return 0;
+		}
+
+		return companyLabelMapper.delByCompanyId(companyId);
+	}
+
+	public List<Integer> getLabelIds(Integer companyId, Integer language) {
+		if(companyId == null || language == null) {
+			return Collections.emptyList();
+		}
+
+		return companyLabelMapper.getLabelIds(companyId, language);
+	}
 }

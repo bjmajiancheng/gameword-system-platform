@@ -32,4 +32,7 @@ public interface ICompanyLabelService extends IBaseService<CompanyLabelModel> {
 
 	public List<CompanyLabelModel> selectByFilter(CompanyLabelModel companyLabelModel);
 
+	public int delByCompanyId(Integer companyId);
+
+	public List<Integer> getLabelIds(Integer companyId, Integer language);
 }

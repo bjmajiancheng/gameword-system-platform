@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.persistence.*;
 
@@ -48,12 +49,6 @@ public class CompanyModel extends Sortable {
 	@Column(name = "en_desc")
 	private String enDesc;//"英文简介"
 
-	@Column(name = "cn_label_id")
-	private Integer cnLabelId;//"中文标签"
-
-	@Column(name = "en_label_id")
-	private Integer enLabelId;//"英文标签"
-
 	@Column(name = "c_time")
 	private Date ctime;//"创建时间"
 
@@ -61,6 +56,18 @@ public class CompanyModel extends Sortable {
 	private Date utime;//"更新时间"
 
 	//columns END
+
+	@Transient
+	private String cityCnName;//城市中文名称
+
+	@Transient
+	private String cityEnName;//城市英文名称
+
+	@Transient
+	private List<Integer> cnLabelIds;
+
+	@Transient
+	private List<Integer> enLabelIds;
 		
 	public void setId(Integer id) {
 		this.id = id;
@@ -118,22 +125,6 @@ public class CompanyModel extends Sortable {
 		return this.enDesc;
 	}
 		
-	public void setCnLabelId(Integer cnLabelId) {
-		this.cnLabelId = cnLabelId;
-	}
-
-	public Integer getCnLabelId() {
-		return this.cnLabelId;
-	}
-		
-	public void setEnLabelId(Integer enLabelId) {
-		this.enLabelId = enLabelId;
-	}
-
-	public Integer getEnLabelId() {
-		return this.enLabelId;
-	}
-		
 	public void setCtime(Date ctime) {
 		this.ctime = ctime;
 	}
@@ -150,5 +141,36 @@ public class CompanyModel extends Sortable {
 		return this.utime;
 	}
 
+	public String getCityCnName() {
+		return cityCnName;
+	}
+
+	public void setCityCnName(String cityCnName) {
+		this.cityCnName = cityCnName;
+	}
+
+	public String getCityEnName() {
+		return cityEnName;
+	}
+
+	public void setCityEnName(String cityEnName) {
+		this.cityEnName = cityEnName;
+	}
+
+	public List<Integer> getCnLabelIds() {
+		return cnLabelIds;
+	}
+
+	public void setCnLabelIds(List<Integer> cnLabelIds) {
+		this.cnLabelIds = cnLabelIds;
+	}
+
+	public List<Integer> getEnLabelIds() {
+		return enLabelIds;
+	}
+
+	public void setEnLabelIds(List<Integer> enLabelIds) {
+		this.enLabelIds = enLabelIds;
+	}
 }
 

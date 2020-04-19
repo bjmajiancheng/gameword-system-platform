@@ -26,4 +26,7 @@ public interface CompanyLabelMapper extends Mapper<CompanyLabelModel> {
 
 	public CompanyLabelModel findById(@Param("id") Integer id);
 
+	public int delByCompanyId(@Param("companyId")Integer companyId);
+
+	public List<Integer> getLabelIds(@Param("companyId")Integer companyId, @Param("language")Integer language);
 }

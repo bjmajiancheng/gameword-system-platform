@@ -37,6 +37,19 @@
 		        id = #{id} 
 	    ]]>
 	</select>
+
+	<delete id="delByCompanyId">
+		DELETE FROM d_company_label WHERE company_id = #{companyId}
+	</delete>
+
+	<select id="getLabelIds" resultType="java.lang.Integer">
+		SELECT
+			cl.label_id
+		FROM d_company_label cl
+		INNER JOIN d_company c ON cl.company_id = c.id
+		INNER JOIN d_label l ON l.id = cl.label_id
+		WHERE cl.company_id = #{companyId} AND l.language = #{language}
+	</select>
 	
 </mapper>
 

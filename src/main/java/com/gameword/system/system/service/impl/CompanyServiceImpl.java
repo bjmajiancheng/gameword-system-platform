@@ -64,6 +64,10 @@ public class CompanyServiceImpl extends BaseService<CompanyModel> implements ICo
 		Example example = new Example(CompanyModel.class);
 		Example.Criteria criteria = example.createCriteria();
 
+		if(companyModel.getCityId() != null) {
+			criteria.andEqualTo("cityId", companyModel.getCityId());
+		}
+
 		if(StringUtils.isNotEmpty(companyModel.getSortWithOutOrderBy())) {
 			example.setOrderByClause(companyModel.getSortWithOutOrderBy());
 		}
