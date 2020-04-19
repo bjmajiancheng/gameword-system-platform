@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.gameword.system.system.model.AdvertisementModel;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import com.gameword.system.system.service.*;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -116,9 +117,9 @@ public class AdvertisementController {
 
 			model.setStatus(1);
 			model.setUserId(SecurityUtil.getCurrentUserId());
-//			model.setUpdateUserId(SecurityUtil.getCurrentUserId());
 
-			int stationId = advertisementService.saveNotNull(model);
+
+			int addCnt = advertisementService.saveNotNull(model);
 
 			return ResponseUtil.success();
 
@@ -138,9 +139,7 @@ public class AdvertisementController {
 	@ResponseBody
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public Result update(AdvertisementModel model) {
-
-//		model.setUpdateUserId(SecurityUtil.getCurrentUserId());
-//		int updateCnt = advertisementService.updateNotNull(model);
+		int updateCnt = advertisementService.updateNotNull(model);
 
 		return ResponseUtil.success();
 	}
@@ -176,12 +175,10 @@ public class AdvertisementController {
 	public Result delete(@RequestParam(value="id") Integer id) {
 		AdvertisementModel model = new AdvertisementModel();
 
-		model
-
-				.setId(id);
+		model.setId(id);
 //		model.setIsDel(1);
 //		model.setUpdateUserId(SecurityUtil.getCurrentUserId());
-		int updateCnt = advertisementService.updateNotNull(model);
+		int delCnt = advertisementService.delete(model);
 
 		return ResponseUtil.success();
 	}
