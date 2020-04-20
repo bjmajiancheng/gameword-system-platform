@@ -64,6 +64,14 @@ public class AdvertisementServiceImpl extends BaseService<AdvertisementModel> im
 		Example example = new Example(AdvertisementModel.class);
 		Example.Criteria criteria = example.createCriteria();
 
+		if(advertisementModel.getPlatform() != null) {
+			criteria.andEqualTo("platform", advertisementModel.getPlatform());
+		}
+
+		if(advertisementModel.getId() != null) {
+			criteria.andEqualTo("id", advertisementModel.getId());
+		}
+
 		if(StringUtils.isNotEmpty(advertisementModel.getSortWithOutOrderBy())) {
 			example.setOrderByClause(advertisementModel.getSortWithOutOrderBy());
 		}
