@@ -71,7 +71,7 @@ CREATE TABLE d_user(
    `sex` int(11) NOT NULL DEFAULT '0' COMMENT '性别',
    `nick_name` varchar(100) NOT NULL DEFAULT '' COMMENT '昵称',
    `agency_name` varchar(100) NOT NULL DEFAULT '' COMMENT '机构/学校名称',
-   `description` varchar(100) NOT NULL DEFAULT '' COMMENT '个人简介（一段文字）',
+   `user_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '个人简介（一段文字）',
    `head_image` varchar(256) NOT NULL DEFAULT '' COMMENT '头像（照片）',
    `invite_code` varchar(100) NOT NULL DEFAULT '' COMMENT '邀请码',
    `cn_balance` decimal(12, 2) NOT NULL DEFAULT '0.0' COMMENT '人民币余额',
@@ -518,6 +518,20 @@ create TABLE `d_company_label` (
    `label_id` int(11) NOT NULL DEFAULT '0' COMMENT '标签ID',
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='企业标签关联表';
+
+DROP TABLE IF EXISTS d_message;
+CREATE TABLE `d_message` (
+   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+   `message_name` varchar(20) NOT NULL DEFAULT '' COMMENT '消息名称',
+   `message_content` varchar(500) NOT NULL DEFAULT '' COMMENT '消息内容',
+   `message_type` smallint(1) NOT NULL DEFAULT '0' COMMENT '消息类型（1：活动与邀请，2：通知）',
+   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT 'C端用户ID',
+   `message_url` varchar(200) NOT NULL DEFAULT '' COMMENT '消息点击链接',
+   `is_read` smallint(1) NOT NULL DEFAULT '0' COMMENT '是否已读（0：未读，1：已读）',
+   `is_agree` smallint(1) NOT NULL DEFAULT '0' COMMENT '是否同意（0：默认，1：同意，2：不同意）',
+   `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='消息记录';
 
 insert into d_system_user(id, user_name, password, display_name, contact_phone, user_type, enabled, account_non_locked, account_non_expired, credentials_non_expired) values(1, 'admin', '$2a$10$xEOzVwRIs0UN8/fibgMZ4OwIy90b8S1/iYEppMV7LQJoNCb/Y1xLW', '肖恩', '13717689765', 1, 1, 1, 1, 1);
 insert into d_user_pass_mapping(password, password_encode) values('admin', '$2a$10$xEOzVwRIs0UN8/fibgMZ4OwIy90b8S1/iYEppMV7LQJoNCb/Y1xLW');
