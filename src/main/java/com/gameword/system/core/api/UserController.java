@@ -10,7 +10,11 @@ import com.gameword.system.security.security.SystemUserCache;
 import com.gameword.system.security.service.IRoleService;
 import com.gameword.system.security.service.IUserService;
 import com.gameword.system.security.utils.SecurityUtil;
+import com.gameword.system.system.model.CityModel;
+import com.gameword.system.system.model.CountryModel;
 import com.gameword.system.system.model.UserPassMappingModel;
+import com.gameword.system.system.service.ICityService;
+import com.gameword.system.system.service.ICountryService;
 import com.gameword.system.system.service.ISystemUserRoleService;
 import com.gameword.system.system.service.IUserPassMappingService;
 import com.github.pagehelper.PageInfo;
@@ -21,10 +25,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by majiancheng on 2019/9/30.
@@ -48,6 +49,12 @@ public class UserController {
     @Autowired
     private IUserPassMappingService userPassMappingService;
 
+    @Autowired
+    private ICountryService countryService;
+
+    @Autowired
+    private ICityService cityService;
+
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Map list(UserModel userModel,
@@ -57,25 +64,47 @@ public class UserController {
         PageInfo<UserModel> pageInfo = userService.selectByFilterAndPage(userModel, pageNum, pageSize);
         if(CollectionUtils.isNotEmpty(pageInfo.getList())) {
             List<Integer> userIds = new ArrayList<Integer>(pageInfo.getList().size());
+            List<Integer> countryIds = new ArrayList<Integer>();
+            List<Integer> cityIds = new ArrayList<>();
             for(UserModel tmpUserModel : pageInfo.getList()) {
                 userIds.add(tmpUserModel.getId());
+                countryIds.add(tmpUserModel.getCountryId());
+                cityIds.add(tmpUserModel.getCityId());
             }
 
-            Map<Integer, List<UserRoleModel>> userRoleModelMap = roleService.findUserRoles(userIds);
+            //集中查询数据库
+            Map<Integer, CountryModel> countryModelMap = countryService.findMapByIds(countryIds);
+            Map<Integer, CityModel> cityModelMap = cityService.findMapByIds(cityIds);
+
             for(UserModel tmpUserModel : pageInfo.getList()) {
-                List<UserRoleModel> userRoleModels = userRoleModelMap.get(tmpUserModel.getId());
-                StringBuffer sb = new StringBuffer();
-                if(CollectionUtils.isNotEmpty(userRoleModels)) {
-                    for(UserRoleModel userRoleModel : userRoleModels) {
-                        if(sb.length() > 0) {
-                            sb.append("、");
-                        }
-                        sb.append(userRoleModel.getRoleName());
-                    }
-                }
+                CountryModel tmpCountryModel = countryModelMap.get(tmpUserModel.getCountryId());
+                if(tmpCountryModel != null)
+                    tmpUserModel.setCountryName(tmpCountryModel.getCountryCnName());
+                else
+                    tmpUserModel.setCountryName("未知");
 
-                tmpUserModel.setRoleName(sb.toString());
+                CityModel tmpCityModel = cityModelMap.get(tmpUserModel.getCityId());
+                if(tmpCityModel != null)
+                    tmpUserModel.setCityName(tmpCityModel.getCityCn());
+                else
+                    tmpUserModel.setCityName("未知");
             }
+
+//            Map<Integer, List<UserRoleModel>> userRoleModelMap = roleService.findUserRoles(userIds);
+//            for(UserModel tmpUserModel : pageInfo.getList()) {
+//                List<UserRoleModel> userRoleModels = userRoleModelMap.get(tmpUserModel.getId());
+//                StringBuffer sb = new StringBuffer();
+//                if(CollectionUtils.isNotEmpty(userRoleModels)) {
+//                    for(UserRoleModel userRoleModel : userRoleModels) {
+//                        if(sb.length() > 0) {
+//                            sb.append("、");
+//                        }
+//                        sb.append(userRoleModel.getRoleName());
+//                    }
+//                }
+//
+//                tmpUserModel.setRoleName(sb.toString());
+//            }
         }
 
 
@@ -112,7 +141,7 @@ public class UserController {
                 }
             }
             userModel.setRoleIds(roleIds);
-            userModel.setRoleName(sb.toString());
+            //userModel.setRoleName(sb.toString());
         }
 
         return ResponseUtil.success(userModel);
@@ -120,7 +149,7 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value="/updateUserEnabled", method = RequestMethod.GET)
-    public Result updateUserEnabled(@RequestParam("userId") int userId, @RequestParam("enabled") int enabled) {
+    public Result updateUserEnabled(@RequestParam("userId") int userId, @RequestParam("enabled") boolean enabled) {
         UserModel userModel = new UserModel();
         userModel.setId(userId);
         userModel.setEnabled(enabled);

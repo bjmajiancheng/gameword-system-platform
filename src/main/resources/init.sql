@@ -527,6 +527,7 @@ insert into d_system_function(id, parent_id, function_name, display, status, act
 insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(2, 1, '用户管理', 1, 1, 'dvd/system/user.html', 2);
 insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(3, 1, '角色管理', 1, 1, 'dvd/system/role.html', 3);
 insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(4, 1, '菜单管理', 1, 1, 'dvd/system/function.html', 4);
+insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(5, 1, '前端用户管理', 1, 1, 'dvd/system/frontUser.html', 5);
 
 insert into d_system_function(id, parent_id, function_name, display, status, action, icon, sort) values(5, 0, '通用管理', 1, 1, '#', 'fa-sitemap',5);
 insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(6, 5, '国家管理', 1, 1, 'dvd/common/country.html', 6);
