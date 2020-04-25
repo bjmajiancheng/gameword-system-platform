@@ -28,13 +28,13 @@ public class SecurityUser extends User {
 
     public SecurityUser(UserModel user,
             Collection<GrantedAuthority> userGrantedAuthorities) {
-        super(user.getUserName(), user.getPassword(), user.getEnabled() == 1, user.getAccountNonExpired(),
+        super(user.getUserName(), user.getPassword(), user.getEnabled() == true, user.getAccountNonExpired(),
                 user.getCredentialsNonExpired(), user.getAccountNonLocked(), userGrantedAuthorities);
         if (user != null) {
             setId(user.getId());
             setUserName(user.getUserName());
-            setDisplayName(user.getDisplayName());
-            setContactPhone(user.getContactPhone());
+            setDisplayName(user.getUserName());
+            setContactPhone(user.getMobilePhone());
             setLastPasswordReset(user.getLastPasswordReset());
         }
     }

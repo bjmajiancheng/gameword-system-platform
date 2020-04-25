@@ -72,7 +72,7 @@ public class AdvertisementController {
 				 pageInfo.getList()) {
 				UserModel userModel = userMap.get(model.getUserId());
 				if(userModel != null){
-					model.setCreateUserName(userModel.getDisplayName());
+					model.setCreateUserName(userModel.getUserName());
 				}
 			}
 		}
