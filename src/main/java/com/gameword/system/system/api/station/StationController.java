@@ -81,12 +81,12 @@ public class StationController {
             for(StationModel tmpStation : pageInfo.getList()) {
                 UserModel createUser = userMap.get(tmpStation.getCreateUserId());
                 if(createUser != null) {
-                    tmpStation.setCreateUserName(createUser.getDisplayName());
+                    tmpStation.setCreateUserName(createUser.getUserName());
                 }
 
                 UserModel updateUser = userMap.get(tmpStation.getUpdateUserId());
                 if(updateUser != null) {
-                    tmpStation.setUpdateUserName(updateUser.getDisplayName());
+                    tmpStation.setUpdateUserName(updateUser.getUserName());
                 }
 
                 CountryModel countryModel = countryMap.get(tmpStation.getCountryId());

@@ -55,11 +55,11 @@ public class CountryController {
             for(CountryModel tmpCountry : pageInfo.getList()) {
                 UserModel createUser = userMap.get(tmpCountry.getCreateUserId());
                 if(createUser != null) {
-                    tmpCountry.setCreateUserName(createUser.getDisplayName());
+                    tmpCountry.setCreateUserName(createUser.getUserName());
                 }
                 UserModel updateUser = userMap.get(tmpCountry.getUpdateUserId());
                 if(updateUser != null) {
-                    tmpCountry.setUpdateUserName(updateUser.getDisplayName());
+                    tmpCountry.setUpdateUserName(updateUser.getUserName());
                 }
             }
         }

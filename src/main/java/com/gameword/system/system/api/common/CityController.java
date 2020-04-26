@@ -72,11 +72,11 @@ public class CityController {
                 }
                 UserModel createUser = userMap.get(tmpCityModel.getCreateUserId());
                 if(createUser != null) {
-                    tmpCityModel.setCreateUserName(createUser.getDisplayName());
+                    tmpCityModel.setCreateUserName(createUser.getUserName());
                 }
                 UserModel updateUser = userMap.get(tmpCityModel.getUpdateUserId());
                 if(updateUser != null) {
-                    tmpCityModel.setUpdateUserName(updateUser.getDisplayName());
+                    tmpCityModel.setUpdateUserName(updateUser.getUserName());
                 }
             }
         }
