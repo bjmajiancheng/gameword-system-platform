@@ -77,6 +77,7 @@ CREATE TABLE d_user(
    `cn_balance` decimal(12, 2) NOT NULL DEFAULT '0.0' COMMENT '人民币余额',
    `en_balance` decimal(12, 2) NOT NULL DEFAULT '0.0' COMMENT '美元余额',
    `register_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT'注册时间',
+   `rongyun_token` varchar(256) NOT NULL DEFAULT '' COMMENT '融云Token',
    `status` int(11) NOT NULL DEFAULT '0' COMMENT '状态 0：正常，1：禁用',
    `enabled` smallint(1) NOT NULL DEFAULT '1' COMMENT '状态，0=冻结，1=正常',
    `last_login_ip` varchar(20) NOT NULL DEFAULT '' COMMENT '最后登录IP',
