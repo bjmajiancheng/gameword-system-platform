@@ -149,7 +149,7 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value="/updateUserEnabled", method = RequestMethod.GET)
-    public Result updateUserEnabled(@RequestParam("userId") int userId, @RequestParam("enabled") boolean enabled) {
+    public Result updateUserEnabled(@RequestParam("userId") int userId, @RequestParam("enabled") Integer enabled) {
         UserModel userModel = new UserModel();
         userModel.setId(userId);
         userModel.setEnabled(enabled);

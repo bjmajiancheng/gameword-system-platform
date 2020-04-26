@@ -116,6 +116,12 @@ public class UserModel extends Sortable {
 	@Transient
 	private String confirmPassword;//确认密码
 
+	@Transient
+	private String countryName;
+
+	@Transient
+	private String cityName;
+
 	public Integer getId() {
 		return id;
 	}
@@ -346,6 +352,22 @@ public class UserModel extends Sortable {
 
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
+	}
+
+	public void setCountryName(String countryName) {
+		this.countryName = countryName;
+	}
+
+	public String getCountryName() {
+		return countryName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+
+	public String getCityName() {
+		return cityName;
 	}
 }
 
