@@ -13,7 +13,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -31,68 +30,53 @@ public class UserModel extends Sortable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;//"主键"
 
-	@Column(name = "user_type")
-	private Integer userType;//"用户类型；0：学生，1：商务会员"
-
 	@Column(name = "user_name")
-	private String userName;//"用户名"
+	private String userName;//"姓名"
 
-	@Column(name = "mobile_phone")
-	private String mobilePhone;//"手机号"
+	@Column(name = "display_name")
+	private String displayName;//"昵称"
 
-	@Column(name = "email")
-	private String email;//"email"
+	@Column(name = "head_image")
+	private String headImage;//"用户头像"
 
-	@Column(name = "password")
-	private String password;//"密码"
+	@Column(name = "contact_phone")
+	private String contactPhone;//"手机号"
+
+	@Column(name = "sex")
+	private Integer sex;//"性别"
+
+	@Column(name = "age")
+	private Integer age;//"年龄"
 
 	@Column(name = "country_id")
 	private Integer countryId;//"国籍"
 
 	@Column(name = "city_id")
-	private Integer cityId;//"所在城市"
+	private Integer cityId;//"城市"
 
-	@Column(name = "last_name")
-	private String lastName;//"姓"
+	@Column(name = "angency_cn_name")
+	private String angencyCnName;//"中文机构名称"
 
-	@Column(name = "first_name")
-	private String firstName;//"名"
+	@Column(name = "angency_en_name")
+	private String angencyEnName;//"英文机构名称"
 
-	@Column(name = "birthday")
-	private String birthday;//"出生日期"
-
-	@Column(name = "sex")
-	private Integer sex;//"性别"
-
-	@Column(name = "nick_name")
-	private String nickName;//"昵称"
-
-	@Column(name = "agency_name")
-	private String agencyName;//"机构/学校名称"
-
-	@Column(name = "user_desc")
-	private String userDesc;//"个人简介（一段文字）"
-
-	@Column(name = "head_image")
-	private String headImage;//"头像（照片）"
-
-	@Column(name = "invite_code")
-	private String inviteCode;//"邀请码"
-
-	@Column(name = "cn_balance")
-	private BigDecimal cnBalance;//"人民币余额"
-
-	@Column(name = "en_balance")
-	private BigDecimal enBalance;//"美元余额"
+	@Column(name = "language")
+	private Integer language;//"语种（中文/英文/中英双语）"
 
 	@Column(name = "register_time")
-	private Date registerTime;//"注册时间"
+	private java.util.Date registerTime;//"注册时间"
 
-	@Column(name = "status")
-	private Integer status;//"状态 0：正常，1：禁用"
+	@Column(name = "user_type")
+	private Integer userType;//"角色（全部/管理员/供应商/教师）"
+
+	@Column(name = "password")
+	private String password;//"密码"
+
+	@Column(name = "is_online")
+	private Integer isOnline;//"是否在线"
 
 	@Column(name = "enabled")
-	private Boolean enabled;//"状态，0=冻结，1=正常"
+	private Integer enabled;//"状态，0=冻结，1=正常"
 
 	@Column(name = "last_login_ip")
 	private String lastLoginIp;//"最后登录IP"
@@ -101,13 +85,13 @@ public class UserModel extends Sortable {
 	private Date lastLoginTime;//"最后登录时间"
 
 	@Column(name = "account_non_locked")
-	private Boolean accountNonLocked;//"未锁定状态，1=正常，0=锁定"
+	private boolean accountNonLocked;//"未锁定状态，0=正常，1=锁定"
 
 	@Column(name = "account_non_expired")
-	private Boolean accountNonExpired;//"账号过期状态，1=正常，0=过期"
+	private boolean accountNonExpired;//"账号过期状态，1=正常，0=过期"
 
 	@Column(name = "credentials_non_expired")
-	private Boolean credentialsNonExpired;//"密码失效状态：1：未失效 0：已失效"
+	private boolean credentialsNonExpired;//"密码失效状态：1：未失效 0：已失效"
 
 	@Column(name = "last_password_reset")
 	private Date lastPasswordReset;//"上次密码重置时间"
@@ -117,22 +101,11 @@ public class UserModel extends Sortable {
 
 	@Column(name = "u_time")
 	private Date utime;//"更新时间"
+
 	//columns END
 
 	@Transient
-	private String token;
-
-	@Transient
-	private String verifyCode;
-
-	@Transient
-	private String queryStr;
-
-	@Transient
-	private List<Integer> userIds;
-
-	@Transient
-	private Integer hasPay = 1;//本月是否已支付 0：未支付，1：已支付
+	private String roleName;
 
 	@Transient
 	private List<Integer> roleIds;//"角色Ids"
@@ -143,26 +116,12 @@ public class UserModel extends Sortable {
 	@Transient
 	private String confirmPassword;//确认密码
 
-	@Transient
-	private String countryName;//国籍名称
-
-	@Transient
-	private String cityName;//城市名称
+	public Integer getId() {
+		return id;
+	}
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getId() {
-		return this.id;
-	}
-
-	public void setUserType(Integer userType) {
-		this.userType = userType;
-	}
-
-	public Integer getUserType() {
-		return this.userType;
 	}
 
 	public String getUserName() {
@@ -173,260 +132,196 @@ public class UserModel extends Sortable {
 		this.userName = userName;
 	}
 
-	public void setMobilePhone(String mobilePhone) {
-		this.mobilePhone = mobilePhone;
+	public String getDisplayName() {
+		return displayName;
 	}
 
-	public String getMobilePhone() {
-		return this.mobilePhone;
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getEmail() {
-		return this.email;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setCountryId(Integer countryId) {
-		this.countryId = countryId;
-	}
-
-	public Integer getCountryId() {
-		return this.countryId;
-	}
-
-	public void setCityId(Integer cityId) {
-		this.cityId = cityId;
-	}
-
-	public Integer getCityId() {
-		return this.cityId;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getLastName() {
-		return this.lastName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getFirstName() {
-		return this.firstName;
-	}
-
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
-	}
-
-	public String getBirthday() {
-		return this.birthday;
-	}
-
-	public void setSex(Integer sex) {
-		this.sex = sex;
-	}
-
-	public Integer getSex() {
-		return this.sex;
-	}
-
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
-	}
-
-	public String getNickName() {
-		return this.nickName;
-	}
-
-	public void setAgencyName(String agencyName) {
-		this.agencyName = agencyName;
-	}
-
-	public String getAgencyName() {
-		return this.agencyName;
-	}
-
-	public void setUserDesc(String userDesc) {
-		this.userDesc = userDesc;
-	}
-
-	public String getUserDesc() {
-		return this.userDesc;
+	public String getHeadImage() {
+		return headImage;
 	}
 
 	public void setHeadImage(String headImage) {
 		this.headImage = headImage;
 	}
 
-	public String getHeadImage() {
-		return this.headImage;
+	public String getContactPhone() {
+		return contactPhone;
 	}
 
-	public void setInviteCode(String inviteCode) {
-		this.inviteCode = inviteCode;
+	public void setContactPhone(String contactPhone) {
+		this.contactPhone = contactPhone;
 	}
 
-	public String getInviteCode() {
-		return this.inviteCode;
+	public Integer getSex() {
+		return sex;
 	}
 
-	public BigDecimal getCnBalance() {
-		return cnBalance;
+	public void setSex(Integer sex) {
+		this.sex = sex;
 	}
 
-	public void setCnBalance(BigDecimal cnBalance) {
-		this.cnBalance = cnBalance;
+	public Integer getAge() {
+		return age;
 	}
 
-	public BigDecimal getEnBalance() {
-		return enBalance;
+	public void setAge(Integer age) {
+		this.age = age;
 	}
 
-	public void setEnBalance(BigDecimal enBalance) {
-		this.enBalance = enBalance;
+	public Integer getCountryId() {
+		return countryId;
+	}
+
+	public void setCountryId(Integer countryId) {
+		this.countryId = countryId;
+	}
+
+	public Integer getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(Integer cityId) {
+		this.cityId = cityId;
+	}
+
+	public String getAngencyCnName() {
+		return angencyCnName;
+	}
+
+	public void setAngencyCnName(String angencyCnName) {
+		this.angencyCnName = angencyCnName;
+	}
+
+	public String getAngencyEnName() {
+		return angencyEnName;
+	}
+
+	public void setAngencyEnName(String angencyEnName) {
+		this.angencyEnName = angencyEnName;
+	}
+
+	public Integer getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(Integer language) {
+		this.language = language;
+	}
+
+	public Date getRegisterTime() {
+		return registerTime;
 	}
 
 	public void setRegisterTime(Date registerTime) {
 		this.registerTime = registerTime;
 	}
 
-	public Date getRegisterTime() {
-		return this.registerTime;
+	public Integer getUserType() {
+		return userType;
 	}
 
-	public void setStatus(Integer status) {
-		this.status = status;
+	public void setUserType(Integer userType) {
+		this.userType = userType;
 	}
 
-	public Integer getStatus() {
-		return this.status;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setEnabled(Boolean enabled) {
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Integer getIsOnline() {
+		return isOnline;
+	}
+
+	public void setIsOnline(Integer isOnline) {
+		this.isOnline = isOnline;
+	}
+
+	public Integer getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Integer enabled) {
 		this.enabled = enabled;
 	}
 
-	public Boolean getEnabled() {
-		return this.enabled;
+	public String getLastLoginIp() {
+		return lastLoginIp;
 	}
 
 	public void setLastLoginIp(String lastLoginIp) {
 		this.lastLoginIp = lastLoginIp;
 	}
 
-	public String getLastLoginIp() {
-		return this.lastLoginIp;
+	public Date getLastLoginTime() {
+		return lastLoginTime;
 	}
 
 	public void setLastLoginTime(Date lastLoginTime) {
 		this.lastLoginTime = lastLoginTime;
 	}
 
-	public Date getLastLoginTime() {
-		return this.lastLoginTime;
+	public boolean getAccountNonLocked() {
+		return accountNonLocked;
 	}
 
-	public void setAccountNonLocked(Boolean accountNonLocked) {
+	public void setAccountNonLocked(boolean accountNonLocked) {
 		this.accountNonLocked = accountNonLocked;
 	}
 
-	public Boolean getAccountNonLocked() {
-		return this.accountNonLocked;
+	public boolean getAccountNonExpired() {
+		return accountNonExpired;
 	}
 
-	public void setAccountNonExpired(Boolean accountNonExpired) {
+	public void setAccountNonExpired(boolean accountNonExpired) {
 		this.accountNonExpired = accountNonExpired;
 	}
 
-	public Boolean getAccountNonExpired() {
-		return this.accountNonExpired;
+	public boolean getCredentialsNonExpired() {
+		return credentialsNonExpired;
 	}
 
-	public void setCredentialsNonExpired(Boolean credentialsNonExpired) {
+	public void setCredentialsNonExpired(boolean credentialsNonExpired) {
 		this.credentialsNonExpired = credentialsNonExpired;
 	}
 
-	public Boolean getCredentialsNonExpired() {
-		return this.credentialsNonExpired;
+	public Date getLastPasswordReset() {
+		return lastPasswordReset;
 	}
 
 	public void setLastPasswordReset(Date lastPasswordReset) {
 		this.lastPasswordReset = lastPasswordReset;
 	}
 
-	public Date getLastPasswordReset() {
-		return this.lastPasswordReset;
+	public Date getCtime() {
+		return ctime;
 	}
 
 	public void setCtime(Date ctime) {
 		this.ctime = ctime;
 	}
 
-	public Date getCtime() {
-		return this.ctime;
+	public Date getUtime() {
+		return utime;
 	}
 
 	public void setUtime(Date utime) {
 		this.utime = utime;
 	}
 
-	public Date getUtime() {
-		return this.utime;
+	public String getRoleName() {
+		return roleName;
 	}
 
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public String getVerifyCode() {
-		return verifyCode;
-	}
-
-	public void setVerifyCode(String verifyCode) {
-		this.verifyCode = verifyCode;
-	}
-
-	public String getQueryStr() {
-		return queryStr;
-	}
-
-	public void setQueryStr(String queryStr) {
-		this.queryStr = queryStr;
-	}
-
-	public List<Integer> getUserIds() {
-		return userIds;
-	}
-
-	public void setUserIds(List<Integer> userIds) {
-		this.userIds = userIds;
-	}
-
-	public Integer getHasPay() {
-		return hasPay;
-	}
-
-	public void setHasPay(Integer hasPay) {
-		this.hasPay = hasPay;
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 
 	public List<Integer> getRoleIds() {
@@ -451,23 +346,6 @@ public class UserModel extends Sortable {
 
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
-	}
-
-
-	public String getCountryName() {
-		return countryName;
-	}
-
-	public void setCountryName(String countryName) {
-		this.countryName = countryName;
-	}
-
-	public String getCityName() {
-		return cityName;
-	}
-
-	public void setCityName(String cityName) {
-		this.cityName = cityName;
 	}
 }
 

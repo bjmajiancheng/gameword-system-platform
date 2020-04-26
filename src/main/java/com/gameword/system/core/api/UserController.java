@@ -141,7 +141,7 @@ public class UserController {
                 }
             }
             userModel.setRoleIds(roleIds);
-            //userModel.setRoleName(sb.toString());
+            userModel.setRoleName(sb.toString());
         }
 
         return ResponseUtil.success(userModel);
