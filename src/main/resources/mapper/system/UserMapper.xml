@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gameword.system.system.dao.AppUserMapper">
+
+    <resultMap id="User" type="com.gameword.system.system.model.UserModel">
+        <result property="id" column="id"/>
+        <result property="userType" column="user_type"/>
+        <result property="userName" column="user_name"/>
+        <result property="mobilePhone" column="mobile_phone"/>
+        <result property="email" column="email"/>
+        <result property="password" column="password"/>
+        <result property="countryId" column="country_id"/>
+        <result property="cityId" column="city_id"/>
+        <result property="lastName" column="last_name"/>
+        <result property="firstName" column="first_name"/>
+        <result property="birthday" column="birthday"/>
+        <result property="sex" column="sex"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="agencyName" column="agency_name"/>
+        <result property="description" column="description"/>
+        <result property="headImage" column="head_image"/>
+        <result property="inviteCode" column="invite_code"/>
+        <result property="cnBalance" column="cn_balance"/>
+        <result property="enBalance" column="en_balance"/>
+        <result property="registerTime" column="register_time"/>
+        <result property="status" column="status"/>
+        <result property="enabled" column="enabled"/>
+        <result property="lastLoginIp" column="last_login_ip"/>
+        <result property="lastLoginTime" column="last_login_time"/>
+        <result property="accountNonLocked" column="account_non_locked"/>
+        <result property="accountNonExpired" column="account_non_expired"/>
+        <result property="credentialsNonExpired" column="credentials_non_expired"/>
+        <result property="lastPasswordReset" column="last_password_reset"/>
+        <result property="ctime" column="c_time"/>
+        <result property="utime" column="u_time"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        id ,user_type ,user_name ,mobile_phone ,email ,password ,country_id ,city_id ,last_name ,first_name ,birthday ,sex ,nick_name ,agency_name ,description ,head_image ,invite_code ,cn_balance ,en_balance ,register_time ,status ,enabled ,last_login_ip ,last_login_time ,account_non_locked ,account_non_expired ,credentials_non_expired ,last_password_reset ,c_time ,u_time 
+	    ]]>
+	</sql>
+
+	<sql id="findWhere">
+	    <where>
+			<if test="userName != null">
+				AND user_name = #{userName}
+			</if>
+			<if test="mobilePhone != null">
+				AND mobile_phone = #{mobilePhone}
+			</if>
+			<if test="email != null">
+				AND email = #{email}
+			</if>
+			<if test="password != null">
+				AND password = #{password}
+			</if>
+			<if test="lastName != null">
+				AND last_name = #{lastName}
+			</if>
+			<if test="firstName != null">
+				AND first_name = #{firstName}
+			</if>
+			<if test="birthday != null">
+				AND birthday = #{birthday}
+			</if>
+			<if test="nickName != null">
+				AND nick_name = #{nickName}
+			</if>
+			<if test="agencyName != null">
+				AND agency_name = #{agencyName}
+			</if>
+			<if test="description != null">
+				AND description = #{description}
+			</if>
+			<if test="headImage != null">
+				AND head_image = #{headImage}
+			</if>
+			<if test="inviteCode != null">
+				AND invite_code = #{inviteCode}
+			</if>
+			<if test="lastLoginIp != null">
+				AND last_login_ip = #{lastLoginIp}
+			</if>
+	    </where>
+	</sql>
+
+	
+	<select id="find" resultMap="User">
+	    SELECT <include refid="columns"/> FROM d_user 
+		<include refid="findWhere"/>
+    </select>
+
+	<select id="findById" resultMap="User" >
+	SELECT <include refid="columns"/>
+	<![CDATA[
+	        FROM d_user
+	        WHERE
+		        id = #{id} 
+	    ]]>
+	</select>
+	
+</mapper>
+
