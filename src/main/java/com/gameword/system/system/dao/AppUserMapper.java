@@ -29,7 +29,7 @@ public interface AppUserMapper extends Mapper<UserModel> {
 
 	UserModel findUserByLoginName(@Param("loginName") String loginName);
 
-	List<Integer> findUserRoleByUserId(@Param("userId")int userId);
+	List<Integer> findUserRoleByUserId(@Param("id")int id);
 
 	/**
 	 * 根据登录名获取用户权限信息
@@ -42,14 +42,14 @@ public interface AppUserMapper extends Mapper<UserModel> {
 	/**
 	 * 根据用户ID获取登录名
 	 *
-	 * @param userId
+	 * @param id
 	 * @return
 	 */
-	public String findLoginNameByUserId(@Param("userId")Integer userId);
+	public String findLoginNameByUserId(@Param("id")Integer id);
 
 	int updateLastLoginInfoByUserName(@Param("userName") String username, @Param("lastLoginDate") Date lastLoginDate,
 									  @Param("remoteAddr") String remoteAddr);
 
-	public UserModel findUserByUserId(@Param("userId")int userId);
+	public UserModel findUserByUserId(@Param("id")int id);
 
 }

@@ -63,8 +63,8 @@ public class UserServiceImpl extends BaseService<UserModel> implements IUserServ
 	}
 
 	@Override
-	public List<Integer> findUserRoleByUserId(int userId) {
-		return appUserMapper.findUserRoleByUserId(userId);
+	public List<Integer> findUserRoleByUserId(int id) {
+		return appUserMapper.findUserRoleByUserId(id);
 	}
 
 	/**
@@ -80,11 +80,11 @@ public class UserServiceImpl extends BaseService<UserModel> implements IUserServ
 	/**
 	 * 根据用户ID获取登录名
 	 *
-	 * @param userId
+	 * @param id
 	 * @return
 	 */
-	public String findLoginNameByUserId(Integer userId) {
-		return appUserMapper.findLoginNameByUserId(userId);
+	public String findLoginNameByUserId(Integer id) {
+		return appUserMapper.findLoginNameByUserId(id);
 	}
 
 	public void updateLastLoginInfoByUserName(String username, Date date, String remoteAddr) {
@@ -117,16 +117,16 @@ public class UserServiceImpl extends BaseService<UserModel> implements IUserServ
 	}
 
 	@Override
-	public UserModel findUserByUserId(int userId) {
-		UserModel userModel = appUserMapper.findUserByUserId(userId);
+	public UserModel findUserByUserId(int id) {
+		UserModel userModel = appUserMapper.findUserByUserId(id);
 		/*userModel.setPassword("");*/
 		return userModel;
 	}
 
 
 	@Override
-	public List<UserModel> selectUserRoleByUserId(int userId) {
-		return appUserMapper.find(Collections.singletonMap("userId", userId));
+	public List<UserModel> selectUserRoleByUserId(int id) {
+		return appUserMapper.find(Collections.singletonMap("id", id));
 	}
 
 	@Override

@@ -7,11 +7,7 @@
 
 package com.gameword.system.system.api;
 
-import java.util.HashMap;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.gameword.system.common.utils.PageConvertUtil;
 import com.gameword.system.common.utils.ResponseUtil;
@@ -34,7 +30,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.*;
-import com.gameword.system.system.dao.*;
+
 import com.gameword.system.system.service.*;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -129,49 +125,24 @@ public class UserController {
 
 	@ResponseBody
 	@RequestMapping(value="/getUser", method = RequestMethod.GET)
-	public Result getUser(@RequestParam("userId") int userId) {
-		UserModel userModel = userService.findUserByUserId(userId);
-		List<UserModel> userRoleModels = userService.selectUserRoleByUserId(userId);
+	public Result getUser(@RequestParam("id") int id) {
+		UserModel userModel = userService.findById(id);
 
-		if(StringUtils.isNotEmpty(userModel.getPassword())) {
-			UserPassMappingModel passMapping = userPassMappingService.findByPasswordEncode(userModel.getPassword());
-			if(passMapping != null) {
-				userModel.setPassword(passMapping.getPassword());
-			} else {
-				userModel.setPassword("");
-			}
-		}
-
-		if(CollectionUtils.isNotEmpty(userRoleModels)) {
-			List<Integer> roleIds = new ArrayList<Integer>();
-			StringBuffer sb = new StringBuffer();
-			for(UserModel userRoleModel : userRoleModels) {
-				roleIds.add(userRoleModel.getId());
-
-				if(sb.length() > 0) {
-					sb.append("、");
-				}
-				RoleModel roleModel = roleService.selectById(userRoleModel.getId());
-				if(roleModel != null) {
-					sb.append(roleModel.getRoleName());
-				}
-			}
-			userModel.setRoleIds(roleIds);
-			userModel.setRoleName(sb.toString());
-		}
+		if(userModel == null)
+			return  ResponseUtil.error("不存在的用户id：" + id);
 
 		return ResponseUtil.success(userModel);
 	}
 
 	@ResponseBody
 	@RequestMapping(value="/updateUserEnabled", method = RequestMethod.GET)
-	public Result updateUserEnabled(@RequestParam("userId") int userId, @RequestParam("enabled") Integer enabled) {
+	public Result updateUserEnabled(@RequestParam("id") int id, @RequestParam("enabled") Integer enabled) {
 		com.gameword.system.system.model.UserModel userModel = new com.gameword.system.system.model.UserModel();
-		userModel.setId(userId);
+		userModel.setId(id);
 		userModel.setEnabled(enabled);
 		int updateCnt = userService.updateNotNull(userModel);
 
-		systemUserCache.removeUserFromCacheByUserId(userId);
+		systemUserCache.removeUserFromCacheByUserId(id);
 
 		return ResponseUtil.success();
 	}
@@ -249,7 +220,7 @@ public class UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/getUserRoles", method = RequestMethod.GET)
-	public Result getUserRoles(@RequestParam("userId") int userId) {
+	public Result getUserRoles(@RequestParam("id") int userId) {
 		Map<Integer, List<UserRoleModel>> userRoleMap = roleService.findUserRoles(Collections.singletonList(userId));
 
 		return ResponseUtil.success(userRoleMap.get(userId));

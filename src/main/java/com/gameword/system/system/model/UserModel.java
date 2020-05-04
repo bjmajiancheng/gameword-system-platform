@@ -9,12 +9,8 @@ package com.gameword.system.system.model;
 
 import com.gameword.system.common.handler.Sortable;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.*;
 
 /**
@@ -69,8 +65,8 @@ public class UserModel extends Sortable {
 	@Column(name = "agency_name")
 	private java.lang.String agencyName;//"机构/学校名称"
 
-	@Column(name = "description")
-	private java.lang.String description;//"个人简介（一段文字）"
+	@Column(name = "user_desc")
+	private java.lang.String userDesc;//"个人简介（一段文字）"
 
 	@Column(name = "head_image")
 	private java.lang.String headImage;//"头像（照片）"
@@ -249,12 +245,12 @@ public class UserModel extends Sortable {
 		return this.agencyName;
 	}
 		
-	public void setDescription(java.lang.String description) {
-		this.description = description;
+	public void setUserDesc(java.lang.String userDesc) {
+		this.userDesc = userDesc;
 	}
 
-	public java.lang.String getDescription() {
-		return this.description;
+	public java.lang.String getUserDesc() {
+		return this.userDesc;
 	}
 		
 	public void setHeadImage(java.lang.String headImage) {

@@ -20,7 +20,7 @@
         <result property="sex" column="sex"/>
         <result property="nickName" column="nick_name"/>
         <result property="agencyName" column="agency_name"/>
-        <result property="description" column="description"/>
+        <result property="userDesc" column="user_desc"/>
         <result property="headImage" column="head_image"/>
         <result property="inviteCode" column="invite_code"/>
         <result property="cnBalance" column="cn_balance"/>
@@ -41,7 +41,7 @@
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="columns">
 	    <![CDATA[
-        id ,user_type ,user_name ,mobile_phone ,email ,password ,country_id ,city_id ,last_name ,first_name ,birthday ,sex ,nick_name ,agency_name ,description ,head_image ,invite_code ,cn_balance ,en_balance ,register_time ,status ,enabled ,last_login_ip ,last_login_time ,account_non_locked ,account_non_expired ,credentials_non_expired ,last_password_reset ,c_time ,u_time 
+        id ,user_type ,user_name ,mobile_phone ,email ,password ,country_id ,city_id ,last_name ,first_name ,birthday ,sex ,nick_name ,agency_name ,user_desc ,head_image ,invite_code ,cn_balance ,en_balance ,register_time ,status ,enabled ,last_login_ip ,last_login_time ,account_non_locked ,account_non_expired ,credentials_non_expired ,last_password_reset ,c_time ,u_time
 	    ]]>
 	</sql>
 
@@ -74,8 +74,8 @@
 			<if test="agencyName != null">
 				AND agency_name = #{agencyName}
 			</if>
-			<if test="description != null">
-				AND description = #{description}
+			<if test="user_desc != null">
+				AND user_desc = #{userDesc}
 			</if>
 			<if test="headImage != null">
 				AND head_image = #{headImage}
