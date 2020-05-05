@@ -558,7 +558,7 @@ insert into d_system_function(id, parent_id, function_name, display, status, act
 
 insert into d_system_role(id, role_name, status) values(1, '系统管理', 1);
 insert into d_system_user_role(user_id, role_id) values(1, 1);
-insert into d_system_role_function(role_id, function_id) values(1, 1), (1, 2), (1, 3), (1, 4);
+insert into d_system_role_function(role_id, function_id) values(1, 1), (1, 2), (1, 3), (1, 4), (1, 14);
 
 insert into d_system_role(id, role_name, status) values(2, '通用管理', 1);
 insert into d_system_user_role(user_id, role_id) values(1, 2);
@@ -572,3 +572,6 @@ insert into d_station_detail(id, station_id, language, city_title, topic_img, th
 values(1, 1, 1, '北京', 'https://9i.dvmama.com/shop_logo/2020/03/07/src__dc1cfa016ecf97d6f1e17acedccb2914.jpg', 'https://9i.dvmama.com/shop_logo/2020/03/07/src__dc1cfa016ecf97d6f1e17acedccb2914.jpg', '简介', '工商业描述', '旅游描述', '教育描述', '医疗描述', '特产描述', '节庆描述', '文化描述', '美食描述', '体育描述', '气候描述', '名人描述', '锦囊描述',
                                                                                                                                                                                                                                              '<p>城市信息</p><table class="table table-bordered"><tbody><tr><td><br></td><td><br></td><td><br></td><td><br></td></tr><tr><td><br></td><td><br></td><td><br></td><td><br></td></tr></tbody></table><p><br></p>',
                                                                                                                                                                                                                                              '<p>商务交流</p><table class="table table-bordered"><tbody><tr><td><br></td><td><br></td><td><br></td><td><br></td></tr><tr><td><br></td><td><br></td><td><br></td><td><br></td></tr></tbody></table><p><br></p>');
+
+INSERT INTO `d_user`(`id`, `user_type`, `user_name`, `mobile_phone`, `email`, `password`, `country_id`, `city_id`, `last_name`, `first_name`, `birthday`, `sex`, `nick_name`, `agency_name`, `user_desc`, `head_image`, `invite_code`, `cn_balance`, `en_balance`, `register_time`, `rongyun_token`, `status`, `enabled`, `last_login_ip`, `last_login_time`, `account_non_locked`, `account_non_expired`, `credentials_non_expired`, `last_password_reset`, `c_time`, `u_time`)
+VALUES (1, 2, 'test', '111111', '111@11.com', '', 1, 1, 'hu', 'ruifeng', '1992.10.10', 1, 'sily', '北京', '你说什么就是什么', '', '111', 10000.00, 99999.00, '2020-05-05 22:22:22', '', 0, 1, '', '2020-05-05 22:25:55', 1, 1, 1, NULL, '2020-05-04 23:20:22', '2020-05-04 23:20:22');
