@@ -558,7 +558,7 @@ insert into d_system_function(id, parent_id, function_name, display, status, act
 
 insert into d_system_role(id, role_name, status) values(1, '系统管理', 1);
 insert into d_system_user_role(user_id, role_id) values(1, 1);
-insert into d_system_role_function(role_id, function_id) values(1, 1), (1, 2), (1, 3), (1, 4);
+insert into d_system_role_function(role_id, function_id) values(1, 1), (1, 2), (1, 3), (1, 4), (1, 14);
 
 insert into d_system_role(id, role_name, status) values(2, '通用管理', 1);
 insert into d_system_user_role(user_id, role_id) values(1, 2);
