@@ -110,9 +110,59 @@ public class UserServiceImpl extends BaseService<UserModel> implements IUserServ
 		if (StringUtils.isNotEmpty(userModel.getUserName())) {
 			criteria.andLike("userName", "%" + userModel.getUserName() + "%");
 		}
+
+		if (StringUtils.isNotEmpty(userModel.getNickName())) {
+			criteria.andLike("nickName", "%" + userModel.getNickName() + "%");
+		}
+
+
+		if(userModel.getSex() != null) {
+			criteria.andEqualTo("sex", userModel.getSex());
+		}
+
+		//TODO:: d_user只有country_id怎么转成国家名字查找呢
+		if(userModel.getCountryName() != null) {
+			criteria.andEqualTo("sex", userModel.getCountryName());
+		}
+
+		//TODO:: d_user只有city_id怎么转成城市名字查找呢
+		if(userModel.getCityName() != null) {
+			criteria.andEqualTo("sex", userModel.getCityName());
+		}
+
+		if (StringUtils.isNotEmpty(userModel.getAgencyName())) {
+			criteria.andLike("agencyName", "%" + userModel.getAgencyName() + "%");
+		}
+
+		if(userModel.getStatus() != null) {
+			criteria.andEqualTo("status", userModel.getStatus());
+		}
+
+		if(userModel.getEnabled() != null) {
+			criteria.andEqualTo("enabled", userModel.getEnabled());
+		}
+
+		//TODO:: 时间范围之内
+		if(userModel.getRegisterTime() != null) {
+			criteria.andBetween("registerTime", userModel.getRegisterTime(), userModel.getRegisterTime());
+		}
+
+		if(userModel.getUserType() != null) {
+			criteria.andEqualTo("userType", userModel.getUserType());
+		}
+
+		if(userModel.getInviteCode() != null) {
+			criteria.andEqualTo("inviteCode", userModel.getInviteCode());
+		}
+
+		if(userModel.getId() != null) {
+			criteria.andEqualTo("id", userModel.getId());
+		}
+
 		if (StringUtils.isNotEmpty(userModel.getSortWithOutOrderBy())) {
 			example.setOrderByClause(userModel.getSortWithOutOrderBy());
 		}
+
 		return getMapper().selectByExample(example);
 	}
 

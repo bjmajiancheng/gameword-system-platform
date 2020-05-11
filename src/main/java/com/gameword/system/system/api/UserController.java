@@ -135,9 +135,16 @@ public class UserController {
 	}
 
 	@ResponseBody
+	@RequestMapping(value = "/resetPassword", method = RequestMethod.GET)
+	public Result resetPassword(@RequestParam("id") int id){
+
+		return ResponseUtil.success();
+	}
+
+	@ResponseBody
 	@RequestMapping(value="/updateUserEnabled", method = RequestMethod.GET)
 	public Result updateUserEnabled(@RequestParam("id") int id, @RequestParam("enabled") Integer enabled) {
-		com.gameword.system.system.model.UserModel userModel = new com.gameword.system.system.model.UserModel();
+		UserModel userModel = new UserModel();
 		userModel.setId(id);
 		userModel.setEnabled(enabled);
 		int updateCnt = userService.updateNotNull(userModel);
@@ -148,8 +155,21 @@ public class UserController {
 	}
 
 	@ResponseBody
+	@RequestMapping(value="/updateUserStatus", method = RequestMethod.GET)
+	public Result updateUserStatus(@RequestParam("id") int id, @RequestParam("status") Integer status) {
+		UserModel userModel = new UserModel();
+		userModel.setId(id);
+		userModel.setStatus(status);
+		int updateCnt = userService.updateNotNull(userModel);
+
+		systemUserCache.removeUserFromCacheByUserId(id);
+
+		return ResponseUtil.success();
+	}
+
+	@ResponseBody
 	@RequestMapping(value="/updateUser", method = RequestMethod.POST)
-	public Result updateUser(com.gameword.system.system.model.UserModel userModel) {
+	public Result updateUser(UserModel userModel) {
 
 		if(StringUtils.isNotEmpty(userModel.getPassword())) {
 			String passwordEncode = SecurityUtil.encodeString(userModel.getPassword());
@@ -180,7 +200,7 @@ public class UserController {
 
 	@ResponseBody
 	@RequestMapping(value="/saveUser", method = RequestMethod.POST)
-	public Result saveUser(com.gameword.system.system.model.UserModel userModel) {
+	public Result saveUser(UserModel userModel) {
 		try{
 			if(StringUtils.isNotEmpty(userModel.getPassword())) {
 				String passwordEncode = SecurityUtil.encodeString(userModel.getPassword());
@@ -244,7 +264,7 @@ public class UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/updateUserPass", method = RequestMethod.POST)
-	public Result updateUserPass(com.gameword.system.system.model.UserModel userModel) {
+	public Result updateUserPass(UserModel userModel) {
 
 		try {
 			UserModel nativeUserModel = userService.findUserByUserId(SecurityUtil.getCurrentUserId());
