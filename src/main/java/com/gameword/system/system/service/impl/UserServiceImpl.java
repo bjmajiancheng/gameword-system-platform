@@ -15,6 +15,7 @@ import java.util.Set;
 import com.gameword.system.common.baseservice.impl.BaseService;
 import com.gameword.system.security.dto.FunctionDto;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.poi.hslf.util.SystemTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -107,6 +108,7 @@ public class UserServiceImpl extends BaseService<UserModel> implements IUserServ
 	public List<UserModel> selectByFilter(UserModel userModel) {
 		Example example = new Example(UserModel.class);
 		Example.Criteria criteria = example.createCriteria();
+
 		if (StringUtils.isNotEmpty(userModel.getUserName())) {
 			criteria.andLike("userName", "%" + userModel.getUserName() + "%");
 		}
@@ -115,19 +117,16 @@ public class UserServiceImpl extends BaseService<UserModel> implements IUserServ
 			criteria.andLike("nickName", "%" + userModel.getNickName() + "%");
 		}
 
-
 		if(userModel.getSex() != null) {
 			criteria.andEqualTo("sex", userModel.getSex());
 		}
 
-		//TODO:: d_user只有country_id怎么转成国家名字查找呢
-		if(userModel.getCountryName() != null) {
-			criteria.andEqualTo("sex", userModel.getCountryName());
+		if(userModel.getCountryId() != null) {
+			criteria.andEqualTo("countryId", userModel.getCountryId());
 		}
 
-		//TODO:: d_user只有city_id怎么转成城市名字查找呢
-		if(userModel.getCityName() != null) {
-			criteria.andEqualTo("sex", userModel.getCityName());
+		if(userModel.getCityId() != null) {
+			criteria.andEqualTo("cityId", userModel.getCityId());
 		}
 
 		if (StringUtils.isNotEmpty(userModel.getAgencyName())) {
@@ -141,17 +140,17 @@ public class UserServiceImpl extends BaseService<UserModel> implements IUserServ
 		if(userModel.getEnabled() != null) {
 			criteria.andEqualTo("enabled", userModel.getEnabled());
 		}
-
-		//TODO:: 时间范围之内
-		if(userModel.getRegisterTime() != null) {
-			criteria.andBetween("registerTime", userModel.getRegisterTime(), userModel.getRegisterTime());
-		}
-
+//
+//		//TODO:: 时间范围之内
+//		if(userModel.getRegisterTime() != null) {
+//			criteria.andBetween("registerTime", userModel.getRegisterTime(), userModel.getRegisterTime());
+//		}
+//
 		if(userModel.getUserType() != null) {
 			criteria.andEqualTo("userType", userModel.getUserType());
 		}
 
-		if(userModel.getInviteCode() != null) {
+		if(StringUtils.isNotEmpty(userModel.getInviteCode())) {
 			criteria.andEqualTo("inviteCode", userModel.getInviteCode());
 		}
 
