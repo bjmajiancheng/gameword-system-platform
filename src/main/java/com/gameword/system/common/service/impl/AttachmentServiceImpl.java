@@ -77,6 +77,8 @@ public class AttachmentServiceImpl extends BaseService<Attachment> implements IA
             ResponseUtil.error("上传文件扩展名是不允许的扩展名。\n只允许" + extLimitMap.get(dirName) + "格式。");
         }
 
+        //更改图片名称
+        fileName = "common." + fileExt;
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
         String newFileName = df.format(new Date()) + "_" + new Random().nextInt(1000) + "_" + fileName;
         FileUtil.saveFileFromInputStream(file.getInputStream(), savePath, newFileName);
