@@ -261,6 +261,7 @@ CREATE TABLE d_friend(
    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
    `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',
    `friend_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '好友ID',
+   `note_name` varchar(100) NOT NULL DEFAULT '' COMMENT '备注名称',
    `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
    `u_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
    PRIMARY KEY (`id`)
