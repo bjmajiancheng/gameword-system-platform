@@ -42,6 +42,9 @@ public class CountryModel extends Sortable {
 	@Column(name = "is_del")
 	private Integer isDel;//是否删除
 
+	@Column(name = "country_flag")
+	private String countryFlag;//国旗
+
 	@Column(name = "create_user_id")
 	private Integer createUserId;//"创建人"
 
@@ -99,6 +102,14 @@ public class CountryModel extends Sortable {
 
 	public void setIsDel(Integer isDel) {
 		this.isDel = isDel;
+	}
+
+	public String getCountryFlag() {
+		return countryFlag;
+	}
+
+	public void setCountryFlag(String countryFlag) {
+		this.countryFlag = countryFlag;
 	}
 
 	public void setCreateUserId(Integer createUserId) {

@@ -25,6 +25,7 @@ CREATE TABLE d_country(
    `country_cn_name` varchar(100) NOT NULL DEFAULT '' COMMENT '国家中文名称',
    `country_en_name` varchar(100) NOT NULL DEFAULT '' COMMENT '国家英文名称',
    `code` varchar(100) NOT NULL DEFAULT '' COMMENT '国家代码值',
+   `country_flag` varchar(255) NOT NULL DEFAULT '' COMMENT '国旗',
    `is_del` int(11) NOT NULL DEFAULT '0' COMMENT '是否删除',
    `create_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '创建人',
    `update_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '最后修改人',
