@@ -537,6 +537,16 @@ CREATE TABLE `d_message` (
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='消息记录';
 
+DROP TABLE IF EXISTS d_region;
+CREATE TABLE `d_region` (
+   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+   `parent_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '父ID',
+   `region_cn_name` varchar(120) NOT NULL DEFAULT '' COMMENT '中文名称',
+   `region_en_name` varchar(120) NOT NULL DEFAULT '' COMMENT '英文名称',
+   `region_type` tinyint(1) NOT NULL DEFAULT '2',
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='地区表';
+
 insert into d_system_user(id, user_name, password, display_name, contact_phone, user_type, enabled, account_non_locked, account_non_expired, credentials_non_expired) values(1, 'admin', '$2a$10$xEOzVwRIs0UN8/fibgMZ4OwIy90b8S1/iYEppMV7LQJoNCb/Y1xLW', '肖恩', '13717689765', 1, 1, 1, 1, 1);
 insert into d_user_pass_mapping(password, password_encode) values('admin', '$2a$10$xEOzVwRIs0UN8/fibgMZ4OwIy90b8S1/iYEppMV7LQJoNCb/Y1xLW');
 
