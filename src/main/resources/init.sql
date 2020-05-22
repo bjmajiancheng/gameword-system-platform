@@ -419,6 +419,7 @@ CREATE TABLE d_sensitive_word(
    `language` int(11) NOT NULL DEFAULT '0' COMMENT '语种',
    `sensitive_word` varchar(100) NOT NULL DEFAULT '' COMMENT '敏感词',
    `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '维护人',
+   `is_del` int(11) NOT NULL DEFAULT '0' COMMENT '是否删除',
    `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
    `u_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
    PRIMARY KEY (`id`)
@@ -555,6 +556,8 @@ insert into d_system_function(id, parent_id, function_name, display, status, act
 insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(11, 5, '反馈管理', 1, 1, 'dvd/common/feedback.html', 11);
 insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(12, 5, '帮助管理', 1, 1, 'dvd/common/help.html', 12);
 insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(13, 5, '标签管理', 1, 1, 'dvd/common/label.html', 13);
+insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(15, 5, '价格维护', 1, 1, 'dvd/common/priceConf.html', 14);
+insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(16, 5, '敏感词过滤', 1, 1, 'dvd/common/sensitiveWord.html', 15);
 
 
 
@@ -564,7 +567,7 @@ insert into d_system_role_function(role_id, function_id) values(1, 1), (1, 2), (
 
 insert into d_system_role(id, role_name, status) values(2, '通用管理', 1);
 insert into d_system_user_role(user_id, role_id) values(1, 2);
-insert into d_system_role_function(role_id, function_id) values(2, 5), (2, 6), (2, 7), (2, 8), (2, 9), (2, 10), (2, 11), (2, 12), (2, 13);
+insert into d_system_role_function(role_id, function_id) values(2, 5), (2, 6), (2, 7), (2, 8), (2, 9), (2, 10), (2, 11), (2, 12), (2, 13), (2, 15), (2, 16);
 
 insert into d_country(id, country_cn_name, country_en_name, code, create_user_id, update_user_id) values(1, '中国', 'CHINA', 'CN', 1, 1);
 insert into d_city(country_id, city_cn, city_en, code, contact, email, create_user_id, update_user_id, is_online) values(1, '北京', 'BEIJING', 'BEIJING', '马建成', 'bjmajiancheng@davdian.com', 1, 1, 1);

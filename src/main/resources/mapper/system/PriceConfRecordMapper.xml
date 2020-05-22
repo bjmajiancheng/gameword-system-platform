@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gameword.system.system.dao.PriceConfRecordMapper">
+
+    <resultMap id="PriceConfRecord" type="com.gameword.system.system.model.PriceConfRecordModel">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="beforeDesc" column="before_desc"/>
+        <result property="afterDesc" column="after_desc"/>
+        <result property="ctime" column="c_time"/>
+        <result property="utime" column="u_time"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        id ,user_id ,before_desc ,after_desc ,c_time ,u_time 
+	    ]]>
+	</sql>
+
+	<sql id="findWhere">
+	    <where>
+			<if test="beforeDesc != null">
+				AND before_desc = #{beforeDesc}
+			</if>
+			<if test="afterDesc != null">
+				AND after_desc = #{afterDesc}
+			</if>
+	    </where>
+	</sql>
+
+	
+	<select id="find" resultMap="PriceConfRecord">
+	    SELECT <include refid="columns"/> FROM d_price_conf_record 
+		<include refid="findWhere"/>
+    </select>
+
+	<select id="findById" resultMap="PriceConfRecord" >
+	SELECT <include refid="columns"/>
+	<![CDATA[
+	        FROM d_price_conf_record
+	        WHERE
+		        id = #{id} 
+	    ]]>
+	</select>
+	
+</mapper>
+
