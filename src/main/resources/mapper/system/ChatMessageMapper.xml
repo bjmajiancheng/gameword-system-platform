@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gameword.system.system.dao.ChatMessageMapper">
+
+    <resultMap id="ChatMessage" type="com.gameword.system.system.model.ChatMessageModel">
+        <result property="id" column="id"/>
+        <result property="messageType" column="message_type"/>
+        <result property="chatroomId" column="chatroom_id"/>
+        <result property="chatroomName" column="chatroom_name"/>
+        <result property="sensitiveWord" column="sensitive_word"/>
+        <result property="content" column="content"/>
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="chatTime" column="chat_time"/>
+        <result property="hasVoice" column="has_voice"/>
+        <result property="chatUserId" column="chat_user_id"/>
+        <result property="chatUserName" column="chat_user_name"/>
+        <result property="chatNickName" column="chat_nick_name"/>
+        <result property="ctime" column="c_time"/>
+        <result property="utime" column="u_time"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        id ,message_type ,chatroom_id ,chatroom_name ,sensitive_word ,content ,user_id ,user_name ,nick_name ,chat_time ,has_voice ,chat_user_id ,chat_user_name ,chat_nick_name ,c_time ,u_time 
+	    ]]>
+	</sql>
+
+	<sql id="findWhere">
+	    <where>
+			<if test="chatroomId != null">
+				AND chatroom_id = #{chatroomId}
+			</if>
+			<if test="chatroomName != null">
+				AND chatroom_name = #{chatroomName}
+			</if>
+			<if test="sensitiveWord != null">
+				AND sensitive_word = #{sensitiveWord}
+			</if>
+			<if test="content != null">
+				AND content = #{content}
+			</if>
+			<if test="userName != null">
+				AND user_name = #{userName}
+			</if>
+			<if test="nickName != null">
+				AND nick_name = #{nickName}
+			</if>
+			<if test="chatUserName != null">
+				AND chat_user_name = #{chatUserName}
+			</if>
+			<if test="chatNickName != null">
+				AND chat_nick_name = #{chatNickName}
+			</if>
+	    </where>
+	</sql>
+
+	
+	<select id="find" resultMap="ChatMessage">
+	    SELECT <include refid="columns"/> FROM d_chat_message 
+		<include refid="findWhere"/>
+    </select>
+
+	<select id="findById" resultMap="ChatMessage" >
+	SELECT <include refid="columns"/>
+	<![CDATA[
+	        FROM d_chat_message
+	        WHERE
+		        id = #{id} 
+	    ]]>
+	</select>
+	
+</mapper>
+

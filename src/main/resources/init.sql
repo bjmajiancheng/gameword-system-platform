@@ -203,57 +203,27 @@ CREATE TABLE d_contact(
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='交流联系';
 
--- 聊天室
-DROP TABLE IF EXISTS d_chat;
-CREATE TABLE d_chat(
+-- 聊天内容
+DROP TABLE IF EXISTS d_chat_message;
+CREATE TABLE d_chat_message(
    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-   `type` int(11) NOT NULL DEFAULT '0' COMMENT '聊天室类型 1、公共聊天室；2、商务聊天室',
-   `name` varchar(100) NOT NULL DEFAULT '' COMMENT '聊天室名称',
-   `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-   `u_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='聊天室';
-
--- 聊天室成员
-DROP TABLE IF EXISTS d_chat_member;
-CREATE TABLE d_chat_member(
-   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-   `chat_id` int(11) NOT NULL DEFAULT '0' COMMENT '聊天室ID',
-   `member_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '成员ID',
-   `user_role` int(11) NOT NULL DEFAULT '0' COMMENT '成员角色 1：管理员 2：普通成员',
-   `is_disable` int(11) NOT NULL DEFAULT '0' COMMENT '是否禁言 0：未禁言，1：已禁言',
-   `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-   `u_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='聊天室成员';
-
--- 聊天室内容
-DROP TABLE IF EXISTS d_chat_content;
-CREATE TABLE d_chat_content(
-   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-   `chat_id` int(11) NOT NULL DEFAULT '0' COMMENT '聊天室ID',
-   `content` varchar(100) NOT NULL DEFAULT '' COMMENT '发言内容',
-   `is_voice` int(11) NOT NULL DEFAULT '0' COMMENT '是否是语音',
-   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '发言人id',
+   `message_type` int(11) NOT NULL DEFAULT '0' COMMENT '消息类型',
+   `chatroom_id` varchar(100) NOT NULL DEFAULT '' COMMENT '聊天室ID',
+   `chatroom_name` varchar(100) NOT NULL DEFAULT '' COMMENT '聊天室名称',
+   `sensitive_word` varchar(100) NOT NULL DEFAULT '' COMMENT '敏感词',
+   `content` varchar(1024) NOT NULL DEFAULT '' COMMENT '发言内容',
+   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '发言人ID',
+   `user_name` varchar(100) NOT NULL DEFAULT '' COMMENT '发言人姓名',
+   `nick_name` varchar(100) NOT NULL DEFAULT '' COMMENT '昵称',
+   `chat_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '发言时间',
+   `has_voice` tinyint(11) NOT NULL DEFAULT '0' COMMENT '是否有语音',
+   `chat_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '交流对象ID',
+   `chat_user_name` varchar(100) NOT NULL DEFAULT '' COMMENT '交流对象姓名',
+   `chat_nick_name` varchar(100) NOT NULL DEFAULT '' COMMENT '交流对象昵称',
    `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
    `u_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='聊天室内容';
-
-
--- 用户聊天记录
-DROP TABLE IF EXISTS d_user_chat;
-CREATE TABLE d_user_chat(
-   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '消息发送人',
-   `friend_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '消息接收人',
-   `content` varchar(100) NOT NULL DEFAULT '' COMMENT '消息内容',
-   `is_voice` int(11) NOT NULL DEFAULT '0' COMMENT '是否是语音',
-   `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-   `u_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户聊天记录';
-
 
 -- 好友表
 DROP TABLE IF EXISTS d_friend;
@@ -568,6 +538,7 @@ insert into d_system_function(id, parent_id, function_name, display, status, act
 insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(13, 5, '标签管理', 1, 1, 'dvd/common/label.html', 13);
 insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(15, 5, '价格维护', 1, 1, 'dvd/common/priceConf.html', 14);
 insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(16, 5, '敏感词过滤', 1, 1, 'dvd/common/sensitiveWord.html', 15);
+insert into d_system_function(id, parent_id, function_name, display, status, action, sort) values(17, 5, '聊天管理', 1, 1, 'dvd/common/chatMessage.html', 16);
 
 
 
@@ -577,7 +548,7 @@ insert into d_system_role_function(role_id, function_id) values(1, 1), (1, 2), (
 
 insert into d_system_role(id, role_name, status) values(2, '通用管理', 1);
 insert into d_system_user_role(user_id, role_id) values(1, 2);
-insert into d_system_role_function(role_id, function_id) values(2, 5), (2, 6), (2, 7), (2, 8), (2, 9), (2, 10), (2, 11), (2, 12), (2, 13), (2, 15), (2, 16);
+insert into d_system_role_function(role_id, function_id) values(2, 5), (2, 6), (2, 7), (2, 8), (2, 9), (2, 10), (2, 11), (2, 12), (2, 13), (2, 15), (2, 16), (2, 17);
 
 insert into d_country(id, country_cn_name, country_en_name, code, create_user_id, update_user_id) values(1, '中国', 'CHINA', 'CN', 1, 1);
 insert into d_city(country_id, city_cn, city_en, code, contact, email, create_user_id, update_user_id, is_online) values(1, '北京', 'BEIJING', 'BEIJING', '马建成', 'bjmajiancheng@davdian.com', 1, 1, 1);
