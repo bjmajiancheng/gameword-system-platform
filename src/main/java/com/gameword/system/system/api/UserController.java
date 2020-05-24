@@ -149,9 +149,9 @@ public class UserController {
 		userModel.setEnabled(enabled);
 		int updateCnt = userService.updateNotNull(userModel);
 
-		systemUserCache.removeUserFromCacheByUserId(id);
+		//systemUserCache.removeUserFromCacheByUserId(id);
 
-		return ResponseUtil.success();
+		return ResponseUtil.success(userModel);
 	}
 
 	@ResponseBody
@@ -162,9 +162,9 @@ public class UserController {
 		userModel.setStatus(status);
 		int updateCnt = userService.updateNotNull(userModel);
 
-		systemUserCache.removeUserFromCacheByUserId(id);
+		//systemUserCache.removeUserFromCacheByUserId(id);
 
-		return ResponseUtil.success();
+		return ResponseUtil.success(userModel);
 	}
 
 	@ResponseBody
