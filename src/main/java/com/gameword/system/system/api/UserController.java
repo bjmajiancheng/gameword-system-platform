@@ -9,11 +9,13 @@ package com.gameword.system.system.api;
 
 import java.util.Map;
 
+import com.gameword.system.common.tools.RedisCache;
 import com.gameword.system.common.utils.PageConvertUtil;
 import com.gameword.system.common.utils.ResponseUtil;
 import com.gameword.system.common.utils.Result;
 import com.gameword.system.core.model.RoleModel;
 import com.gameword.system.core.model.UserRoleModel;
+import com.gameword.system.security.constants.SecurityConstant;
 import com.gameword.system.security.security.SystemUserCache;
 import com.gameword.system.security.service.IRoleService;
 import com.gameword.system.security.utils.SecurityUtil;
@@ -54,6 +56,9 @@ public class UserController {
 
 	@Autowired
 	private SystemUserCache systemUserCache;
+
+	@Autowired
+	private RedisCache redisCache;
 
 	@Autowired
 	private ISystemUserRoleService systemUserRoleService;
@@ -141,6 +146,7 @@ public class UserController {
 		return ResponseUtil.success();
 	}
 
+	//设置用户是否禁用
 	@ResponseBody
 	@RequestMapping(value="/updateUserEnabled", method = RequestMethod.GET)
 	public Result updateUserEnabled(@RequestParam("id") int id, @RequestParam("enabled") Integer enabled) {
@@ -150,10 +156,14 @@ public class UserController {
 		int updateCnt = userService.updateNotNull(userModel);
 
 		//systemUserCache.removeUserFromCacheByUserId(id);
+		UserModel tmpModel = userService.findById(id);
+		if(tmpModel != null)
+			redisCache.del(SecurityConstant.APP_USER_CACHE_PREFIX + tmpModel.getUserName());
 
 		return ResponseUtil.success(userModel);
 	}
 
+	//设置禁言状态
 	@ResponseBody
 	@RequestMapping(value="/updateUserStatus", method = RequestMethod.GET)
 	public Result updateUserStatus(@RequestParam("id") int id, @RequestParam("status") Integer status) {
@@ -193,7 +203,8 @@ public class UserController {
 			}
 		}
 
-		systemUserCache.removeUserFromCacheByUserId(userModel.getId());
+		//systemUserCache.removeUserFromCacheByUserId(userModel.getId());
+		redisCache.del(SecurityConstant.APP_USER_CACHE_PREFIX + userModel.getUserName());
 
 		return ResponseUtil.success();
 	}
@@ -286,7 +297,8 @@ public class UserController {
 
 			int updateCnt = userService.updateNotNull(userModel);
 
-			systemUserCache.removeUserFromCacheByUserId(userModel.getId());
+			//systemUserCache.removeUserFromCacheByUserId(userModel.getId());
+			redisCache.del(SecurityConstant.APP_USER_CACHE_PREFIX + userModel.getUserName());
 
 			return ResponseUtil.success();
 		} catch(Exception e) {

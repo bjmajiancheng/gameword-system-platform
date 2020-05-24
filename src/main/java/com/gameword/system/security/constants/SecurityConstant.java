@@ -7,6 +7,8 @@ public class SecurityConstant {
 
     public static final String USER_CACHE_PREFIX = "gameword_system_platform_user_";
 
+    public static final String APP_USER_CACHE_PREFIX = "gameword_user_service_user_";
+
     public static final String RESOURCE_MAP = "gameword_system_platform_resouce_map";
 
     public static final String FUNCTION_CACHE_PREFIX = "gameword_system_platform_function_";
