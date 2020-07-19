@@ -54,7 +54,7 @@ public class ChatMessageServiceImpl extends BaseService<ChatMessageModel> implem
 	@Override
 	public PageInfo<ChatMessageModel> selectByFilterAndPage(ChatMessageModel chatMessageModel, int pageNum,
 		int pageSize) {
-		PageHelper.startPage(pageNum, pageSize);
+		PageHelper.startPage(pageNum, pageSize, true, false, null);
 		List<ChatMessageModel> list = this.selectByFilter(chatMessageModel);
 		return new PageInfo<>(list);
 	}

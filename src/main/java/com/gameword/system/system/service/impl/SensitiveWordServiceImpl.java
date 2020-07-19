@@ -54,7 +54,7 @@ public class SensitiveWordServiceImpl extends BaseService<SensitiveWordModel> im
 	@Override
 	public PageInfo<SensitiveWordModel> selectByFilterAndPage(SensitiveWordModel sensitiveWordModel, int pageNum,
 		int pageSize) {
-		PageHelper.startPage(pageNum, pageSize);
+		PageHelper.startPage(pageNum, pageSize, true, false, null);
 		List<SensitiveWordModel> list = this.selectByFilter(sensitiveWordModel);
 		return new PageInfo<>(list);
 	}

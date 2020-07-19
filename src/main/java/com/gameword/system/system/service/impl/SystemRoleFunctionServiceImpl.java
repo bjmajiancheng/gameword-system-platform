@@ -41,7 +41,7 @@ public class SystemRoleFunctionServiceImpl extends BaseService<RoleFunctionModel
 	@Override
 	public PageInfo<RoleFunctionModel> selectByFilterAndPage(RoleFunctionModel roleFunctionModel, int pageNum,
 		int pageSize) {
-		PageHelper.startPage(pageNum, pageSize);
+		PageHelper.startPage(pageNum, pageSize, true, false, null);
 		List<RoleFunctionModel> list = this.selectByFilter(roleFunctionModel);
 		return new PageInfo<>(list);
 	}

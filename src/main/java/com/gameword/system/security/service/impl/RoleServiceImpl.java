@@ -40,7 +40,7 @@ public class RoleServiceImpl extends BaseService<RoleModel> implements IRoleServ
 
     @Override
     public PageInfo<RoleModel> selectByFilterAndPage(RoleModel roleModel, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
+        PageHelper.startPage(pageNum, pageSize, true, false, null);
         List<RoleModel> list = this.selectByFilter(roleModel);
         return new PageInfo<>(list);
     }
