@@ -500,7 +500,7 @@ CREATE TABLE `d_message` (
    `message_content` varchar(500) NOT NULL DEFAULT '' COMMENT '消息内容',
    `message_type` smallint(1) NOT NULL DEFAULT '0' COMMENT '消息类型（1：活动与邀请，2：通知）',
    `user_id` int(11) NOT NULL DEFAULT '0' COMMENT 'C端用户ID',
-   `message_url` varchar(200) NOT NULL DEFAULT '' COMMENT '消息点击链接',
+   `message_url` varchar(1024) NOT NULL DEFAULT '' COMMENT '消息点击链接',
    `is_read` smallint(1) NOT NULL DEFAULT '0' COMMENT '是否已读（0：未读，1：已读）',
    `is_agree` smallint(1) NOT NULL DEFAULT '0' COMMENT '是否同意（0：默认，1：同意，2：不同意）',
    `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
