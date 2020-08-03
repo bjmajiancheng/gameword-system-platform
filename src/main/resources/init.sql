@@ -428,7 +428,9 @@ DROP TABLE IF EXISTS d_help;
 create TABLE `d_help` (
    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
    `help_title` varchar(128) DEFAULT '' COMMENT '帮助标题',
+   `help_en_title` varchar(128) DEFAULT '' COMMENT '帮助英文标题',
    `help_content` longtext COMMENT '帮助内容',
+   `help_en_content` longtext COMMENT '帮助英文内容',
    `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
    `is_del` int(11) NOT NULL DEFAULT '0' COMMENT '是否删除',
    `c_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
