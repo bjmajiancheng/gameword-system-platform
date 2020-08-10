@@ -75,6 +75,7 @@ public class UserController {
             //集中查询数据库
             Map<Integer, CountryModel> countryModelMap = countryService.findMapByIds(countryIds);
             Map<Integer, CityModel> cityModelMap = cityService.findMapByIds(cityIds);
+            Map<Integer, List<UserRoleModel>> userRoleModelMap = roleService.findUserRoles(userIds);
 
             for(UserModel tmpUserModel : pageInfo.getList()) {
                 CountryModel tmpCountryModel = countryModelMap.get(tmpUserModel.getCountryId());
@@ -88,23 +89,49 @@ public class UserController {
                     tmpUserModel.setCityName(tmpCityModel.getCityCn());
                 else
                     tmpUserModel.setCityName("未知");
-            }
 
-//            Map<Integer, List<UserRoleModel>> userRoleModelMap = roleService.findUserRoles(userIds);
-//            for(UserModel tmpUserModel : pageInfo.getList()) {
-//                List<UserRoleModel> userRoleModels = userRoleModelMap.get(tmpUserModel.getId());
-//                StringBuffer sb = new StringBuffer();
-//                if(CollectionUtils.isNotEmpty(userRoleModels)) {
-//                    for(UserRoleModel userRoleModel : userRoleModels) {
-//                        if(sb.length() > 0) {
-//                            sb.append("、");
-//                        }
-//                        sb.append(userRoleModel.getRoleName());
+                List<UserRoleModel> userRoleModels = userRoleModelMap.get(tmpUserModel.getId());
+                StringBuffer sb = new StringBuffer();
+                if(CollectionUtils.isNotEmpty(userRoleModels)) {
+                    for(UserRoleModel userRoleModel : userRoleModels) {
+                        if(sb.length() > 0) {
+                            sb.append("、");
+                        }
+                        sb.append(userRoleModel.getRoleName());
+                    }
+                }
+
+                tmpUserModel.setRoleName(sb.toString());
+
+//                List<UserRoleModel> userRoleModels = userService.selectUserRoleByUserId(tmpUserModel.getId());
+//
+//                if(StringUtils.isNotEmpty(userModel.getPassword())) {
+//                    UserPassMappingModel passMapping = userPassMappingService.findByPasswordEncode(userModel.getPassword());
+//                    if(passMapping != null) {
+//                        userModel.setPassword(passMapping.getPassword());
+//                    } else {
+//                        userModel.setPassword("");
 //                    }
 //                }
 //
-//                tmpUserModel.setRoleName(sb.toString());
-//            }
+//                if(CollectionUtils.isNotEmpty(userRoleModels)) {
+//                    List<Integer> roleIds = new ArrayList<Integer>();
+//                    StringBuffer sb = new StringBuffer();
+//                    for(UserRoleModel userRoleModel : userRoleModels) {
+//                        roleIds.add(userRoleModel.getRoleId());
+//
+//                        if(sb.length() > 0) {
+//                            sb.append("、");
+//                        }
+//                        RoleModel roleModel = roleService.selectById(userRoleModel.getRoleId());
+//                        if(roleModel != null) {
+//                            sb.append(roleModel.getRoleName());
+//                        }
+//                    }
+//                    userModel.setRoleIds(roleIds);
+//                    userModel.setRoleName(sb.toString());
+//                }
+            }
         }
 
 
