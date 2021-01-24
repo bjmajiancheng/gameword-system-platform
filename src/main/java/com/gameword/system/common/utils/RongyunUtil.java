@@ -1,11 +1,13 @@
 package com.gameword.system.common.utils;
 
+import com.alibaba.fastjson.JSON;
 import io.rong.RongCloud;
 import io.rong.methods.chatroom.Chatroom;
 import io.rong.models.chatroom.ChatroomMember;
 import io.rong.models.chatroom.ChatroomModel;
 import io.rong.models.response.*;
 import io.rong.models.user.UserModel;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -297,6 +299,22 @@ public class RongyunUtil implements Serializable{
         }
     }
 
+    /**
+     * 获取历史消息下载Url地址
+     *
+     * @return
+     */
+    public String historyMessage(String date) {
+        try {
+            HistoryMessageResult historyResult = (HistoryMessageResult) getRongCloud().message.history.get(date);
+
+            return historyResult.getUrl();
+        } catch(Exception e) {
+            e.printStackTrace();
+            return StringUtils.EMPTY;
+        }
+    }
+
     public static void main(String[] args) throws Exception {
 
         RongCloud rongCloud = RongCloud.getInstance("p5tvi9dspqek4", "YQ0XwWL6t6Mjcv");
@@ -358,5 +376,8 @@ public class RongyunUtil implements Serializable{
 
         CheckChatRoomUserResult checkMemberResult = chatroom.isExist(member);
         System.out.println("checkChatroomUserResult:  " + checkMemberResult.isInChrm);
+
+        HistoryMessageResult historyResult = (HistoryMessageResult)rongCloud.message.history.get("2021010101");
+        System.out.println("historyResult: " + JSON.toJSONString(historyResult));
     }
 }

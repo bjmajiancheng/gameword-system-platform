@@ -7,9 +7,12 @@ package com.gameword.system.common.utils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.net.URL;
+import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
-import java.util.HashMap;
-import java.util.Map;
+import java.nio.channels.ReadableByteChannel;
+import java.util.*;
+import java.util.function.Consumer;
 
 public class FileUtil {
 
@@ -261,5 +264,78 @@ public class FileUtil {
         }
         fs.close();
         stream.close();
+    }
+
+    /**
+     * 下载远程文件并保存到本地
+     *
+     * @param remoteFilePath-远程文件路径
+     * @param localFilePath-本地文件路径（带文件名）
+     */
+    public static void downloadFile(String remoteFilePath, String localFilePath) {
+        URL website = null;
+        ReadableByteChannel rbc = null;
+        FileOutputStream fos = null;
+        try {
+            website = new URL(remoteFilePath);
+            rbc = Channels.newChannel(website.openStream());
+            fos = new FileOutputStream(localFilePath);//本地要存储的文件地址 例如：test.txt
+            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (rbc != null) {
+                try {
+                    rbc.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static List<String> subFiles(String fileDir) {
+        File file = new File(fileDir);
+        List<String> subFiles = new ArrayList<>();
+        if (file.exists() && file.isDirectory()) {
+            for (File subFile : file.listFiles()) {
+                if (subFile.isDirectory()) {
+                    continue;
+                }
+
+                subFiles.add(subFile.getName());
+            }
+        }
+
+        return subFiles;
+    }
+
+    public static Reader newFileReader(String path) throws FileNotFoundException {
+        try {
+            return new InputStreamReader(new FileInputStream(path), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
+    }
+
+    public static void readFile(String fileName, Consumer<String> consumer) {
+        try {
+            BufferedReader br = new BufferedReader(newFileReader(fileName));
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+
+                consumer.accept(line.trim());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
