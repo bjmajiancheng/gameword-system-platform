@@ -250,4 +250,16 @@ public class FileUtil {
         }
         return strFileContents.toString();
     }
+
+    public static void saveFileFromInputStream(InputStream stream, String path) throws IOException {
+        FileOutputStream fs = new FileOutputStream(path);
+        byte[] buffer = new byte[1024 * 1024];
+        int byteread = 0;
+        while ((byteread = stream.read(buffer)) != -1) {
+            fs.write(buffer, 0, byteread);
+            fs.flush();
+        }
+        fs.close();
+        stream.close();
+    }
 }

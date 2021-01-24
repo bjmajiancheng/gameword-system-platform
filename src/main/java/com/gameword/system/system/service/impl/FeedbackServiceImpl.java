@@ -72,6 +72,14 @@ public class FeedbackServiceImpl extends BaseService<FeedbackModel> implements I
 			criteria.andEqualTo("status", feedbackModel.getStatus());
 		}
 
+		if(feedbackModel.getCityId() != null) {
+			criteria.andEqualTo("cityId", feedbackModel.getCityId());
+		}
+
+		if (feedbackModel.getLanguage() != null) {
+			criteria.andEqualTo("language", feedbackModel.getLanguage());
+		}
+
 		if(StringUtils.isNotEmpty(feedbackModel.getSortWithOutOrderBy())) {
 			example.setOrderByClause(feedbackModel.getSortWithOutOrderBy());
 		}

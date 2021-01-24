@@ -15,9 +15,8 @@ import com.gameword.system.common.utils.Result;
 import com.gameword.system.core.model.UserModel;
 import com.gameword.system.security.service.IUserService;
 import com.gameword.system.security.utils.SecurityUtil;
-import com.gameword.system.system.model.StationModel;
 import com.github.pagehelper.PageInfo;
-import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.gameword.system.system.model.AdvertisementModel;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import com.gameword.system.system.service.*;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,9 +46,9 @@ public class AdvertisementController {
 	@Autowired
 	private IAdvertisementService advertisementService;
 
-	/*
+	/**
 	*
-	* */
+	*/
 	@ResponseBody
 	@RequestMapping(value="/list", method = RequestMethod.GET)
 	public Map list(AdvertisementModel advertiseModel,

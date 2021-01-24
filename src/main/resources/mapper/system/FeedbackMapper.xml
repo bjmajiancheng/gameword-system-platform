@@ -8,7 +8,9 @@
     <resultMap id="Feedback" type="com.gameword.system.system.model.FeedbackModel">
         <result property="id" column="id"/>
         <result property="userId" column="user_id"/>
-        <result property="content" column="content"/>
+		<result property="content" column="content"/>
+		<result property="language" column="language"/>
+		<result property="cityId" column="city_id"/>
         <result property="status" column="status"/>
         <result property="ctime" column="c_time"/>
     </resultMap>
@@ -16,7 +18,7 @@
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="columns">
 	    <![CDATA[
-        id ,user_id ,content ,status ,c_time 
+        id ,user_id ,content , `language`, city_id, status ,c_time
 	    ]]>
 	</sql>
 
