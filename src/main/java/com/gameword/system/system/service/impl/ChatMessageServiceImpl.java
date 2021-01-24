@@ -64,6 +64,31 @@ public class ChatMessageServiceImpl extends BaseService<ChatMessageModel> implem
 		Example example = new Example(ChatMessageModel.class);
 		Example.Criteria criteria = example.createCriteria();
 
+		if (StringUtils.isNotEmpty(chatMessageModel.getStartDate())) {
+			criteria.andGreaterThanOrEqualTo("chatTime", chatMessageModel.getStartDate());
+		}
+
+		if (StringUtils.isNotEmpty(chatMessageModel.getEndDate())) {
+			criteria.andLessThanOrEqualTo("chatTime", chatMessageModel.getEndDate());
+		}
+
+		if (StringUtils.isNotEmpty(chatMessageModel.getUserName())) {
+			String userName = chatMessageModel.getUserName();
+			criteria.andCondition(" user_id like '%"+ userName +"%' or user_name like '%"+ userName +"%' or nick_name like '%" + userName + "%' ");
+		}
+
+		if (StringUtils.isNotEmpty(chatMessageModel.getChatroomId())) {
+			criteria.andEqualTo("chatroomId", chatMessageModel.getChatroomId());
+		}
+
+		if (StringUtils.isNotEmpty(chatMessageModel.getContent())) {
+			criteria.andLike("content", chatMessageModel.getContent());
+		}
+
+		if (StringUtils.isNotEmpty(chatMessageModel.getSensitiveWord())) {
+			criteria.andLike("sensitiveWord", chatMessageModel.getSensitiveWord());
+		}
+
 		if(StringUtils.isNotEmpty(chatMessageModel.getSortWithOutOrderBy())) {
 			example.setOrderByClause(chatMessageModel.getSortWithOutOrderBy());
 		}
