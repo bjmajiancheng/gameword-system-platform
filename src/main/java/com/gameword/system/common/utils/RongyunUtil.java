@@ -6,6 +6,7 @@ import io.rong.methods.chatroom.Chatroom;
 import io.rong.models.chatroom.ChatroomMember;
 import io.rong.models.chatroom.ChatroomModel;
 import io.rong.models.response.*;
+import io.rong.models.sensitiveword.SensitiveWordModel;
 import io.rong.models.user.UserModel;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -315,6 +316,31 @@ public class RongyunUtil implements Serializable{
         }
     }
 
+    public boolean addSensitiveWord(String sensitiveWord) {
+        try {
+            SensitiveWordModel sensitiveword = new SensitiveWordModel();
+            sensitiveword.setKeyword(sensitiveWord);
+
+            ResponseResult result = getRongCloud().sensitiveword.add(sensitiveword);
+            logger.info("addSensitiveWord done, sensitiveWord:{}, result:{}", sensitiveWord, result);
+            return result.getCode() == 200;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean removeSensitiveWord(String sensitiveWord) {
+        try {
+            ResponseResult result = getRongCloud().sensitiveword.remove(sensitiveWord);
+            logger.info("removeSensitiveWord done, sensitiveWord:{}, result:{}", sensitiveWord, result);
+            return result.getCode() == 200;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static void main(String[] args) throws Exception {
 
         RongCloud rongCloud = RongCloud.getInstance("p5tvi9dspqek4", "YQ0XwWL6t6Mjcv");
@@ -379,5 +405,9 @@ public class RongyunUtil implements Serializable{
 
         HistoryMessageResult historyResult = (HistoryMessageResult)rongCloud.message.history.get("2021010101");
         System.out.println("historyResult: " + JSON.toJSONString(historyResult));
+
+        SensitiveWordModel sensitiveword = new SensitiveWordModel();
+        sensitiveword.setKeyword("test");
+        rongCloud.sensitiveword.add(sensitiveword);
     }
 }

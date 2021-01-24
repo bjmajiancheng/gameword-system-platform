@@ -13,10 +13,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.gameword.system.common.utils.Option;
-import com.gameword.system.common.utils.PageConvertUtil;
-import com.gameword.system.common.utils.ResponseUtil;
-import com.gameword.system.common.utils.Result;
+import com.gameword.system.common.utils.*;
 import com.gameword.system.system.model.LabelModel;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections.CollectionUtils;
@@ -45,6 +42,9 @@ public class SensitiveWordController {
 
 	@Autowired
 	private ISensitiveWordService sensitiveWordService;
+
+	@Autowired
+	private RongyunUtil rongyunUtil;
 
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -80,6 +80,7 @@ public class SensitiveWordController {
 	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Result save(SensitiveWordModel sensitiveWordModel) {
+		rongyunUtil.addSensitiveWord(sensitiveWordModel.getSensitiveWord());
 
 		int addCnt = sensitiveWordService.saveNotNull(sensitiveWordModel);
 
@@ -95,6 +96,11 @@ public class SensitiveWordController {
 	@ResponseBody
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public Result update(SensitiveWordModel sensitiveWordModel) {
+		SensitiveWordModel dbWorkModel = sensitiveWordService.findById(sensitiveWordModel.getId());
+		if (dbWorkModel != null) {
+			rongyunUtil.removeSensitiveWord(dbWorkModel.getSensitiveWord());
+		}
+		rongyunUtil.addSensitiveWord(sensitiveWordModel.getSensitiveWord());
 
 		int updateCnt = sensitiveWordService.updateNotNull(sensitiveWordModel);
 
@@ -108,6 +114,11 @@ public class SensitiveWordController {
 		SensitiveWordModel sensitiveWordModel = new SensitiveWordModel();
 		sensitiveWordModel.setId(id);
 		sensitiveWordModel.setIsDel(1);
+
+		SensitiveWordModel dbWorkModel = sensitiveWordService.findById(id);
+		if (dbWorkModel != null) {
+			rongyunUtil.removeSensitiveWord(dbWorkModel.getSensitiveWord());
+		}
 		int updateCnt = sensitiveWordService.updateNotNull(sensitiveWordModel);
 
 		return ResponseUtil.success();
